@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+#? Para generar el requirements.txt: pip freeze > requirements.txt
+#? Para instalar las dependencias: pip install -r requirements.txt
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
