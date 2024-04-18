@@ -1,6 +1,7 @@
 *.pyc
 /env/
 /venv/
+/myenv/
 /static/*
 /media/*
 .env
