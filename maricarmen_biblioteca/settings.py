@@ -30,10 +30,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'biblioteca_app.Usuari'
 
 # Application definition
 
 INSTALLED_APPS = [
+    'biblioteca_app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
