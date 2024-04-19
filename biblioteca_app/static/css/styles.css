@@ -1,3 +1,5 @@
+/* LANDING PAGE */
+
 body, html {
     margin: 0;
     padding: 0;
@@ -61,6 +63,7 @@ body, html {
     top: 50%;
     right: 25px;
     transform: translateY(-50%);
+    pointer-events: none;
 }
 
 .left-block .btn {
@@ -134,3 +137,4 @@ body, html {
 .btn:hover {
     background-color: #45a049;
 }
+
