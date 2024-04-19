@@ -6,8 +6,8 @@ class MyBackend(BaseBackend):
         try:
             user = Usuari.objects.get(mail=mail)
             if user.checkMail(password) and user.checkPass(password):
-                return user
+                if user.has_special_access(user.tipus)
+                    return user
         except Usuari.DoesNotExist:
             return None
         
-    

@@ -54,7 +54,7 @@ class Dispositiu(ItemCataleg):
     bateria = models.CharField(max_length=100)
 
 
-
+# TODO: Peta al crear un superuser:
 class Usuari(AbstractUser):
     TYPE_OPTIONS = (
         ('alumne', 'Alumne'),
@@ -63,6 +63,7 @@ class Usuari(AbstractUser):
         ('superadmin', 'Superadmin'),
     )
 
+    is_superuser = False
     nom = models.CharField(max_length=100)
     cognoms = models.CharField(max_length=100)
     any_naixement = models.DateField(blank=False)
