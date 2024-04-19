@@ -1,6 +1,6 @@
 /* LANDING PAGE */
 
-body, html {
+.landing_page, .landing_page html {
     margin: 0;
     padding: 0;
     height: 100%;
@@ -138,3 +138,92 @@ body, html {
     background-color: #45a049;
 }
 
+/* GENERAL_DASHBARD */
+
+.general_dashboard, .general_dashboard html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    background-color: #4caf50;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    border-bottom: 2px solid #45a049; /* Borde inferior del mismo color verde */
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ajustar la altura al 100% de la pantalla */
+}
+
+.user-form {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    width: 50%;
+    max-width: 500px;
+}
+
+.user-form h2 {
+    margin-bottom: 20px;
+}
+
+.user-form .input-group {
+    margin-bottom: 20px;
+}
+
+.user-form .input-group .half-width {
+    width: calc(50% - 5px);
+    display: inline-block;
+}
+
+.user-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.user-form input {
+    width: calc(100% - 22px); /* Considera el padding y el borde al calcular el ancho */
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.user-form button {
+    width: 100%;
+    padding: 15px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.user-form button:hover {
+    background-color: #45a049;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px; /* Espacio entre los botones y el resto del formulario */
+}
+
+.left-button {
+    width: calc(50% - 5px);
+    border-radius: 10px;
+
+}
+
+.right-button {
+    width: calc(50% - 5px);
+    margin-left: 20px; /* Margen izquierdo para separar los botones */
+}
