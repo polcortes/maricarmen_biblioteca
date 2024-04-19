@@ -30,7 +30,6 @@ body, html {
     margin-bottom: 30px; /* Espacio entre elementos */
     border-radius: 10px;
     width: 60%;
-    position: relative; /* Añadido para posicionar la lupa */
 }
 
 .left-block .input-group label {
@@ -39,14 +38,17 @@ body, html {
     font-size: 18px; /* Tamaño del texto */
 }
 
+.left-block .input-wrapper {
+    position: relative;
+}
+
 .left-block .input-group input {
-    width: calc(100% - 30px); /* Ancho del campo de entrada, restando el padding */
+    width: calc(100% - 40px); /* Ancho del campo de entrada, restando el padding */
     padding: 15px; /* Tamaño del campo de entrada */
     font-size: 16px; /* Tamaño del texto */
     border-radius: 5px;
     border: 2px solid #4caf50;
     border-radius: 10px;
-    padding-right: 40px; /* Añadido para dejar espacio para la lupa */
 }
 
 .left-block .input-group input:focus {
@@ -54,14 +56,11 @@ body, html {
     border-color: #4caf50;
 }
 
-.left-block .input-group .lupa-icon {
+.left-block .lupa-icon {
     position: absolute;
     top: 50%;
-    right: 10px; /* Ajusta este valor según sea necesario */
+    right: 25px;
     transform: translateY(-50%);
-    width: 20px; /* Ajusta el tamaño de la imagen según sea necesario */
-    height: auto; /* Esto ajustará automáticamente la altura según el tamaño de la imagen */
-    cursor: pointer; /* Cambia el cursor al pasar sobre la lupa */
 }
 
 .left-block .btn {
