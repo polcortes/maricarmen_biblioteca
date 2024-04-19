@@ -20,4 +20,6 @@ from biblioteca_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('biblioteca_app.urls')),
+    path('dashboard/general/', views.general_dashboard, name='general_dashboard'),
+    path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
 ]

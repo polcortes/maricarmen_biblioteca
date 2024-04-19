@@ -17,5 +17,6 @@ from django.urls import path
 from biblioteca_app import views
 
 urlpatterns = [
-    path('', views.loginView, name='loginView'),
+    path('', views.loginView, name='landing_page'),
+    path('login/', views.loginView, name='login'),  # Definir la URL para el inicio de sesión
 ]

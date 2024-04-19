@@ -9,19 +9,31 @@
 </head>
 <body>
     <div class="container">
-        <h1>Bienvenido a nuestra Landing Page</h1>
-        <form method="post" class="login-form">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="id_username">Usuario:</label>
-                {{ form.username }}
+        <div class="left-block">
+            <h2>Biblioteca <br> Mari Carmen</h2>
+            <div class="input-group">
+                <label for="cerca">Cerca al nostre catàleg:</label>
+                <div class="input-wrapper">
+                    <input type="text" id="input_cerca" placeholder="Harry Potter: La piedra filosofal">
+                    <!-- <img src="../static/img/search.png" class="lupa-icon"> -->
+                </div>
             </div>
-            <div class="form-group">
-                <label for="id_password">Contraseña:</label>
-                {{ form.password }}
-            </div>
-            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-        </form>
+            <!-- <button class="btnCerca">Cerca</button> -->
+        </div>
+        <div class="right-block">
+            <h2>Inicia sessió:</h2>
+            <form>
+                <div class="input-group">
+                    <label for="username">El teu correu IETI:</label>
+                    <input type="email" id="username" name="username" placeholder="Ingresa tu nombre de usuario">
+                </div>
+                <div class="input-group">
+                    <label for="password">La teva contrasenya:</label>
+                    <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña">
+                </div>
+                <button class="btn">Iniciar sessió</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

@@ -1,0 +1,137 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+}
+
+.left-block {
+    flex: 1; /* Bloque izquierdo ocupa el 50% */
+    padding: 30px;
+    background-color: white;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 34px;
+}
+
+.left-block form, .left-block h2 {
+    width: 70%; /* Ancho máximo del formulario y del título */
+    text-align: center;
+}
+
+.left-block .input-group {
+    margin-bottom: 30px; /* Espacio entre elementos */
+    border-radius: 10px;
+    width: 60%;
+    position: relative; /* Añadido para posicionar la lupa */
+}
+
+.left-block .input-group label {
+    display: block;
+    margin-bottom: 10px; /* Espacio entre etiqueta y campo de entrada */
+    font-size: 18px; /* Tamaño del texto */
+}
+
+.left-block .input-group input {
+    width: calc(100% - 30px); /* Ancho del campo de entrada, restando el padding */
+    padding: 15px; /* Tamaño del campo de entrada */
+    font-size: 16px; /* Tamaño del texto */
+    border-radius: 5px;
+    border: 2px solid #4caf50;
+    border-radius: 10px;
+    padding-right: 40px; /* Añadido para dejar espacio para la lupa */
+}
+
+.left-block .input-group input:focus {
+    outline: none;
+    border-color: #4caf50;
+}
+
+.left-block .input-group .lupa-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Ajusta este valor según sea necesario */
+    transform: translateY(-50%);
+    width: 20px; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: auto; /* Esto ajustará automáticamente la altura según el tamaño de la imagen */
+    cursor: pointer; /* Cambia el cursor al pasar sobre la lupa */
+}
+
+.left-block .btn {
+    padding: 15px 30px; /* Tamaño del botón */
+    font-size: 18px; /* Tamaño del texto del botón */
+    background-color: white;
+    color: #4caf50;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px; /* Espacio entre el último campo de entrada y el botón */
+}
+
+.left-block .btn:hover {
+    background-color: #45a049;
+}
+
+.right-block {
+    flex: 1; /* Bloque derecho ocupa el 50% */
+    padding: 30px;
+    background-color: #4caf50;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 34px;
+}
+
+.right-block form, h2 {
+    width: 70%; /* Ancho máximo del formulario y del título */
+}
+
+.input-group {
+    margin-bottom: 30px; /* Aumenta el espacio entre elementos */
+    border-radius: 10px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px; /* Aumenta el espacio entre etiqueta y campo de entrada */
+    font-size: 18px; /* Aumenta el tamaño del texto */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px; /* Aumenta el tamaño del campo de entrada */
+    font-size: 16px; /* Aumenta el tamaño del texto */
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #4caf50;
+}
+
+.btn {
+    padding: 15px 30px; /* Aumenta el tamaño del botón */
+    font-size: 18px; /* Aumenta el tamaño del texto del botón */
+    background-color: white;
+    color: #4caf50;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px; /* Agrega un espacio entre el último campo de entrada y el botón */
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
