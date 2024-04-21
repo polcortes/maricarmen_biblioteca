@@ -14,9 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from biblioteca_app import views
+from biblioteca_app import views, api
 
 urlpatterns = [
     path('', views.loginView, name='landing_page'),
     path('login/', views.loginView, name='login'),  # Definir la URL para el inicio de sesión
+    path('api/create_log', api.create_log, ),
 ]
