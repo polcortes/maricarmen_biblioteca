@@ -24,7 +24,7 @@ class ItemCataleg(models.Model):
 
 class Llibre(ItemCataleg):
     CDU = models.CharField(max_length=100)
-    ISBN = models.CharField(max_length=13)
+    ISBN = models.IntegerField()
     editorial = models.CharField(max_length=100)
     collecio = models.CharField(max_length=100)
     pagines = models.IntegerField()
@@ -60,15 +60,17 @@ class Usuari(AbstractUser):
         ('alumne', 'Alumne'),
         ('professor', 'Professor'),
         ('admin', 'Admin'),
-        ('superadmin', 'Superadmin'),
+        ('super-usuari', 'Super Usuari')
     )
 
-    is_superuser = False
+    is_superuser = models.BooleanField(default=False)
+    username = models.CharField(max_length=100, unique=True)
     nom = models.CharField(max_length=100)
     cognoms = models.CharField(max_length=100)
     any_naixement = models.DateField(blank=False)
-    correu_ieti = models.EmailField(blank=False)
+    correu_ieti = models.EmailField(blank=False, unique=True)
     tipus = models.CharField(max_length=20, choices=TYPE_OPTIONS)
+    password = models.CharField(max_length=128)
 
     def checkMail(self, mail):
         if '@iesesteveterradas.cat' in mail: return True
@@ -120,12 +122,20 @@ class Logs(models.Model):
     titol = models.CharField(max_length=100, )
     descripcio = models.TextField()
     data = models.DateTimeField(auto_now_add=True)
-    usuari = models.ForeignKey(Usuari, on_delete=models.CASCADE, )
+    usuari = models.ForeignKey(Usuari, on_delete=models.CASCADE,)
     pathname = models.CharField(max_length=100, )
 
     def __str__(self) -> str:
         return f"{self.tipus} - {self.titol} - {self.data}"
     
+
+#class UserAdmin(admin.ModelAdmin):
+#    list_display = ('correu_ieti', 'first_name', 'last_name')
+#    list_filter = ('is_staff', 'is_superuser')
+
+
+#admin.site.unregister(Usuari)
+#admin.site.register(Usuari, UserAdmin)
 
 admin.site.register(ItemCataleg)
 admin.site.register(Llibre)
