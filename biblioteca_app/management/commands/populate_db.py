@@ -798,11 +798,11 @@ def create_dispositius():
     for dispositiu_data in dispositius:
         Dispositiu.objects.create(**dispositiu_data)
 
-# create_users()
-# create_items()
-# create_prestecs()
-# create_reserves()
-# create_peticions()
+create_users()
+# create_items()    # <-- Esto no.
+create_prestecs()
+create_reserves()
+create_peticions()
 create_books()
 create_cds()
 create_dvds()
