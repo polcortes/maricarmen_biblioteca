@@ -47,9 +47,5 @@ def search_results(request):
     return render(request, 'search_results.html')
 
 
-## VIEW LOGOUT
-def logout_view(request):
-    logout(request)
-    return redirect('landing_page.html') 
 
 

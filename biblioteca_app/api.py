@@ -1,6 +1,10 @@
 from django.http import JsonResponse
 from .models import *
 from rest_framework.decorators import api_view
+from django.http import JsonResponse
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
+
 
 @api_view(['POST'])
 def create_log(request):
@@ -21,21 +25,25 @@ def create_log(request):
         return JsonResponse({'status': 'KO', 'message': str(e)}, safe=False)
     
 
-# ## VIEW CHANGE_PASS
-# @login_required
-# def cambiar_contrasenya(request):
-#     if request.method == 'POST':
-#         current_password = request.POST.get('current_password')
-#         new_password = request.POST.get('new_password')
+@api_view(['POST'])
+def cambiar_contrasenya(request):
+    # Obtener los datos del formulario
+    current_password = request.data.get('current_password')
+    new_password = request.data.get('new_password')
 
-#         # Verificar la contraseña actual del usuario
-#         if not request.user.check_password(current_password):
-#             return JsonResponse({'error': 'La contrasenya actual no és vàlida.'}, status=400)
+    # Verificar la autenticación del usuario
+    user = authenticate(request, username=request.user.username, password=current_password)
+    if user is None:
+        return JsonResponse({'error': 'La contraseña actual es incorrecta'}, status=400)
 
-#         # Cambiar la contraseña del usuario
-#         request.user.set_password(new_password)
-#         request.user.save()
+    # Cambiar la contraseña
+    user.set_password(new_password)
+    user.save()
 
-#         return JsonResponse({'message': 'Contrasenya canviada correctament.'})
+    return JsonResponse({'message': 'Contraseña cambiada exitosamente'})
 
-#     return JsonResponse({'error': 'Només es permeten peticions POST.'}, status=405)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('landing_page.html') 

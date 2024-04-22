@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from biblioteca_app import views
+from biblioteca_app import views, api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +24,7 @@ urlpatterns = [
     path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
     path('change_pass/', views.change_pass, name='change_pass'),
     path('search_results/', views.change_pass, name='change_pass'),
-    path('logout/', views.logout_view, name='logout'),
-    # path('cambiar-contrasenya/', views.cambiar_contrasenya, name='cambiar_contrasenya'),
+    path('logout/', api.logout_view, name='logout'),
+    path('cambiar-contrasenya/', api.cambiar_contrasenya, name='cambiar_contrasenya'),
+
 ]
