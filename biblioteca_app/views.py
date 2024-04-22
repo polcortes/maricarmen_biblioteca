@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import PasswordChangeView
@@ -39,3 +39,14 @@ def admin_dashboard(request):
 # @login_required
 def change_pass(request):
     return render(request, 'change_pass.html')
+
+## VIEW SEARCH RESULTS
+# @login_required
+def search_results(request):
+    return render(request, 'search_results.html')
+
+
+## VIEW LOGOUT
+def logout_view(request):
+    logout(request)
+    return redirect('landing_page.html')  # Cambia 'nombre_de_la_pagina_de_inicio' por el nombre de tu página de inicio
