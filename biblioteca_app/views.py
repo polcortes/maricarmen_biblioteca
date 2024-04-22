@@ -34,3 +34,8 @@ def general_dashboard(request):
 @user_passes_test(lambda u: u.is_superuser)
 def admin_dashboard(request):
     return render(request, 'admin_dashboard.html')
+
+## VIEW CHANGE PASSWD 
+# @login_required
+def change_pass(request):
+    return render(request, 'change_pass.html')
