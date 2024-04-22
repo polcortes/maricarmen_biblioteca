@@ -28,7 +28,7 @@
             <form method="POST">{% csrf_token %}
                 <div class="input-group">
                     <label for="email">El teu correu IETI:</label>
-                    <input type="text" id="email" name="email" placeholder="exemple@iesesteveterrades.cat" autocomplete="off">
+                    <input type="email" id="email" name="email" placeholder="exemple@iesesteveterrades.cat" autocomplete="off">
                 </div>
                 <div class="input-group">
                     <label for="password">La teva contrasenya:</label>
@@ -39,7 +39,7 @@
         </div>
     </div>
 
-    <script src="{% static 'js/handleLogCreation.js' %}"/>
+    <script src="{% static 'js/handleLogCreation.js' %}"></script>
     <script src="{% static 'js/landing_page.js' %}"></script>
 </body>
 </html>

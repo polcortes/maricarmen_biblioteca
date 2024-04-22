@@ -10,15 +10,13 @@
 </head>
 
 <body class="general_dashboard">
-    <header class="header">
-        {% if user.is_authenticated %}
-            <div class="user-info">
-                <img id="user-img" src="{% static 'img/user_header.png' %}" alt="User Picture">
-                <div class="dropdown-content">
-                    <a href="{% url 'logout' %}">Cerrar sesión</a>
-                </div>
+    <header class="headerWithUser">
+        <div class="user-info">
+            <img id="user-img" src="{% static 'img/user_header.png' %}" alt="User Picture">
+            <div class="dropdown-content">
+                <a href="{% url 'logout' %}">Cerrar sesión</a>
             </div>
-        {% endif %}
+        </div>
     </header>
     <div class="container">
         <form action="#" class="user-form">

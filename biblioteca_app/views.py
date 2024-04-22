@@ -5,6 +5,7 @@ from .forms import LoginForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm
+from django.http import JsonResponse
 
 ## VIEW PARA INICIAR SESION
 def loginView(request):
@@ -49,4 +50,6 @@ def search_results(request):
 ## VIEW LOGOUT
 def logout_view(request):
     logout(request)
-    return redirect('landing_page.html')  # Cambia 'nombre_de_la_pagina_de_inicio' por el nombre de tu página de inicio
+    return redirect('landing_page.html') 
+
+
