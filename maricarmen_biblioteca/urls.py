@@ -23,4 +23,6 @@ urlpatterns = [
     path('dashboard/general/', views.general_dashboard, name='general_dashboard'),
     path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
     path('change_pass/', views.change_pass, name='change_pass'),
+    path('search_results/', views.change_pass, name='change_pass'),
+    path('logout/', views.logout_view, name='logout'),
 ]
