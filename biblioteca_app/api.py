@@ -17,5 +17,7 @@ def create_log(request):
         log.save()
 
         return JsonResponse({'status': 'OK'}, safe=False)
+    except NameError:
+        return JsonResponse({'status': 'KO', 'message': "L'usuari no està registrat."}, safe=False)
     except Exception as e:
         return JsonResponse({'status': 'KO', 'message': str(e)}, safe=False)

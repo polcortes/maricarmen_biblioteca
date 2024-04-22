@@ -13,8 +13,8 @@ function sendData() {
         fetch('http://localhost/api/create_log', {
             method: 'POST',
             data: log
-        }).then(() => console.log('log created successfully'))
-          .catch(err => console.error('log couldn\'t be created. Err: ', err))
+        }).then(() => alert('log created successfully'))
+          .catch(err => alert('log couldn\'t be created. Err: '))
     })
 }
 
@@ -26,9 +26,12 @@ document.addEventListener('click', (ev) => {
         date: new Date(),
         pathname: window.location.pathname
     })
+
+    console.log('Has hecho click en el documento, exactamente en: ', ev.target)
 })
 
 addEventListener('load', () => {
+    alert('Page loaded')
     setInterval(() => sendData(), 120000)
 })
 
