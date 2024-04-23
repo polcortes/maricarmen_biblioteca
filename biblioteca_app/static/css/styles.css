@@ -400,6 +400,7 @@ p {
 
 .change-pass-dashboard,
 .change-pass-dashboard html {
+  overflow: hidden;
   margin: 0;
   padding: 0;
   height: 100%;
