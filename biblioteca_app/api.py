@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from .models import *
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, ItemSerializer
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
@@ -12,7 +12,10 @@ def create_log(request):
     # for key, value in request.items():
     #     print(f'Key: {key}\nValue: {value}')
     # print(f"Variables de request:\n{vars(request)}")
-    print(f'Request data: {request.data}')
+    # serializer = ItemSerializer(data=request.data)
+    # serializer.is_valid(raise_exception=True)
+    # serializer.save()
+    print(f'Request data: {serializer.data}')
     print(f'The title: {request.data.get("title")}')
 
     try:
