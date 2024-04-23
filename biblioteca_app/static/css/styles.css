@@ -141,8 +141,6 @@ h2 {
   margin-top: 20px; /* Agrega un espacio entre el último campo de entrada y el botón */
 }
 
-
-
 /* Atocompletar */
 .ui-autocomplete {
   max-height: 120px;
@@ -165,14 +163,15 @@ h2 {
 .searchButton {
   appearance: none;
   background-color: #2ea44f;
-  border: 1px solid rgba(27, 31, 35, .15);
+  border: 1px solid rgba(27, 31, 35, 0.15);
   border-radius: 6px;
-  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
@@ -197,22 +196,22 @@ h2 {
 }
 
 .searchButton:focus {
-  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+  box-shadow: rgba(46, 164, 79, 0.4) 0 0 0 3px;
   outline: none;
 }
 
 .searchButton:disabled {
   background-color: #94d3a2;
-  border-color: rgba(27, 31, 35, .1);
-  color: rgba(255, 255, 255, .8);
+  border-color: rgba(27, 31, 35, 0.1);
+  color: rgba(255, 255, 255, 0.8);
   cursor: default;
 }
 
 .searchButton:active {
   background-color: #298e46;
-  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+  box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
 }
-.formCatalogo{
+.formCatalogo {
   display: flex;
   align-items: center;
 }
@@ -221,58 +220,80 @@ h2 {
   margin-right: 10px;
   width: 300px;
 }
-.formCatalogo button{}
+.formCatalogo button {
+}
 
 /*  GENERAL_DASHBARD, ADMIN_DASHBOARD, CHANGE_PASS, SEARCH_RESULTS HEADER */
 /* Estilos adicionales para la imagen del usuario y el menú desplegable */
 .headerWithUser {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #4caf50;
-    color: white;
-    text-align: center;
-    padding: 30px;
-    border-bottom: 2px solid #45a049;
-}
-.headerWithUser .user-info {
-    display: flex;
-    align-items: center;
-}
-.headerWithUser .user-info img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-left: 10px; /* Cambié margin-right a margin-left */
-    cursor: pointer; /* Cambia el cursor al pasar sobre la imagen */
-}
-.headerWithUser .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    right: 0; /* Alinea el menú desplegable a la derecha */
-}
-.headerWithUser .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-.headerWithUser .dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
-.headerWithUser .user-info:hover .dropdown-content {
-    display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  padding: 30px;
+  border-bottom: 2px solid #45a049;
+  position: relative; /* Agrega posición relativa al contenedor principal */
 }
 
+.headerWithUser .user-info {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Mueve el contenedor de usuario (user-info) hacia la derecha */
+  position: relative; /* Añade posición relativa al contenedor de usuario */
+}
+
+.headerWithUser .user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.headerWithUser .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  border-radius: 10px 10px 10px 10px; /* Aplica el radio de borde solo a las esquinas superiores */
+  min-width: 180px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  top: calc(100% + 10px);
+  right: 0;
+  text-align: left;
+}
+
+.headerWithUser .dropdown-content a {
+  background-color: #f199aa;
+  margin-bottom: 10px;
+  color: red;
+}
+.headerWithUser .dropdown-content p {
+  font-weight: bold;
+  color: black;
+}
+
+.headerWithUser .dropdown-content a,
+p {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.headerWithUser .dropdown-content a:hover {
+  background-color: lightcoral;
+}
+
+.headerWithUser:hover .dropdown-content {
+  display: block; /* Muestra el dropdown al pasar el ratón sobre el contenedor de usuario */
+}
 
 /* GENERAL_DASHBARD & ADMIN_DASHBOARD*/
 
 .general_dashboard,
 .general_dashboard html {
+  overflow: hidden;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -297,6 +318,7 @@ h2 {
 .user-form {
   width: 60%;
   max-width: 540px;
+  margin-top: -200px;
 }
 
 .user-form #cognoms {
@@ -314,10 +336,10 @@ h2 {
 }
 
 .user-form #h2admin {
-    margin-bottom: 20px;
-    font-size: 35px;
-    width: 100%;
-  }
+  margin-bottom: 20px;
+  font-size: 35px;
+  width: 100%;
+}
 
 .user-form .input-group {
   margin-bottom: 20px;
@@ -378,6 +400,7 @@ h2 {
 
 .change-pass-dashboard,
 .change-pass-dashboard html {
+  overflow: hidden;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -402,6 +425,7 @@ h2 {
 .change-pass-user-form {
   width: 60%;
   max-width: 540px;
+  margin-top: -150px;
 }
 
 .change-pass-container h2 {
@@ -445,5 +469,3 @@ h2 {
 .change-pass-left-button:hover {
   background-color: #45a049;
 }
-
-
