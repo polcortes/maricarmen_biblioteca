@@ -132,7 +132,7 @@ h2 {
   padding: 15px 30px; /* Aumenta el tamaño del botón */
   font-size: 18px; /* Aumenta el tamaño del texto del botón */
   background-color: white;
-  color: #4caf50;
+  color: black;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -140,9 +140,7 @@ h2 {
   margin-top: 20px; /* Agrega un espacio entre el último campo de entrada y el botón */
 }
 
-.btn:hover {
-  background-color: #45a049;
-}
+
 
 /*  GENERAL_DASHBARD, ADMIN_DASHBOARD, CHANGE_PASS, SEARCH_RESULTS HEADER */
 /* Estilos adicionales para la imagen del usuario y el menú desplegable */
