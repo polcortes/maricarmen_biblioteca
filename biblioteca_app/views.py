@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm
 from .models import *
+from django.http import JsonResponse
 
 # from django.contrib.auth import authenticate, login
 # from django.contrib.auth.models import User

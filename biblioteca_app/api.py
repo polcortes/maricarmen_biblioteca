@@ -1,7 +1,9 @@
 from django.http import JsonResponse
 from .models import *
 from rest_framework.decorators import api_view
-# import json
+from django.http import JsonResponse
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
 
 @api_view(['POST'])
 def create_log(request):
