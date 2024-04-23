@@ -1,15 +1,15 @@
-<h2>Resultados de Búsqueda para '{{ query }}'</h2>
-<div>
-    <h3>Libros</h3>
-    {% for libro in libros %}
-        <p>{{ libro.nombre }}</p>
-    {% endfor %}
-    <h3>CDs</h3>
-    {% for cd in cds %}
-        <p>{{ cd.nombre }}</p>
-    {% endfor %}
-    <h3>DVDs</h3>
-    {% for dvd in dvds %}
-        <p>{{ dvd.nombre }}</p>
-    {% endfor %}
-</div>
+{% if items %}
+    <h2>Resultados de la búsqueda para "{{ query }}"</h2>
+    <div>
+        {% for item in items %}
+        <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
+            <h3>{{ item.titol }}</h3>
+            <p><strong>Autor:</strong> {{ item.autor }}</p>
+            <p><strong>Descripción:</strong> {{ item.descripcio }}</p>
+            <!-- Añadir más detalles según sea necesario -->
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No se encontraron resultados para "{{ query }}".</p>
+{% endif %}

@@ -6,7 +6,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import JsonResponse
-from .models import Llibre, CD, DVD, BR, Dispositiu
+from .models import Llibre, CD, DVD, BR, Dispositiu, ItemCataleg
+
 
 ## VIEW PARA INICIAR SESION
 def loginView(request):
@@ -54,26 +55,24 @@ def logout_view(request):
     return redirect('landing_page.html')  # Cambia 'nombre_de_la_pagina_de_inicio' por el nombre de tu página de inicio
 
 ## VIEW AUTOCOMPLETAR
-def buscar_autocompletar(request):
-    if 'term' in request.GET:
-        query = request.GET.get('term')
-        libros = Llibre.objects.filter(nombre__icontains=query)[:5]
-        cds = CD.objects.filter(nombre__icontains=query)[:5]
-        dvds = DVD.objects.filter(nombre__icontains=query)[:5]
-        brs = BR.objects.filter(nombre__icontains=query)[:5]
-        dispos = Dispositiu.objects.filter(nombre__icontains=query)[:5]
-        results = list(libros.values('nombre')) + list(cds.values('nombre')) + list(dvds.values('nombre')) + list(brs.values('nombre')) + list(dispos.values('nombre'))
-        titles = [result['nombre'] for result in results]
-        return JsonResponse(titles, safe=False)
-    return JsonResponse([], safe=False)
+def autocomplete(request):
+    query = request.GET.get('term', '')  # "term" es el parámetro que jQuery UI Autocomplete enviará
+    if len(query) >= 3:
+        items = ItemCataleg.objects.filter(titol__icontains=query)[:5]  # Limita a 5 resultados
+        results = [{'label': item.titol, 'value': item.titol} for item in items]
+    else:
+        results = []
+    return JsonResponse(results, safe=False)
 
 ## VIEW RESULTADOS BUSQUEDA
-def resultados_busqueda(request):
-    query = request.GET.get('q', '')
-    libros = Llibre.objects.filter(nombre__icontains=query)
-    cds = CD.objects.filter(nombre__icontains=query)
-    dvds = DVD.objects.filter(nombre__icontains=query)
-    brs = BR.objects.filter(nombre__icontains=query)
-    dispos = Dispositiu.objects.filter(nombre__icontains=query)
-    return render(request, 'search_results.html', {'llibres': libros, 'cds': cds, 'dvds': dvds, 'brs': brs , 'dispo' : dispos, 'query': query})
-    #return redirect('landing_page.html')  # Cambia 'nombre_de_la_pagina_de_inicio' por el nombre de tu página de inicio
+def search_results(request):
+    query = request.GET.get('query', '').strip()
+    items = []
+    if query:
+        # Busca coincidencia exacta en lugar de coincidencias parciales
+        items = ItemCataleg.objects.filter(titol__iexact=query)
+    context = {
+        'items': items,
+        'query': query
+    }
+    return render(request, 'search_results.html', context)
