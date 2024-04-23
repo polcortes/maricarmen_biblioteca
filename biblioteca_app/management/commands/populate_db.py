@@ -809,7 +809,6 @@ def create_dispositius():
 
 create_users()
 create_items()    # <-- Esto no.
-# create_users()
 create_items()    # <-- Esto no.
 create_prestecs()
 create_reserves()
