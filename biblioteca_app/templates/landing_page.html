@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
@@ -58,10 +58,28 @@
         </form>
       </div>
     </div>
+    
+
+
 
     
+
     {% load static %}
+
     <script src="{% static 'js/handleLogCreation.js' %}"></script>
     <script src="{% static 'js/landing_page.js' %}"></script>
-  </body>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#searchInput").autocomplete({
+                source: "{% url 'autocomplete' %}",  // Asegúrate de que esta URL es correcta
+                minLength: 3,  // Número mínimo de caracteres antes de que el autocompletado se active
+                select: function(event, ui) {
+                    $("#searchInput").val(ui.item.value);  // Actualiza el valor del input
+                    return false;
+                }
+            });
+        });
+    </script>
+        
+</body>
 </html>

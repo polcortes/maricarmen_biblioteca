@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.urls import path
 from biblioteca_app import views, api
+from . import views
 
 urlpatterns = [
     path('', views.loginView, name='landing_page'),
@@ -27,4 +28,7 @@ urlpatterns = [
     path('search_results/', views.change_pass, name='change_pass'),
     path('logout/', api.logout_view, name='logout'),
     path('cambiar-contrasenya/', api.cambiar_contrasenya, name='cambiar_contrasenya'),
+    path('search/', views.search_results, name='search_results'),
+    path('autocomplete/', views.autocomplete, name='autocomplete'),
+
 ]
