@@ -1,0 +1,15 @@
+{% if items %}
+    <h2>Resultados de la búsqueda para "{{ query }}"</h2>
+    <div>
+        {% for item in items %}
+        <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
+            <h3>{{ item.titol }}</h3>
+            <p><strong>Autor:</strong> {{ item.autor }}</p>
+            <p><strong>Descripción:</strong> {{ item.descripcio }}</p>
+            <!-- Añadir más detalles según sea necesario -->
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No se encontraron resultados para "{{ query }}".</p>
+{% endif %}

@@ -16,6 +16,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,10 +33,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+AUTH_USER_MODEL = 'biblioteca_app.Usuari'
 
 # Application definition
 
 INSTALLED_APPS = [
+    'biblioteca_app',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,7 +49,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -112,7 +119,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ca'
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('es', 'Spanish'),
+    ('ca', 'Catalan'),
+    # Agrega más idiomas si es necesario
+]
+
 
 TIME_ZONE = 'UTC'
 
@@ -126,9 +141,40 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/home/xavi/Documents/GitHub/Projecte3/maricarmen_biblioteca/bibloteca_app/static/'
+from os import getcwd
 
+cwd = getcwd()
+cwd = cwd.split('/')
+# del cwd[-1]
+
+staticURL = ''
+
+for directory in cwd:
+    staticURL += directory + '/'
+
+# STATIC_URL = staticURL + 'biblioteca_app/static/'
+
+STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'biblioteca_app', 'static'),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8000',
+    "http://127.0.0.1:8000",
+]
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)

@@ -1,0 +1,449 @@
+/* LANDING PAGE */
+
+.landing_page,
+.landing_page html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+}
+
+.left-block {
+  flex: 1; /* Bloque izquierdo ocupa el 50% */
+  padding: 30px;
+  background-color: white;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 34px;
+}
+
+.left-block form,
+.left-block h2 {
+  width: 70%; /* Ancho máximo del formulario y del título */
+  text-align: center;
+}
+
+.left-block .input-group {
+  margin-bottom: 30px; /* Espacio entre elementos */
+  border-radius: 10px;
+  width: 60%;
+}
+
+.left-block .input-group label {
+  display: block;
+  margin-bottom: 10px; /* Espacio entre etiqueta y campo de entrada */
+  font-size: 18px; /* Tamaño del texto */
+}
+
+.left-block .input-wrapper {
+  position: relative;
+}
+
+.left-block .input-group input {
+  width: calc(
+    100% - 40px
+  ); /* Ancho del campo de entrada, restando el padding */
+  padding: 15px; /* Tamaño del campo de entrada */
+  font-size: 16px; /* Tamaño del texto */
+  border-radius: 5px;
+  border: 2px solid #4caf50;
+  border-radius: 10px;
+}
+
+.left-block .input-group input:focus {
+  outline: none;
+  border-color: #4caf50;
+}
+
+.left-block .lupa-icon {
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.left-block .btn {
+  padding: 15px 30px; /* Tamaño del botón */
+  font-size: 18px; /* Tamaño del texto del botón */
+  background-color: white;
+  color: #4caf50;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px; /* Espacio entre el último campo de entrada y el botón */
+}
+
+.left-block .btn:hover {
+  background-color: #45a049;
+}
+
+.right-block {
+  box-sizing: border-box;
+  flex: 1; /* Bloque derecho ocupa el 50% */
+  padding: 30px;
+  background-color: #4caf50;
+  color: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 34px;
+}
+
+.right-block form,
+h2 {
+  width: 70%; /* Ancho máximo del formulario y del título */
+}
+
+.input-group {
+  margin-bottom: 30px; /* Aumenta el espacio entre elementos */
+  border-radius: 10px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 10px; /* Aumenta el espacio entre etiqueta y campo de entrada */
+  font-size: 18px; /* Aumenta el tamaño del texto */
+}
+
+.input-group input {
+  width: 100%;
+  padding: 15px; /* Aumenta el tamaño del campo de entrada */
+  font-size: 16px; /* Aumenta el tamaño del texto */
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #4caf50;
+}
+
+.btn {
+  padding: 15px 30px; /* Aumenta el tamaño del botón */
+  font-size: 18px; /* Aumenta el tamaño del texto del botón */
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px; /* Agrega un espacio entre el último campo de entrada y el botón */
+}
+
+
+
+/* Atocompletar */
+.ui-autocomplete {
+  max-height: 120px;
+  padding-right: 20px;
+  border: 1px solid #ccc;
+  z-index: 1000; /* asegura que la lista esté sobre otros elementos */
+  width: 100px;
+}
+.ui-menu-item-wrapper {
+  padding: 2px 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+}
+.ui-menu-item-wrapper:hover {
+  background-color: #f4f4f4;
+}
+
+/* Bonton buscar catalogo */
+.searchButton {
+  appearance: none;
+  background-color: #2ea44f;
+  border: 1px solid rgba(27, 31, 35, .15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.searchButton:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.searchButton-3:hover {
+  background-color: #2c974b;
+}
+
+.searchButton:focus {
+  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+  outline: none;
+}
+
+.searchButton:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, .1);
+  color: rgba(255, 255, 255, .8);
+  cursor: default;
+}
+
+.searchButton:active {
+  background-color: #298e46;
+  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}
+.formCatalogo{
+  display: flex;
+  align-items: center;
+}
+.formCatalogo input {
+  flex-grow: 1;
+  margin-right: 10px;
+  width: 300px;
+}
+.formCatalogo button{}
+
+/*  GENERAL_DASHBARD, ADMIN_DASHBOARD, CHANGE_PASS, SEARCH_RESULTS HEADER */
+/* Estilos adicionales para la imagen del usuario y el menú desplegable */
+.headerWithUser {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #4caf50;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    border-bottom: 2px solid #45a049;
+}
+.headerWithUser .user-info {
+    display: flex;
+    align-items: center;
+}
+.headerWithUser .user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px; /* Cambié margin-right a margin-left */
+    cursor: pointer; /* Cambia el cursor al pasar sobre la imagen */
+}
+.headerWithUser .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0; /* Alinea el menú desplegable a la derecha */
+}
+.headerWithUser .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.headerWithUser .dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+.headerWithUser .user-info:hover .dropdown-content {
+    display: block;
+}
+
+
+/* GENERAL_DASHBARD & ADMIN_DASHBOARD*/
+
+.general_dashboard,
+.general_dashboard html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  padding: 30px;
+  border-bottom: 2px solid #45a049; /* Borde inferior del mismo color verde */
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ajustar la altura al 100% de la pantalla */
+}
+
+.user-form {
+  width: 60%;
+  max-width: 540px;
+}
+
+.user-form #cognoms {
+  margin-left: 20px; /* Agregar espacio entre el input #nom y el input #cognoms */
+}
+
+.user-form #label_cognoms {
+  margin-left: 20px; /* Agregar espacio entre el input #nom y el input #cognoms */
+}
+
+.user-form h2 {
+  margin-bottom: 20px;
+  font-size: 70px;
+  width: 100%;
+}
+
+.user-form #h2admin {
+    margin-bottom: 20px;
+    font-size: 35px;
+    width: 100%;
+  }
+
+.user-form .input-group {
+  margin-bottom: 20px;
+}
+
+.user-form .input-group .half-width {
+  width: calc(50% - 5px);
+  display: inline-block;
+}
+
+.user-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.user-form input {
+  width: calc(
+    100% - 22px
+  ); /* Considera el padding y el borde al calcular el ancho */
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 2px solid #4caf50; /* Color del borde */
+}
+
+.user-form button {
+  width: 40%;
+  padding: 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.user-form button:hover {
+  background-color: #45a049;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px; /* Espacio entre los botones y el resto del formulario */
+}
+
+.left-button {
+  width: calc(50% - 5px);
+  border-radius: 10px;
+}
+
+.right-button {
+  width: calc(50% - 5px);
+  margin-left: 20px; /* Margen izquierdo para separar los botones */
+  margin-top: 12px;
+}
+
+/* CHANGE_PASS */
+
+.change-pass-dashboard,
+.change-pass-dashboard html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.change-pass-header {
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  padding: 30px;
+  border-bottom: 2px solid #4caf50;
+}
+
+.change-pass-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.change-pass-user-form {
+  width: 60%;
+  max-width: 540px;
+}
+
+.change-pass-container h2 {
+  margin-bottom: 60px;
+  font-size: 70px;
+  width: 100%;
+}
+
+.change-pass-input-group {
+  margin-bottom: 20px;
+}
+
+.change-pass-input-group label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.change-pass-input-group input {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 2px solid #4caf50;
+}
+
+.change-pass-left-button {
+  width: 200px; /* Ancho personalizado */
+  padding: 12px; /* Padding personalizado */
+  background-color: #4caf50;
+  color: black;
+  font-size: 15px;
+  border-radius: 5px;
+  border: 2px solid #4caf50;
+
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 0 auto; /* Margen automático a los lados para centrarlo */
+  display: block; /* Hace que el botón se muestre como un bloque */
+}
+
+.change-pass-left-button:hover {
+  background-color: #45a049;
+}
+
+

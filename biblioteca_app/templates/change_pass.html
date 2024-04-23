@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+<body class="change-pass-dashboard">
+    <header class="change-pass-header"></header>
+    <div class="change-pass-container">
+        <form id="change-pass-form" class="change-pass-user-form">
+            <h2>Canvia la teva contrassenya:</h2>
+            <div class="change-pass-input-group">
+                <label for="current_password">Contrasenya actual:</label>
+                <input type="password" id="current_password" name="current_password" required />
+            </div>
+            <div class="change-pass-input-group">
+                <label for="new_password">Contrasenya nova:</label>
+                <input type="password" id="new_password" name="new_password" required />
+            </div>
+            <div class="change-pass-input-group">
+                <label for="confirm_password">Repeteix la nova contrasenya:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required />
+            </div>
+            <button type="submit" class="change-pass-left-button">
+                Actualitza la contrasenya
+            </button>
+        </form>
+    </div>
+    <script src="{% static 'js/change_pass.js' %}"></script>
+
+</body>
+</html>
