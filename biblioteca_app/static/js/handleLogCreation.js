@@ -21,7 +21,7 @@ function sendData() {
                 'X-CSRFToken': csrfToken // Agrega el token CSRF a la cabecera de la solicitud
             },
             // body: JSON.stringify(log) // Convierte los datos a JSON antes de enviarlos
-            data: log
+            body: JSON.stringify(log)
         })
             .then(res => {
                 if (res.ok) { // Cambiado de res.status a res.ok para verificar si la solicitud fue exitosa

@@ -68,8 +68,6 @@
         </form>
       </div>
     </div>
-    
-
 
 
     
@@ -78,6 +76,10 @@
 
     <script src="{% static 'js/handleLogCreation.js' %}"></script>
     <script src="{% static 'js/landing_page.js' %}"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
     <script type="text/javascript">
         $(document).ready(function() {
             $("#searchInput").autocomplete({
@@ -88,6 +90,21 @@
                     return false;
                 }
             });
+
+            {% if error %}
+              Toastify({
+                text: "{{ errorMsg }}",
+                gravity: 'top',
+                position: 'left',
+                close: true,
+                stopOnFocus: true,
+                autoclose: 5000,
+                style: {
+                    'background': '#CE1B1B',
+                    'color': 'white',
+                }
+              }).showToast();
+            {% endif %}
         });
     </script>
         

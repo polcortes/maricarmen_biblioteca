@@ -7,6 +7,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm
 from .models import *
 from django.http import JsonResponse
+from django.contrib.auth.hashers import check_password
 
 # from django.contrib.auth import authenticate, login
 # from django.contrib.auth.models import User
@@ -23,7 +24,7 @@ def loginView(request):
         password = request.POST.get("password")
         try:
             user = Usuari.objects.get(email=email)
-            if user is not None:
+            if user is not None and check_password(password, user.password):
                 login(request, user)
                 # print(request.user)
                 if user.is_superuser:

@@ -7,40 +7,31 @@ from django.shortcuts import render, redirect
 
 @api_view(['POST'])
 def create_log(request):
-    print("deberia funcionar")
-    # print(str(request))
-    # for key, value in request.items():
-    #     print(f'Key: {key}\nValue: {value}')
-    # print(f"Variables de request:\n{vars(request)}")
-    # serializer = ItemSerializer(data=request.data)
-    # serializer.is_valid(raise_exception=True)
-    # serializer.save()
-    # print(f'Request data: {serializer.data}')
-    print(f'The title: {request.data.get("title")}')
-
+    print(f'request.data: {request.user}')
+    print(f'request.user: {request.data.get("title")}')
     try:
-        Logs.objects.create(
+        log = Logs.objects.create(
             tipus = request.data.get('type'),
             titol = request.data.get('title'),
             descripcio = request.data.get('description'),
+            data = request.data.get('date'),
             usuari = Usuari.objects.get(id=request.user.id),
-            pathname = request.data.get('path')
+            pathname = request.data.get('pathname')
         )
+
+        print("Hola\nHola\nHola")
 
         return JsonResponse({
                 "status": "OK"
             }, safe=False)
-    except NameError:
+    except Usuari.DoesNotExist as e:
+        print('HA PETADO PORQUE EL USUARIO NO ESTÁ REGISTRADO O NO EXISTE?? ', e)
         return JsonResponse({
                 'status': 'KO', 
-                'message': "L'usuari no està registrat."
-            }, safe=False)
-    except Usuari.DoesNotExist:
-        return JsonResponse({
-                'status': 'KO', 
-                'message': "L'usuari no existeix."
+                'message': "L'usuari no existeix o no está registrat."
             }, safe=False)
     except Exception as e:
+        print('HA PETADO HA PETADO HA PETADO HA PETADO: ', e)
         return JsonResponse({
                 'status': 'KO', 
                 'message': str(e)
