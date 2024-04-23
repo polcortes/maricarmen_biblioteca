@@ -78,7 +78,5 @@ def search_results(request):
     return render(request, 'search_results.html')
 
 
-## VIEW LOGOUT
-def logout_view(request):
-    logout(request)
-    return redirect('landing_page.html')  # Cambia 'nombre_de_la_pagina_de_inicio' por el nombre de tu página de inicio
+
+

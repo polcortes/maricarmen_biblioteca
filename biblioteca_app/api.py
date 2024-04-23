@@ -50,3 +50,27 @@ def is_user_superuser(request):
         return JsonResponse({'status': 'KO', 'message': "L'usuari no està registrat."}, safe=False)
     except Exception as e:
         return JsonResponse({'status': 'KO', 'message': str(e)}, safe=False)
+    
+
+@api_view(['POST'])
+def cambiar_contrasenya(request):
+    # Obtener los datos del formulario
+    current_password = request.data.get('current_password')
+    new_password = request.data.get('new_password')
+
+    # Verificar la autenticación del usuario
+    user = authenticate(request, username=request.user.username, password=current_password)
+    if user is None:
+        return JsonResponse({'error': 'La contraseña actual es incorrecta'}, status=400)
+
+    # Cambiar la contraseña
+    user.set_password(new_password)
+    user.save()
+
+    return JsonResponse({'message': 'Contraseña cambiada exitosamente'})
+
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('landing_page.html') 

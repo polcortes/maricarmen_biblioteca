@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (isAdmin) {
             window.location.href = "http://127.0.0.1:8000/dashboard/admin/";
         } else {
-            window.location.href = "http://127.0.0.1:8000/dashboard/general/";
+          console.error("Error en la respuesta de la API:", data.error);
         }
     });
     */

@@ -1,47 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Landing Page</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    {% csrf_token %}
-</head>
-<body class="landing_page">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body class="landing_page">
     <div class="container">
-        <div class="left-block">
-            <h2>Biblioteca <br> Mari Carmen</h2>
-            <div class="input-group">
-                <label for="cerca">Cerca al nostre catàleg:</label>
-                <div class="input-wrapper">
-                    <input type="text" id="input_cerca" placeholder="Harry Potter: La piedra filosofal">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="lupa-icon">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.3333 8.26667C14.3333 11.6172 11.6172 14.3333 8.26666 14.3333C4.91613 14.3333 2.19999 11.6172 2.19999 8.26667C2.19999 4.91613 4.91613 2.2 8.26666 2.2C11.6172 2.2 14.3333 4.91613 14.3333 8.26667ZM13.1353 14.3609C11.8009 15.4285 10.1083 16.0667 8.26666 16.0667C3.95884 16.0667 0.46666 12.5745 0.46666 8.26667C0.46666 3.95885 3.95884 0.466667 8.26666 0.466667C12.5745 0.466667 16.0667 3.95885 16.0667 8.26667C16.0667 10.1084 15.4284 11.801 14.3609 13.1353L19.2796 18.0538C19.6179 18.3923 19.6179 18.9411 19.2796 19.2796C18.941 19.6179 18.3923 19.6179 18.0538 19.2796L13.1353 14.3609Z" fill="currentColor"/>
-                    </svg>
-                </div>
-            </div>
-            <!-- <button class="btnCerca">Cerca</button> -->
+      <div class="left-block">
+        <h2>
+          Biblioteca <br />
+          Mari Carmen
+        </h2>
+        <div class="input-group">
+          <label for="cerca">Cerca al nostre catàleg:</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="input_cerca"
+              placeholder="Harry Potter: La piedra filosofal"
+            />
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="lupa-icon"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M14.3333 8.26667C14.3333 11.6172 11.6172 14.3333 8.26666 14.3333C4.91613 14.3333 2.19999 11.6172 2.19999 8.26667C2.19999 4.91613 4.91613 2.2 8.26666 2.2C11.6172 2.2 14.3333 4.91613 14.3333 8.26667ZM13.1353 14.3609C11.8009 15.4285 10.1083 16.0667 8.26666 16.0667C3.95884 16.0667 0.46666 12.5745 0.46666 8.26667C0.46666 3.95885 3.95884 0.466667 8.26666 0.466667C12.5745 0.466667 16.0667 3.95885 16.0667 8.26667C16.0667 10.1084 15.4284 11.801 14.3609 13.1353L19.2796 18.0538C19.6179 18.3923 19.6179 18.9411 19.2796 19.2796C18.941 19.6179 18.3923 19.6179 18.0538 19.2796L13.1353 14.3609Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
         </div>
-        
-        <div class="right-block">
-            <h2>Inicia sessió:</h2>
-            <form method="POST">{% csrf_token %}
-                <div class="input-group">
-                    <label for="email">El teu correu IETI:</label>
-                    <input type="text" id="email" name="email" placeholder="exemple@iesesteveterrades.cat" autocomplete="off">
-                </div>
-                <div class="input-group">
-                    <label for="password">La teva contrasenya:</label>
-                    <input type="password" id="password" name="password" placeholder="La teva contrasenya">
-                </div>
-                <button class="btn">Iniciar sessió</button>
-            </form>
-        </div>
+        <!-- <button class="btnCerca">Cerca</button> -->
+      </div>
+
+      <div class="right-block">
+        <h2>Inicia sessió:</h2>
+        <form id="login-form">
+          <div class="input-group">
+            <label for="email">Correo electrónico:</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="input-group">
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <button type="submit" class="btn">Iniciar sesión</button>
+        </form>
+      </div>
     </div>
+
     
     {% load static %}
     <script src="{% static 'js/handleLogCreation.js' %}"></script>
     <script src="{% static 'js/landing_page.js' %}"></script>
-</body>
+  </body>
 </html>

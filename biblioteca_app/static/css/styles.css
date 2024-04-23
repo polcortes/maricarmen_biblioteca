@@ -133,7 +133,7 @@ h2 {
   padding: 15px 30px; /* Aumenta el tamaño del botón */
   font-size: 18px; /* Aumenta el tamaño del texto del botón */
   background-color: white;
-  color: #4caf50;
+  color: black;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -141,13 +141,11 @@ h2 {
   margin-top: 20px; /* Agrega un espacio entre el último campo de entrada y el botón */
 }
 
-.btn:hover {
-  background-color: #45a049;
-}
+
 
 /*  GENERAL_DASHBARD, ADMIN_DASHBOARD, CHANGE_PASS, SEARCH_RESULTS HEADER */
 /* Estilos adicionales para la imagen del usuario y el menú desplegable */
-.header {
+.headerWithUser {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -157,18 +155,18 @@ h2 {
     padding: 30px;
     border-bottom: 2px solid #45a049;
 }
-.user-info {
+.headerWithUser .user-info {
     display: flex;
     align-items: center;
 }
-.user-info img {
+.headerWithUser .user-info img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-left: 10px; /* Cambié margin-right a margin-left */
     cursor: pointer; /* Cambia el cursor al pasar sobre la imagen */
 }
-.dropdown-content {
+.headerWithUser .dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
@@ -177,16 +175,16 @@ h2 {
     z-index: 1;
     right: 0; /* Alinea el menú desplegable a la derecha */
 }
-.dropdown-content a {
+.headerWithUser .dropdown-content a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
 }
-.dropdown-content a:hover {
+.headerWithUser .dropdown-content a:hover {
     background-color: #f1f1f1;
 }
-.user-info:hover .dropdown-content {
+.headerWithUser .user-info:hover .dropdown-content {
     display: block;
 }
 

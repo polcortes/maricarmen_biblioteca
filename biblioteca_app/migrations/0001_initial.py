@@ -113,7 +113,9 @@ class Migration(migrations.Migration):
                 ('itemcataleg_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='biblioteca_app.itemcataleg')),
                 ('CDU', models.CharField(max_length=100)),
                 ('ISBN', models.IntegerField()),
+                ('ISBN', models.IntegerField()),
                 ('editorial', models.CharField(max_length=100)),
+                ('colleccio', models.CharField(max_length=100)),
                 ('colleccio', models.CharField(max_length=100)),
                 ('pagines', models.IntegerField()),
                 ('descriptors', models.CharField(blank=True, max_length=100)),
@@ -136,8 +138,23 @@ class Migration(migrations.Migration):
         ),
         migrations.CreateModel(
             name='Peticions',
+            name='Logs',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('tipus', models.CharField(choices=[('info', 'INFO'), ('warning', 'WARNING'), ('error', 'ERROR'), ('fatal', 'FATAL')], max_length=100)),
+                ('titol', models.CharField(max_length=100)),
+                ('descripcio', models.TextField()),
+                ('data', models.DateTimeField(auto_now_add=True)),
+                ('pathname', models.CharField(max_length=100)),
+                ('usuari', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Peticions',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('text', models.TextField()),
+                ('is_accepted', models.BooleanField(default=False)),
                 ('text', models.TextField()),
                 ('is_accepted', models.BooleanField(default=False)),
                 ('usuari', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
@@ -156,8 +173,11 @@ class Migration(migrations.Migration):
         ),
         migrations.CreateModel(
             name='Reserves',
+            name='Reserves',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('data_reserva', models.DateTimeField()),
+                ('item_cataleg', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='biblioteca_app.itemcataleg')),
                 ('data_reserva', models.DateTimeField()),
                 ('item_cataleg', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='biblioteca_app.itemcataleg')),
                 ('usuari', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
