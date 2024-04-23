@@ -27,11 +27,22 @@ document.addEventListener("DOMContentLoaded", function() {
         return username.toLowerCase().includes("admin");
     }
 
-    $("#searchInput").autocomplete({
-        source: "{% url 'autocomplete' %}",
-        minLength: 3,
-        select: function(event, ui) {
-            $(this).val(ui.item.label);
-        }
+    $(function() {
+        $("#searchInput").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: '/autocomplete/',  // Asegúrate que esta URL es correcta y accesible
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 3
+        });
     });
+    
 });
