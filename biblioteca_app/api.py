@@ -5,21 +5,34 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
+
 @api_view(['POST'])
 def login_api(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
+        # Obtener los datos del cuerpo de la solicitud en formato JSON
+        data = request.data
+        
+        email = data.get('email')
+        password = data.get('password')
+        
+        # Verificar si el correo electrónico pertenece a un usuario válido
+        if not Usuari.objects.filter(correu_ieti=email).exists():
+            return JsonResponse({'error': 'Credenciales inválidas'}, status=400)
+        
+        # Autenticar al usuario utilizando el correo electrónico y la contraseña
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
             if user.is_superuser:
-                redirect_url = '/dashboard/admin/'  # Redirige al dashboard de administrador
+                redirect_url = '/dashboard/admin/'  # Redirigir al dashboard de administrador
             else:
-                redirect_url = '/dashboard/general/'  # Redirige al dashboard de usuario normal
+                redirect_url = '/dashboard/general/'  # Redirigir al dashboard de usuario normal
             return JsonResponse({'redirect_url': redirect_url})
         else:
             return JsonResponse({'error': 'Credenciales inválidas'}, status=400)
+    else:
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
+
 
 
 @api_view(['POST'])

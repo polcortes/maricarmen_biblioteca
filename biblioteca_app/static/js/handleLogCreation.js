@@ -14,7 +14,7 @@ function sendData() {
             method: 'POST',
             data: log
         }).then(res => {
-            console.log('res: ', res)
+            // console.log('res: ', res)
             if (res.status === 'OK') window.localStorage.setItem('logQueue', JSON.stringify([]))
             if (res.status === 'KO') throw new Error('Data couldn\'t be saved. Error: ' + res.message)
         })
