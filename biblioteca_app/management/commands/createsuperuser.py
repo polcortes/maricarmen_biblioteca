@@ -31,7 +31,7 @@ class Command(BaseCommand):
         username = None
         while username is None:
             input_msg = _('Nom d\'usuari: ')
-            username = input(input_msg).encode('utf-8')
+            username = input(input_msg)
 
             try:
                 Usuari._default_manager.db_manager(database).get(**{
@@ -48,9 +48,9 @@ class Command(BaseCommand):
         # Crear el superusuario utilizando el modelo personalizado 'Usuari'
         # Asegúrate de validar los campos requeridos y guardar el superusuario correctamente
         # Aquí hay un ejemplo básico de cómo podría ser:
-        first_name = input("Nom: ").encode('utf-8')
+        first_name = input("Nom: ")
         last_name = input("Cognoms: ")
-        correu_ieti = input("Correu electrònic IETI: ").encode('utf-8')
+        correu_ieti = input("Correu electrònic IETI: ")
         while True:
             try:
                 fecha_nacimiento = input("Any de naixement (dia-mes-any -> 15-08-2000): ")
@@ -59,8 +59,8 @@ class Command(BaseCommand):
             except ValueError:
                 print("Formato de fecha incorrecto. Por favor, utiliza el formato especificado (dia-mes-any).")
                 
-        password = getpass("Contrasenya: ").encode('utf-8')
-        password_repeat = getpass("Contrasenya: ").encode('utf-8')
+        password = getpass("Contrasenya: ")
+        password_repeat = getpass("Repeteix la teva contrasenya: ")
 
         try:
             if password != password_repeat:
@@ -70,6 +70,6 @@ class Command(BaseCommand):
 
         nou_usuari = Usuari.objects.create_user(username=username, correu_ieti=correu_ieti, password=password, nom=first_name, cognoms=last_name, any_naixement=any_naixement, tipus='super-usuari', is_staff=True, is_superuser=True)
 
-        self.stdout.write(self.style.SUCCESS(f'Superusuari creat correctament amb el correu "{correu_ieti}".'))
+        self.stdout.write(self.style.SUCCESS(f'Superusuari creat correctament amb el correu {correu_ieti}.'))
 
         # Puedes agregar más lógica aquí si necesitas realizar alguna acción adicional después de crear el superusuario
