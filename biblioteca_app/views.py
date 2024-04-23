@@ -156,13 +156,26 @@ def actualizar_datos(request):
         user.email = correu
         user.save()
 
-        # Devolver una respuesta con un script de alerta en JavaScript
-        response = HttpResponse('<script>alert("Datos actualizados correctamente"); window.history.back();</script>')
-        return response
+        isAdmin = request.user.is_superuser or request.user.is_staff
+        if isAdmin:
+            # Devolver una respuesta con un script de alerta en JavaScript
+            response = HttpResponse("""<script>window.location.href='/dashboard/admin?succ=1'; </script>""")
+            return response
+        else:
+            # Devolver una respuesta con un script de alerta en JavaScript
+            response = HttpResponse("""<script>window.location.href='/dashboard/general?succ=1'; </script>""")
+            return response
     else:
         # Devolver una respuesta con un script de alerta en JavaScript para el método no permitido
-        response = HttpResponse('<script>alert("Método no permitido"); window.history.back();</script>')
-        return response
+        #response = HttpResponse("""<script>window.history.back(); </script>""")
+        #return response
+        isAdmin = request.user.is_superuser or request.user.is_staff
+        if isAdmin:
+            response = HttpResponse("""<script>window.location.href='/dashboard/admin?succ=0'; </script>""")
+            return response
+        else:
+            response = HttpResponse("""<script>window.location.href='/dashboard/general?succ=0'; </script>""")
+            return response
     
     
 def general_dashboard(request):
