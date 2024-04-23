@@ -26,7 +26,7 @@ class Llibre(ItemCataleg):
     CDU = models.CharField(max_length=100)
     ISBN = models.IntegerField()
     editorial = models.CharField(max_length=100)
-    collecio = models.CharField(max_length=100)
+    colleccio = models.CharField(max_length=100)
     pagines = models.IntegerField()
     descriptors = models.CharField(max_length=100, blank=True) #TODO: Que es un descriptor?? (Se podria generar de manera automatica con el CDU)
     resum = models.TextField()

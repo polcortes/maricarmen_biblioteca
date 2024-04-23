@@ -37,6 +37,18 @@ def create_log(request):
         log.save()
 
         return JsonResponse({'status': 'OK'}, safe=False)
+    except NameError:
+        return JsonResponse({'status': 'KO', 'message': "L'usuari no està registrat."}, safe=False)
+    except Exception as e:
+        return JsonResponse({'status': 'KO', 'message': str(e)}, safe=False)
+    
+@api_view(['POST'])
+def is_user_superuser(request):
+    try:
+        user = Usuari.objects.get(id=request.user.id)
+        return JsonResponse({'status': 'OK', 'is_superuser': user.is_superuser}, safe=False)
+    except NameError:
+        return JsonResponse({'status': 'KO', 'message': "L'usuari no està registrat."}, safe=False)
     except Exception as e:
         return JsonResponse({'status': 'KO', 'message': str(e)}, safe=False)
     
