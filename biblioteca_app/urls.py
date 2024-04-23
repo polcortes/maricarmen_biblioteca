@@ -20,4 +20,11 @@ urlpatterns = [
     path('', views.loginView, name='landing_page'),
     path('login/', views.loginView, name='login'),  # Definir la URL para el inicio de sesión
     path('api/create_log', api.create_log, ),
+    # path('api/login_api/', api.login_api, name='login_api'),
+    path('dashboard/general/', views.general_dashboard, name='general_dashboard'),
+    path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
+    path('change_pass/', views.change_pass, name='change_pass'),
+    path('search_results/', views.change_pass, name='change_pass'),
+    path('logout/', api.logout_view, name='logout'),
+    path('cambiar-contrasenya/', api.cambiar_contrasenya, name='cambiar_contrasenya'),
 ]
