@@ -68,7 +68,7 @@ class Usuari(AbstractUser):
     nom = models.CharField(max_length=100)
     cognoms = models.CharField(max_length=100)
     any_naixement = models.DateField(blank=False)
-    correu_ieti = models.EmailField(blank=False, unique=True)
+    email = models.EmailField(blank=False, unique=True)
     tipus = models.CharField(max_length=20, choices=TYPE_OPTIONS)
     password = models.CharField(max_length=128)
 
@@ -110,6 +110,18 @@ class Peticions(models.Model):
     def __str__(self) -> str:
         return f"{self.usuari} ha fet una petició de {self.text}"
     
+"""class LogManager(models.Manager):
+    def create_logs(self, tipus, titol, descripcio, data, usuari, pathname):
+        newlog = self.create(
+            tipus = tipus,
+            titol = titol,
+            descripcio = descripcio,
+            data = data,
+            usuari = usuari,
+            pathname = pathname
+        )
+        return newlog"""
+
 class Logs(models.Model):
     TYPE_OPTIONS = (
         ('info', 'INFO'),
@@ -124,6 +136,11 @@ class Logs(models.Model):
     data = models.DateTimeField(auto_now_add=True)
     usuari = models.ForeignKey(Usuari, on_delete=models.CASCADE,)
     pathname = models.CharField(max_length=100, )
+
+    @classmethod
+    def create(cls, tipus, titol, descripcio, data, usuari, pathname):
+        log = cls(tipus=tipus, titol=titol, descripcio=descripcio, data=data, usuari=usuari, pathname=pathname)
+        return log
 
     def __str__(self) -> str:
         return f"{self.tipus} - {self.titol} - {self.data}"
@@ -148,4 +165,4 @@ admin.site.register(Usuari)
 admin.site.register(Prestecs)
 admin.site.register(Reserves)
 admin.site.register(Peticions)
-admin.site.register(Logs)
+# admin.site.register(Logs)

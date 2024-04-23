@@ -1,46 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-
-<body class="general_dashboard">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    {% load static %}
+    <script src="{% static "js/dashboards.js" %}"></script>
+  </head>
+  <body class="general_dashboard">
     <header class="headerWithUser">
-        <div class="user-info">
-            <img id="user-img" src="{% static 'img/user_header.png' %}" alt="User Picture">
-            <div class="dropdown-content">
-                <a href="{% url 'logout' %}">Cerrar sesión</a>
-            </div>
+      <div class="user-info">
+        <div class="dropdown-content">
+          <p>El teu compte</p>
+          <a href="{% url 'logout' %}">Cerrar sesión</a>
         </div>
+        <img
+          id="user-img"
+          src="{% static 'img/user_header.png' %}"
+          alt="User Picture"
+        />
+      </div>
     </header>
     <div class="container">
-        <form action="#" class="user-form">
-            <h2 id="h2admin">El teu compte de administrador:</h2>
-            <div class="input-group">
-                <div class="half-width">
-                    <label for="nom">Nom:</label>
-                    <input type="text" id="nom" name="nom" required />
-                </div>
-                <div class="half-width">
-                    <label for="cognoms" id="label_cognoms">Cognoms:</label>
-                    <input type="text" id="cognoms" name="cognoms" required />
-                </div>
-            </div>
-            <div class="input-group">
-                <label for="correu">Correu electrònic:</label>
-                <input type="email" id="correu" name="correu" required />
-            </div>
-            <div class="button-container">
-                <button class="left-button">Actualitza les dades</button>
-                <a href="#" class="right-button">Canvia la teva contrassenya</a>
-            </div>
-        </form>
+      <!-- Agrega el atributo method con el valor "POST" -->
+      <form
+        action="{% url 'actualizar_datos' %}"
+        class="user-form"
+        method="POST"
+      >
+        <!-- Agrega placeholders para mostrar los valores actuales del usuario -->
+        <h2 id="h2admin">El teu compte de administrador:</h2>
+        <div class="input-group">
+          <div class="half-width">
+            <label for="nom">Nom:</label>
+            <input
+              type="text"
+              id="nom"
+              name="nom"
+              placeholder="{{ user_data.nom }}"
+              required
+            />
+          </div>
+          <div class="half-width">
+            <label for="cognoms" id="label_cognoms">Cognoms:</label>
+            <input
+              type="text"
+              id="cognoms"
+              name="cognoms"
+              placeholder="{{ user_data.cognoms }}"
+              required
+            />
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="correu">Correu electrònic:</label>
+          <input
+            type="email"
+            id="correu"
+            name="correu"
+            placeholder="{{ user_data.correu }}"
+            required
+          />
+        </div>
+        <!-- Agrega un campo de entrada para el token CSRF -->
+        {% csrf_token %}
+        <div class="button-container">
+          <button class="left-button">Actualitza les dades</button>
+          <a href="{% url 'change_pass' %}" class="right-button"
+            >Canvia la teva contrassenya</a
+          >
+        </div>
+      </form>
     </div>
-</body>
-
+  </body>
 </html>
