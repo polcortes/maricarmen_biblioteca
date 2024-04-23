@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
-
+@api_view(['POST'])
 def login_api(request):
     if request.method == 'POST':
         email = request.POST.get('email')
