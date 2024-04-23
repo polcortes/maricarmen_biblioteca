@@ -1,3 +1,6 @@
+src="https://code.jquery.com/jquery-3.6.0.min.js"
+src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui/1.12.1/jquery-ui.min.js"
+
 document.addEventListener("DOMContentLoaded", function() {
     // Función para manejar el envío del formulario
     document.querySelector("form").addEventListener("submit", function(event) {
@@ -23,4 +26,12 @@ document.addEventListener("DOMContentLoaded", function() {
         // Supongamos que el usuario es admin si el nombre de usuario contiene la palabra "admin"
         return username.toLowerCase().includes("admin");
     }
+
+    $("#searchInput").autocomplete({
+        source: "{% url 'autocomplete' %}",
+        minLength: 3,
+        select: function(event, ui) {
+            $(this).val(ui.item.label);
+        }
+    });
 });

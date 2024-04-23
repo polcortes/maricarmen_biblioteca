@@ -1,0 +1,15 @@
+<h2>Resultados de Búsqueda para '{{ query }}'</h2>
+<div>
+    <h3>Libros</h3>
+    {% for libro in libros %}
+        <p>{{ libro.nombre }}</p>
+    {% endfor %}
+    <h3>CDs</h3>
+    {% for cd in cds %}
+        <p>{{ cd.nombre }}</p>
+    {% endfor %}
+    <h3>DVDs</h3>
+    {% for dvd in dvds %}
+        <p>{{ dvd.nombre }}</p>
+    {% endfor %}
+</div>
