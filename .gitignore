@@ -1,8 +1,11 @@
 *.pyc
 /env/
 /venv/
+/myenv/
+/myenv/*
 /static/*
 /media/*
+
 .env
 db.sqlite3
 .coverage
