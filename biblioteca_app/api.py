@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from .models import *
-from rest_framework.decorators import api_view, ItemSerializer
+from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
@@ -15,7 +15,7 @@ def create_log(request):
     # serializer = ItemSerializer(data=request.data)
     # serializer.is_valid(raise_exception=True)
     # serializer.save()
-    print(f'Request data: {serializer.data}')
+    # print(f'Request data: {serializer.data}')
     print(f'The title: {request.data.get("title")}')
 
     try:
