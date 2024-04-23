@@ -25,9 +25,7 @@ urlpatterns = [
     path('dashboard/general/', views.general_dashboard, name='general_dashboard'),
     path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
     path('change_pass/', views.change_pass, name='change_pass'),
-    path('search_results/', views.change_pass, name='change_pass'),
-    path('logout/', api.logout_view, name='logout'),
-    path('cambiar-contrasenya/', api.cambiar_contrasenya, name='cambiar_contrasenya'),
+    path('logout/', views.logout_view, name='logout'),
     path('search/', views.search_results, name='search_results'),
     path('autocomplete/', views.autocomplete, name='autocomplete'),
 

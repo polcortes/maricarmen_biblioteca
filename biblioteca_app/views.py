@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm
 from .models import *
+from django.urls import reverse
 from django.http import JsonResponse
 
 # from django.contrib.auth import authenticate, login
@@ -106,3 +107,26 @@ def search_results(request):
         'query': query
     }
     return render(request, 'search_results.html', context)
+
+
+def cambiar_contrasenya(request):
+    # Obtener los datos del formulario
+    current_password = request.data.get('current_password')
+    new_password = request.data.get('new_password')
+
+    # Verificar la autenticación del usuario
+    user = authenticate(request, username=request.user.username, password=current_password)
+    if user is None:
+        return JsonResponse({'error': 'La contraseña actual es incorrecta'}, status=400)
+
+    # Cambiar la contraseña
+    user.set_password(new_password)
+    user.save()
+
+    return JsonResponse({'message': 'Contraseña cambiada exitosamente'})
+
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse('landing_page')) 
