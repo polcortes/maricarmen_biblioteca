@@ -76,3 +76,4 @@ def resultados_busqueda(request):
     brs = BR.objects.filter(nombre__icontains=query)
     dispos = Dispositiu.objects.filter(nombre__icontains=query)
     return render(request, 'search_results.html', {'llibres': libros, 'cds': cds, 'dvds': dvds, 'brs': brs , 'dispo' : dispos, 'query': query})
+    #return redirect('landing_page.html')  # Cambia 'nombre_de_la_pagina_de_inicio' por el nombre de tu página de inicio

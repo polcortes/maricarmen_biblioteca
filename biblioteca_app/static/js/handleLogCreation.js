@@ -10,11 +10,15 @@ function sendData() {
     if (logQueue.length === 0) return
 
     logQueue.forEach(log => {
-        fetch('http://localhost/api/create_log', {
+        fetch('/api/create_log', {
             method: 'POST',
             data: log
-        }).then(() => console.log('log created successfully'))
-          .catch(err => console.error('log couldn\'t be created. Err: ', err))
+        }).then(res => {
+            console.log('res: ', res)
+            if (res.status === 'OK') window.localStorage.setItem('logQueue', JSON.stringify([]))
+            if (res.status === 'KO') throw new Error('Data couldn\'t be saved. Error: ' + res.message)
+        })
+          .catch(err => console.error('Data couldn\'t be saved. Error: ', err))
     })
 }
 
@@ -26,17 +30,20 @@ document.addEventListener('click', (ev) => {
         date: new Date(),
         pathname: window.location.pathname
     })
+
+    console.log('Has hecho click en el documento, exactamente en: ', ev.target)
 })
 
 addEventListener('load', () => {
-    setInterval(() => sendData(), 120000)
+    // alert('Page loaded')
+    setInterval(() => sendData(), 20000)
 })
 
-addEventListener('beforeunload', (ev) => {
-    ev.preventDefault()
-    const settingLogs = new Promise(sendData())
-    settingLogs
-        .then(() => {
-            return true
-        })
-})
+// addEventListener('beforeunload', (ev) => {
+//     ev.preventDefault()
+//     const settingLogs = new Promise(sendData())
+//     settingLogs
+//         .then(() => {
+//             return true
+//         })
+// })

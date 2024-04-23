@@ -87,6 +87,7 @@
 }
 
 .right-block {
+  box-sizing: border-box;
   flex: 1; /* Bloque derecho ocupa el 50% */
   padding: 30px;
   background-color: #4caf50;
