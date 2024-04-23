@@ -20,6 +20,7 @@ from biblioteca_app import views, api
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('biblioteca_app.urls')),
+    path('api/login_api/', api.login_api, name='login_api'),
     path('dashboard/general/', views.general_dashboard, name='general_dashboard'),
     path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
     path('change_pass/', views.change_pass, name='change_pass'),

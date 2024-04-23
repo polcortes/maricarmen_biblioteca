@@ -6,6 +6,22 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
 
+def login_api(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            if user.is_superuser:
+                redirect_url = '/dashboard/admin/'  # Redirige al dashboard de administrador
+            else:
+                redirect_url = '/dashboard/general/'  # Redirige al dashboard de usuario normal
+            return JsonResponse({'redirect_url': redirect_url})
+        else:
+            return JsonResponse({'error': 'Credenciales inválidas'}, status=400)
+
+
 @api_view(['POST'])
 def create_log(request):
     try:
