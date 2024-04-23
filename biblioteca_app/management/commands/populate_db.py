@@ -6,25 +6,25 @@ from biblioteca_app.models import *
 def create_users():
     User = get_user_model()
     users = [
-        {'username': 'john_doe', 'nom': 'John', 'cognoms': 'Doe', 'any_naixement': '1990-05-15', 'correu_ieti': 'john.doe@iesesteveterradas.cat', 'tipus': 'alumne'},
-        {'username': 'profe_jane','nom': 'Jane', 'cognoms': 'Smith', 'any_naixement': '1985-03-20', 'correu_ieti': 'jane.smith@iesesteveterradas.cat', 'tipus': 'professor'},
-        {'username': 'admin_admin', 'nom': 'Admin', 'cognoms': 'Admin', 'any_naixement': '1980-10-10', 'correu_ieti': 'admin@iesesteveterradas.cat', 'tipus': 'admin'},
+        {'username': 'john_doe', 'nom': 'John', 'cognoms': 'Doe', 'any_naixement': '1990-05-15', 'email': 'john.doe@iesesteveterradas.cat', 'tipus': 'alumne'},
+        {'username': 'profe_jane','nom': 'Jane', 'cognoms': 'Smith', 'any_naixement': '1985-03-20', 'email': 'jane.smith@iesesteveterradas.cat', 'tipus': 'professor'},
+        {'username': 'admin_admin', 'nom': 'Admin', 'cognoms': 'Admin', 'any_naixement': '1980-10-10', 'email': 'admin@iesesteveterradas.cat', 'tipus': 'admin'},
     ]
     for user_data in users:
-        User.objects.create_user(email=user_data['correu_ieti'], password='password123', **user_data)
+        User.objects.create_user(**user_data, password='password123')
 
-# def create_items():
-#     items = [
-#         {'titol': 'El gran Gatsby', 'autor': 'F. Scott Fitzgerald', 'descripcio': 'Novela clásica que retrata la vida en la alta sociedad estadounidense durante la década de 1920.', 'lloc_edicio': 'Nueva York', 'any': 1925, 'pais': 'Estados Unidos', 'signatura': 'FIC-001', 'exemplars': 5, 'url': 'https://example.com', 'imatge': 'gatsby.jpg', 'mides': '14x21', 'procedencia': 'Donación biblioteca', 'caracteristiques': 'Edición de tapa dura', 'altra_informacio': 'Incluye notas al pie de página'},
-#         {'titol': 'Cien años de soledad', 'autor': 'Gabriel García Márquez', 'descripcio': 'Obra maestra del realismo mágico latinoamericano que narra la historia de la familia Buendía en el pueblo ficticio de Macondo.', 'lloc_edicio': 'Bogotá', 'any': 1967, 'pais': 'Colombia', 'signatura': 'FIC-002', 'exemplars': 3, 'url': 'https://example.com', 'imatge': 'cien_anos_soledad.jpg', 'mides': '15x23', 'procedencia': 'Compra biblioteca', 'caracteristiques': 'Edición de bolsillo', 'altra_informacio': 'Versión revisada por el autor'},
-#     ]
-#     for item_data in items:
-#         ItemCataleg.objects.create(**item_data)
+def create_items():
+    items = [
+        {'titol': 'El gran Gatsby', 'autor': 'F. Scott Fitzgerald', 'descripcio': 'Novela clásica que retrata la vida en la alta sociedad estadounidense durante la década de 1920.', 'lloc_edicio': 'Nueva York', 'any': 1925, 'pais': 'Estados Unidos', 'signatura': 'FIC-001', 'exemplars': 5, 'url': 'https://example.com', 'imatge': 'gatsby.jpg', 'mides': '14x21', 'procedencia': 'Donación biblioteca', 'caracteristiques': 'Edición de tapa dura', 'altra_informacio': 'Incluye notas al pie de página'},
+        {'titol': 'Cien años de soledad', 'autor': 'Gabriel García Márquez', 'descripcio': 'Obra maestra del realismo mágico latinoamericano que narra la historia de la familia Buendía en el pueblo ficticio de Macondo.', 'lloc_edicio': 'Bogotá', 'any': 1967, 'pais': 'Colombia', 'signatura': 'FIC-002', 'exemplars': 3, 'url': 'https://example.com', 'imatge': 'cien_anos_soledad.jpg', 'mides': '15x23', 'procedencia': 'Compra biblioteca', 'caracteristiques': 'Edición de bolsillo', 'altra_informacio': 'Versión revisada por el autor'},
+    ]
+    for item_data in items:
+        ItemCataleg.objects.create(**item_data)
 
 def create_prestecs():
     users = get_user_model().objects.all()
     items = ItemCataleg.objects.all()
-    for _ in range(5):
+    for _ in items:
         user = random.choice(users)
         item = random.choice(items)
         Prestecs.objects.create(usuari=user, item_cataleg=item, data_prestec=timezone.now(), data_retorn=timezone.now() + timezone.timedelta(days=14), data_limit=timezone.now() + timezone.timedelta(days=30))
@@ -799,7 +799,7 @@ def create_dispositius():
         Dispositiu.objects.create(**dispositiu_data)
 
 create_users()
-# create_items()    # <-- Esto no.
+create_items()    # <-- Esto no.
 create_prestecs()
 create_reserves()
 create_peticions()

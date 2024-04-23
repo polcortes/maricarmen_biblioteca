@@ -1,26 +1,45 @@
 from django.http import JsonResponse
 from .models import *
 from rest_framework.decorators import api_view
+# import json
 
 @api_view(['POST'])
 def create_log(request):
-    try:
-        log = Logs()
-        
-        log.tipus = request.data.get('type')
-        log.titol = request.data.get('title')
-        log.descripcio = request.data.get('description')
-        log.data = request.data.get('date')
-        log.usuari = Usuari.objects.get(id=request.user.id)
-        log.pathname = request.data.get('path')
-        
-        log.save()
+    print("deberia funcionar")
+    # print(str(request))
+    # for key, value in request.items():
+    #     print(f'Key: {key}\nValue: {value}')
+    # print(f"Variables de request:\n{vars(request)}")
+    print(f'Request data: {request.data}')
+    print(f'The title: {request.data.get("title")}')
 
-        return JsonResponse({'status': 'OK'}, safe=False)
+    try:
+        Logs.objects.create(
+            tipus = request.data.get('type'),
+            titol = request.data.get('title'),
+            descripcio = request.data.get('description'),
+            usuari = Usuari.objects.get(id=request.user.id),
+            pathname = request.data.get('path')
+        )
+
+        return JsonResponse({
+                "status": "OK"
+            }, safe=False)
     except NameError:
-        return JsonResponse({'status': 'KO', 'message': "L'usuari no està registrat."}, safe=False)
+        return JsonResponse({
+                'status': 'KO', 
+                'message': "L'usuari no està registrat."
+            }, safe=False)
+    except Usuari.DoesNotExist:
+        return JsonResponse({
+                'status': 'KO', 
+                'message': "L'usuari no existeix."
+            }, safe=False)
     except Exception as e:
-        return JsonResponse({'status': 'KO', 'message': str(e)}, safe=False)
+        return JsonResponse({
+                'status': 'KO', 
+                'message': str(e)
+            }, safe=False)
     
 @api_view(['POST'])
 def is_user_superuser(request):

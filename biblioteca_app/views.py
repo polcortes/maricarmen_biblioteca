@@ -5,24 +5,56 @@ from .forms import LoginForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm
+from .models import *
 
-## VIEW PARA INICIAR SESION
+# from django.contrib.auth import authenticate, login
+# from django.contrib.auth.models import User
+# from django.contrib.auth.hashers import check_password
+# from django.shortcuts import render, redirect
+# from django.http import HttpResponse
+# from django.contrib.auth.decorators import login_required
+# from .models import *
+
 def loginView(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+    data = {}
+    if request.method == "POST":
+        email = request.POST.get("email").lower()
+        password = request.POST.get("password")
+        try:
+            user = Usuari.objects.get(email=email)
             if user is not None:
                 login(request, user)
+                # print(request.user)
                 if user.is_superuser:
-                    return redirect('admin_dashboard')  # Redirigir al dashboard del administrador
-                else:
-                    return redirect('general_dashboard')  # Redirigir al dashboard del usuario general
-    else:
-        form = AuthenticationForm()
-    return render(request, 'landing_page.html', {'form': form})
+                    return redirect("dashboard/admin")
+                return redirect("dashboard/general")
+            else:
+                data['error'] = True
+                data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
+        except:
+            data['error'] = True
+            data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
+        # print(data)
+    return render(request, "landing_page.html", data)
+#pcortesgarcia.cf@iesesteveterradas.cat
+
+## VIEW PARA INICIAR SESION
+# def loginView(request):
+#     if request.method == 'POST':
+#         form = AuthenticationForm(data=request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password')
+#             user = authenticate(username=username, password=password)
+#             if user is not None:
+#                 login(request, user)
+#                 if user.is_superuser:
+#                     return redirect('admin_dashboard')  # Redirigir al dashboard del administrador
+#                 else:
+#                     return redirect('general_dashboard')  # Redirigir al dashboard del usuario general
+#     else:
+#         form = AuthenticationForm()
+#     return render(request, 'landing_page.html', {'form': form})
 
 ## VIEW USER DASHBOARD 
 # @login_required

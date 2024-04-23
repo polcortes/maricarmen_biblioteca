@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Función para manejar el envío del formulario
+    /*
     document.querySelector("form").addEventListener("submit", function(event) {
         event.preventDefault(); // Evitar el envío del formulario por defecto
         
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
             window.location.href = "http://127.0.0.1:8000/dashboard/general/";
         }
     });
+    */
 
     // Función para determinar si el usuario es administrador o no
     function isUserAdmin(username) {
