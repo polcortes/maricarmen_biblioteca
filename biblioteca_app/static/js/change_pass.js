@@ -10,7 +10,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Validar que las contraseñas nuevas coincidan
         if (newPassword !== confirmPassword) {
-            alert('Les contrasenyes noves no coincideixen.');
+            //alert('Les contrasenyes noves no coincideixen.');
+            Toastify({
+                text: 'Les contrasenyes noves no coincideixen.',
+                gravity: 'top',
+                position: 'left',
+                close: true,
+                stopOnFocus: true,
+                autoclose: 5000,
+                style: {
+                    'background': '#CE1B1B',
+                    'color': 'white',
+                }
+            }).showToast();
             return;
         }
 
@@ -28,7 +40,19 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => {
             if (response.ok) {
-                alert('Contrasenya canviada amb èxit.');
+                // alert('Contrasenya canviada amb èxit.');
+                Toastify({
+                    text: 'Contrasenya canviada amb èxit.',
+                    gravity: 'top',
+                    position: 'left',
+                    close: true,
+                    stopOnFocus: true,
+                    autoclose: 5000,
+                    style: {
+                        'background': '#4D8434',
+                        'color': 'white',
+                    }
+                }).showToast();
                 form.reset(); // Limpiar el formulario después de un cambio exitoso
             } else {
                 throw new Error('Error al cambiar la contrasenya.');
@@ -36,7 +60,19 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Hi ha hagut un error en canviar la contrasenya. Si us plau, intenta-ho de nou més tard.');
+            // alert('Hi ha hagut un error en canviar la contrasenya. Si us plau, intenta-ho de nou més tard.');
+            Toastify({
+                text: error,
+                gravity: 'top',
+                position: 'left',
+                close: true,
+                stopOnFocus: true,
+                autoclose: 5000,
+                style: {
+                    'background': '#CE1B1B',
+                    'color': 'white',
+                }
+            }).showToast();
         });
     });
 

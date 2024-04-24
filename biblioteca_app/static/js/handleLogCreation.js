@@ -1,49 +1,72 @@
 function appendLogToQueue(data) {
-    const logQueue = JSON.parse(window.localStorage.getItem('logQueue')) ?? []
-    logQueue.push(data)
-    window.localStorage.setItem('logQueue', JSON.stringify(logQueue))
+  const logQueue = JSON.parse(window.localStorage.getItem("logQueue")) ?? [];
+  logQueue.push(data);
+  window.localStorage.setItem("logQueue", JSON.stringify(logQueue));
 }
 
 function sendData() {
-    const logQueue = JSON.parse(window.localStorage.getItem('logQueue')) ?? []
+  const logQueue = JSON.parse(window.localStorage.getItem("logQueue")) || [];
 
-    if (logQueue.length === 0) return
+  // const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    logQueue.forEach(log => {
-        fetch('/api/create_log', {
-            method: 'POST',
-            data: log
-        }).then(res => {
-            // console.log('res: ', res)
-            if (res.status === 'OK') window.localStorage.setItem('logQueue', JSON.stringify([]))
-            if (res.status === 'KO') throw new Error('Data couldn\'t be saved. Error: ' + res.message)
-        })
-          .catch(err => console.error('Data couldn\'t be saved. Error: ', err))
-    })
+  const csrfToken = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("csrftoken="))
+    .split("=")[1];
+
+  if (logQueue.length === 0) return;
+
+  logQueue.forEach((log) => {
+    fetch("/api/create_log", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Especifica que los datos son JSON
+        "X-CSRFToken": csrfToken, // Agrega el token CSRF a la cabecera de la solicitud
+      },
+      // body: JSON.stringify(log) // Convierte los datos a JSON antes de enviarlos
+      body: JSON.stringify(log),
+    }).then((res) => {
+      if (res.ok) {
+        // Cambiado de res.status a res.ok para verificar si la solicitud fue exitosa
+        window.localStorage.setItem("logQueue", JSON.stringify([]));
+        console.log("Funciona: ", res);
+      } else {
+        console.log("No funciona");
+        return res.json(); // Parsea la respuesta JSON para acceder a los datos
+      }
+    });
+    // .then(res => {
+    //     if (res.ok) { // Cambiado de res.status a res.ok para verificar si la solicitud fue exitosa
+    //         window.localStorage.setItem('logQueue', JSON.stringify([]));
+    //         console.log('Funciona: ', res);
+    //     } else {
+    //         console.log('No funciona');
+    //         return res.json(); // Parsea la respuesta JSON para acceder a los datos
+    //     }
+    // })
+    // .then(data => {
+    //     if (data) { // Verifica si hay datos de respuesta
+    //         console.log(data)
+    //         throw new Error('Data couldn\'t be saved. Error: ' + data);
+    //     }
+    // })
+    // .catch(err => console.error('Data couldn\'t be saved. Error: ', err));
+  });
 }
 
-document.addEventListener('click', (ev) => {
-    appendLogToQueue({
-        type: 'info', 
-        title: `${ev.type} event registered on: ${ev.target}`, 
-        description: '', 
-        date: new Date(),
-        pathname: window.location.pathname
-    })
+document.addEventListener("click", (ev) => {
+  appendLogToQueue({
+    type: "info",
+    title: `${ev.type} event registered on: ${ev.target}`,
+    description: "",
+    date: new Date(),
+    pathname: window.location.pathname,
+  });
 
-    console.log('Has hecho click en el documento, exactamente en: ', ev.target)
-})
+  console.log("Has hecho click en el documento, exactamente en: ", ev.target);
+});
 
-addEventListener('load', () => {
-    // alert('Page loaded')
-    setInterval(() => sendData(), 20000)
-})
-
-// addEventListener('beforeunload', (ev) => {
-//     ev.preventDefault()
-//     const settingLogs = new Promise(sendData())
-//     settingLogs
-//         .then(() => {
-//             return true
-//         })
-// })
+addEventListener("load", () => {
+  // alert('Page loaded')
+  setInterval(() => sendData(), 20000);
+});

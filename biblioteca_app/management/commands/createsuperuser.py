@@ -50,7 +50,7 @@ class Command(BaseCommand):
         # Aquí hay un ejemplo básico de cómo podría ser:
         first_name = input("Nom: ")
         last_name = input("Cognoms: ")
-        correu_ieti = input("Correu electrònic IETI: ")
+        email = input("Correu electrònic IETI: ")
         while True:
             try:
                 fecha_nacimiento = input("Any de naixement (dia-mes-any -> 15-08-2000): ")
@@ -68,8 +68,8 @@ class Command(BaseCommand):
         except CommandError as e:
             self.stderr.write(self.style.ERROR(e))
 
-        nou_usuari = Usuari.objects.create_user(username=username, correu_ieti=correu_ieti, password=password, nom=first_name, cognoms=last_name, any_naixement=any_naixement, tipus='super-usuari', is_staff=True, is_superuser=True)
+        nou_usuari = Usuari.objects.create_user(username=username, email=email, password=password, nom=first_name, cognoms=last_name, any_naixement=any_naixement, tipus='super-usuari', is_staff=True, is_superuser=True)
 
-        self.stdout.write(self.style.SUCCESS(f'Superusuari creat correctament amb el correu {correu_ieti}.'))
+        self.stdout.write(self.style.SUCCESS(f'Superusuari creat correctament amb el correu {email}.'))
 
         # Puedes agregar más lógica aquí si necesitas realizar alguna acción adicional después de crear el superusuario
