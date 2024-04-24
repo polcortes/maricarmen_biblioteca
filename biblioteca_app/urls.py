@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.urls import path
 from biblioteca_app import views, api
+from . import views
 
 urlpatterns = [
     path('', views.loginView, name='landing_page'),
     path('login/', views.loginView, name='login'),  # Definir la URL para el inicio de sesión
     path('api/create_log', api.create_log, ),
+    path('search/', views.search_results, name='search_results'),
+    path('autocomplete/', views.autocomplete, name='autocomplete'),
+
 ]
