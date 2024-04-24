@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    
+  </head>
+
+  <body class="profile">
+    <header class="headerWithUser">
+      <div class="user-info">
+        <div class="dropdown-content">
+          <p>El teu compte</p>
+          <a href="{% url 'logout' %}">Tancar sessió</a>
+        </div>
+        <img
+          id="user-img"
+          src="{% static 'img/user_header.png' %}"
+          alt="User Picture"
+        />
+      </div>
+    </header>
+    <div class="container">
+      <form
+        action="{% url 'actualizar_datos' %}"
+        class="user-form"
+        method="POST"
+      >
+        <h2>El teu compte:</h2>
+        <div class="input-group">
+          <div class="half-width">
+            <label for="nom">Nom:</label>
+            <input
+              type="text"
+              id="nom"
+              name="nom"
+              placeholder="{{ user_data.nom }}"
+              required
+            />
+          </div>
+          <div class="half-width">
+            <label for="cognoms" id="label_cognoms">Cognoms:</label>
+            <input
+              type="text"
+              id="cognoms"
+              name="cognoms"
+              placeholder="{{ user_data.cognoms }}"
+              required
+            />
+          </div>
+        </div>
+        <div class="input-group">
+            <label for="correu">Correu electrònic:</label>
+            <span id="correu" name="correu" class="email-placeholder" required>{{ user_data.correu }}</span>
+          </div>
+
+        {% csrf_token %}
+        <div class="button-container">
+          <button class="left-button">Actualitza les dades</button>
+          <a href="{% url 'change_pass' %}" class="right-button"
+            >Canvia la teva contrassenya</a
+          >
+        </div>
+      </form>
+    </div>
+    
+    <script src="{% static 'js/handleLogCreation.js' %}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    {% load static %}
+    <script src="{% static "js/dashboards.js" %}"></script>
+  </body>
+</html>

@@ -220,8 +220,6 @@ h2 {
   margin-right: 10px;
   width: 300px;
 }
-.formCatalogo button {
-}
 
 /*  GENERAL_DASHBARD, ADMIN_DASHBOARD, CHANGE_PASS, SEARCH_RESULTS HEADER */
 /* Estilos adicionales para la imagen del usuario y el menú desplegable */
@@ -264,13 +262,17 @@ h2 {
   text-align: left;
 }
 
-.headerWithUser .dropdown-content a {
+.headerWithUser .dropdown-content .ALogOut {
   background-color: #f199aa;
   margin-bottom: 10px;
   color: red;
 }
 .headerWithUser .dropdown-content p {
   font-weight: bold;
+  color: black;
+}
+
+.headerWithUser .dropdown-content a {
   color: black;
 }
 
@@ -281,7 +283,7 @@ p {
   display: block;
 }
 
-.headerWithUser .dropdown-content a:hover {
+.headerWithUser .dropdown-content .ALogOut:hover {
   background-color: lightcoral;
 }
 
@@ -289,10 +291,14 @@ p {
   display: block; /* Muestra el dropdown al pasar el ratón sobre el contenedor de usuario */
 }
 
-/* GENERAL_DASHBARD & ADMIN_DASHBOARD*/
+.headerWithUser .user-info img:hover + .dropdown-content {
+  display: block;
+}
 
-.general_dashboard,
-.general_dashboard html {
+/* GENERAL_PROFILE & ADMIN_PROFILE*/
+
+.profile,
+.profile html {
   overflow: hidden;
   margin: 0;
   padding: 0;
@@ -363,6 +369,15 @@ p {
   margin-bottom: 20px;
   border-radius: 5px;
   border: 2px solid #4caf50; /* Color del borde */
+}
+
+.email-placeholder {
+  width: calc(100% - 22px);
+  display: inline-block;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  border: 2px solid #4caf50;
 }
 
 .user-form button {
@@ -468,4 +483,53 @@ p {
 
 .change-pass-left-button:hover {
   background-color: #45a049;
+}
+
+/* general_dashboard & ADMIN_DASHBOARD */
+
+.general_dashboard,
+.general_dashboard html {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 900px;
+  width: 250px;
+  padding-top: 50px;
+  background-color: #f8f9fa;
+  border-right: 1px solid #dee2e6;
+}
+
+.sidebar ul.nav.flex-column {
+  padding-left: 20px;
+  margin-top: 50px;
+}
+
+.sidebar .nav-link {
+  font-size: 16px;
+  padding: 10px;
+  color: #495057;
+  transition: all 0.3s ease;
+}
+
+.container-fluid .col-md-2 d-none d-md-block bg-light sidebar {
+  height: 500px;
+}
+
+.sidebar .nav-link:hover {
+  background-color: #e9ecef;
+  color: #212529;
+}
+
+/* Personalizar estilos del contenido principal */
+.main-content {
+  margin-left: 250px;
+  padding: 20px;
 }
