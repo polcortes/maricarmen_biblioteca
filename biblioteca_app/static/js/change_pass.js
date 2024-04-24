@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
             // alert('Hi ha hagut un error en canviar la contrasenya. Si us plau, intenta-ho de nou més tard.');
             Toastify({
-                text: 'Hi ha hagut un error en canviar la contrasenya. Si us plau, intenta-ho de nou més tard.',
+                text: error,
                 gravity: 'top',
                 position: 'left',
                 close: true,
