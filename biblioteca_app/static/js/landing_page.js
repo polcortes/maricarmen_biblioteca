@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Función para manejar el envío del formulario
     /*
     document.querySelector("form").addEventListener("submit", function(event) {
@@ -25,4 +25,5 @@ document.addEventListener("DOMContentLoaded", function() {
         // Supongamos que el usuario es admin si el nombre de usuario contiene la palabra "admin"
         return username.toLowerCase().includes("admin");
     }
+
 });

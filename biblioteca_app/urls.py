@@ -31,6 +31,7 @@ urlpatterns = [
     path('autocomplete/', views.autocomplete, name='autocomplete'),
     path('actualizar-datos/', views.actualizar_datos, name='actualizar_datos'),
     path('actualizar-datos-user/', views.actualizar_datos_usuario, name='actualizar_datos_usuario'),
+    path('cargar-usuarios/', views.cargar_usuarios, name='cargar_usuarios'),
 
 
 ]

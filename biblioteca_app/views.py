@@ -239,3 +239,12 @@ def cambiar_contrasenya(request):
         return JsonResponse({'message': 'Contraseña cambiada exitosamente'})
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
+    
+    
+    
+def cargar_usuarios(request):
+    # Obtener los datos de los usuarios desde la base de datos o cualquier otra fuente
+    usuarios = Usuari.objects.all()  # Suponiendo que tienes un modelo Usuario
+
+    # Renderizar el contenido de usuarios utilizando una plantilla Django
+    return render(request, 'admin_dashboard.html', {'usuarios': usuarios})
