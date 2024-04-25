@@ -43,6 +43,7 @@
 }
 
 .left-block .input-wrapper {
+  width: 600px;
   position: relative;
 }
 

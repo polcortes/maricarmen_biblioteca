@@ -30,8 +30,11 @@ def loginView(request):
                 login(request, user)
                 # print(request.user)
                 if user.is_superuser:
-                    return redirect("dashboard/admin")
-                return redirect("dashboard/general")
+                    return redirect("/admin") 
+                elif user.is_staff:
+                    return redirect("dashboard/admin")                    
+                else:
+                    return redirect("dashboard/general")
             else:
                 data['error'] = True
                 data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
