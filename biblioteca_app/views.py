@@ -26,13 +26,14 @@ def loginView(request):
         password = request.POST.get("password")
         try:
             user = Usuari.objects.get(email=email)
+            print(user)
             if user is not None and check_password(password, user.password):
                 login(request, user)
-                # print(request.user)
+                print(request.user)
                 if user.is_superuser:
                     return redirect("/admin") 
-                elif user.is_staff:
-                    return redirect("dashboard/admin")                    
+                if user.is_staff:
+                    return redirect("dashboard/admin")                
                 else:
                     return redirect("dashboard/general")
             else:
@@ -40,7 +41,7 @@ def loginView(request):
                 data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
         except:
             data['error'] = True
-            data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
+            data['errorMsg'] = "L'usuari o la contrasenya són lalalalincorrectes."
         # print(data)
     return render(request, "landing_page.html", data)
 #pcortesgarcia.cf@iesesteveterradas.cat
@@ -66,11 +67,6 @@ def change_pass(request):
 def search_results(request):
     return render(request, 'search_results.html')
 
-
-## VIEW LOGOUT
-def logout_view(request):
-    logout(request)
-    return redirect('landing_page.html')  # Cambia 'nombre_de_la_pagina_de_inicio' por el nombre de tu página de inicio
 
 ## VIEW AUTOCOMPLETAR
 def autocomplete(request):
@@ -148,6 +144,39 @@ def actualizar_datos(request):
         #response = HttpResponse("""<script>window.history.back(); </script>""")
         #return response
         isAdmin = request.user.is_superuser or request.user.is_staff
+        if isAdmin:
+            response = HttpResponse("""<script>window.location.href='/dashboard/admin?succ=0'; </script>""")
+            return response
+        else:
+            response = HttpResponse("""<script>window.location.href='/dashboard/general?succ=0'; </script>""")
+            return response
+    
+def actualizar_datos_usuario(request):
+    if request.method == 'POST':
+        # Obtener los nuevos valores del formulario
+        nom = request.POST.get('nom')
+        cognoms = request.POST.get('cognoms')
+        
+        # Actualizar los datos del usuario en la base de datos
+        user = request.user
+        user.nom = nom
+        user.cognoms = cognoms
+        user.save()
+
+        isAdmin = request.user.is_staff
+        if isAdmin:
+            # Devolver una respuesta con un script de alerta en JavaScript
+            response = HttpResponse("""<script>window.location.href='/dashboard/admin?succ=1'; </script>""")
+            return response
+        else:
+            # Devolver una respuesta con un script de alerta en JavaScript
+            response = HttpResponse("""<script>window.location.href='/dashboard/general?succ=1'; </script>""")
+            return response
+    else:
+        # Devolver una respuesta con un script de alerta en JavaScript para el método no permitido
+        #response = HttpResponse("""<script>window.history.back(); </script>""")
+        #return response
+        isAdmin = request.user.is_staff
         if isAdmin:
             response = HttpResponse("""<script>window.location.href='/dashboard/admin?succ=0'; </script>""")
             return response
