@@ -18,13 +18,6 @@ from django.contrib.auth.hashers import make_password
 
 import json
 
-# from django.contrib.auth import authenticate, login
-# from django.contrib.auth.models import User
-# from django.contrib.auth.hashers import check_password
-# from django.shortcuts import render, redirect
-# from django.http import HttpResponse
-# from django.contrib.auth.decorators import login_required
-# from .models import *
 
 def loginView(request):
     data = {}
@@ -37,8 +30,11 @@ def loginView(request):
                 login(request, user)
                 # print(request.user)
                 if user.is_superuser:
-                    return redirect("dashboard/admin")
-                return redirect("dashboard/general")
+                    return redirect("/admin") 
+                elif user.is_staff:
+                    return redirect("dashboard/admin")                    
+                else:
+                    return redirect("dashboard/general")
             else:
                 data['error'] = True
                 data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
@@ -48,24 +44,6 @@ def loginView(request):
         # print(data)
     return render(request, "landing_page.html", data)
 #pcortesgarcia.cf@iesesteveterradas.cat
-
-## VIEW PARA INICIAR SESION
-# def loginView(request):
-#     if request.method == 'POST':
-#         form = AuthenticationForm(data=request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password')
-#             user = authenticate(username=username, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 if user.is_superuser:
-#                     return redirect('admin_dashboard')  # Redirigir al dashboard del administrador
-#                 else:
-#                     return redirect('general_dashboard')  # Redirigir al dashboard del usuario general
-#     else:
-#         form = AuthenticationForm()
-#     return render(request, 'landing_page.html', {'form': form})
 
 ## VIEW USER DASHBOARD 
 # @login_required
@@ -179,16 +157,12 @@ def actualizar_datos(request):
     
     
 def general_dashboard(request):
-    # Obtener los datos del usuario actual desde la base de datos
-    user = request.user
-    user_data = {
-        'nom': user.nom,
-        'cognoms': user.cognoms,
-        'correu': user.email,
-    }
-    return render(request, 'general_dashboard.html', {'user_data': user_data})
+    return render(request, 'general_dashboard.html')
 
 def admin_dashboard(request):
+    return render(request, 'admin_dashboard.html')
+
+def general_profile(request):
     # Obtener los datos del usuario actual desde la base de datos
     user = request.user
     user_data = {
@@ -196,7 +170,17 @@ def admin_dashboard(request):
         'cognoms': user.cognoms,
         'correu': user.email,
     }
-    return render(request, 'admin_dashboard.html', {'user_data': user_data})
+    return render(request, 'general_profile.html', {'user_data': user_data})
+
+def admin_profile(request):
+    # Obtener los datos del usuario actual desde la base de datos
+    user = request.user
+    user_data = {
+        'nom': user.nom,
+        'cognoms': user.cognoms,
+        'correu': user.email,
+    }
+    return render(request, 'admin_profile.html', {'user_data': user_data})
 
 
 def cambiar_contrasenya(request):
