@@ -162,9 +162,6 @@ class Command(BaseCommand):
         for _ in range(35):
             nom = fake.first_name()
             cognoms = fake.last_name()
-            password = fake.password()
-
-            print(f'Usuari: {nom}_{cognoms} -> {password}')
             
             usuari = Usuari(
                 nom = nom,
@@ -174,19 +171,15 @@ class Command(BaseCommand):
                 email = f'{nom[0].lower()}{cognoms.lower()}@gmail.com',
                 tipus = 'usuari',
                 centre = f'INS {fake.first_name()} {fake.last_name()}',
-                password = make_password(password),
+                password = make_password('12345678aA@'),
                 is_staff = False,
                 is_superuser = False,
             )
             usuari.save()
-            usuaris.append({'correo': usuari.email, 'contraseña': password})
 
         for _ in range(5):
             nom = fake.first_name()
             cognoms = fake.last_name()
-            password = fake.password()
-
-            print(f'Usuari: {nom}_{cognoms} -> {password}')
 
             usuari = Usuari(
                 nom = nom,
@@ -196,20 +189,15 @@ class Command(BaseCommand):
                 email = f'{nom[0].lower()}{cognoms.lower()}@gmail.com',
                 tipus = 'admin',
                 centre = f'INS {fake.first_name()} {fake.last_name()}',
-                password = make_password(password),
+                password = make_password('12345678aA@'),
                 is_staff = True,
                 is_superuser = False,
             )
             usuari.save()
-            usuaris.append({'correo': usuari.email, 'contraseña': password})
 
         for _ in range(2):
             nom = fake.first_name()
             cognoms = fake.last_name()
-
-            password = fake.password()
-
-            print(f'Usuari: {nom}_{cognoms} -> {password}')
 
             usuari = Usuari(
                 nom = nom,
@@ -219,12 +207,11 @@ class Command(BaseCommand):
                 email = f'{nom[0].lower()}{cognoms.lower()}@gmail.com',
                 tipus = 'super-usuari',
                 centre = f'INS {fake.first_name()} {fake.last_name()}',
-                password = make_password(password),
+                password = make_password('12345678aA@'),
                 is_staff = True,
                 is_superuser = True,
             )
             usuari.save()
-            usuaris.append({'correo': usuari.email, 'contraseña': password})
 
         # Generar reserves
         for usuari in Usuari.objects.all():

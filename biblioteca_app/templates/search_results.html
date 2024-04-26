@@ -1,17 +1,58 @@
-{% if items %}
-    <h2>Resultats per "{{ query }}"</h2>
-    <div>
-        {% for item in items %}
-        <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
-            <h3>{{ item.titol }}</h3>
-            <p><strong>Autor:</strong> {{ item.autor }}</p>
-            <p><strong>Descripció:</strong> {{ item.descripcio }}</p>
-            <!-- Añadir más detalles según sea necesario -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Change Password</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body id="search-results">
+    <header class="headerWithUser">
+        <div class="user-info">
+            <div class="dropdown-content">
+                <p>El teu compte</p>
+                <a href="{% url 'general_profile' %}">Editar Perfil</a>
+                <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
+            </div>
+            <img
+                id="user-img"
+                src="{% static 'img/user_header.png' %}"
+                alt="User Picture"
+            />
         </div>
-        {% endfor %}
-    </div>
-{% else %}
-    <p>No s'ha trobat resultats per: "{{ query }}".</p>
-{% endif %}
+    </header>
+    <main>
+        <section class="search-section">
+            <label class="custom-search">
+                <span>La teva cerca:</span>
+                <input type="search" name="search-items" id="search-items" placeholder="{{ query }}" />
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </label>
+        </section>
+        <h1>Resultats de la cerca:</h1>
+
+        <section class="results">
+            {% if items %}
+                    {% for item in items %}
+                    <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
+                        <h3>{{ item.titol }}</h3>
+                        <p><strong>Autor:</strong> {{ item.autor }}</p>
+                        <p><strong>Descripció:</strong> {{ item.descripcio }}</p>
+                        <!-- Añadir más detalles según sea necesario -->
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No s'ha trobat resultats per: "{{ query }}".</p>
+            {% endif %}
+        </section>  
+    </main>
+</body>
+
 {% load static %}
 <script src="{% static 'js/handleLogCreation.js' %}"></script>

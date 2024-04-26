@@ -1,3 +1,11 @@
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 /* LANDING PAGE */
 
 .landing_page,
@@ -534,4 +542,52 @@ p {
 .main-content {
   margin-left: 250px;
   padding: 20px;
+}
+
+/* Estilos de search_results.html */
+#search-results {
+  margin: 0;
+  padding: 0;
+}
+
+#search-results section.search-section {
+  margin-inline: auto;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-search > input {
+  padding: 10px 12px;
+  padding-right: 31px;
+  border: 2px solid #4D8434;
+  width: 400px;
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.custom-search > input::placeholder {
+  color: rgba(0, 0, 0, .6)
+}
+
+.custom-search {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.custom-search > i {
+  position: absolute;
+  right: 13px;
+  top: 65%;
+  transform: translateY(-50%);
+  color: #4D8434;
+}
+
+#search-results .results {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
 }

@@ -72,14 +72,14 @@
 
     
 
-    {% load static %}
-
-    <script src="{% static 'js/handleLogCreation.js' %}"></script>
-    <script src="{% static 'js/landing_page.js' %}"></script>
-
+    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-
+    
+    {% load static %}
+    <script src="{% static 'js/handleLogCreation.js' %}"></script>
+    {% load static %}
+    <script src="{% static 'js/landing_page.js' %}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $("#searchInput").autocomplete({
@@ -90,6 +90,33 @@
                     return false;
                 }
             });
+
+            const testPasswordOk = (password) => {
+              return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/.test(password)
+            }
+
+            loginForm = document.getElementById("login-form");
+          
+            loginForm.addEventListener('submit', (ev) => {
+              ev.preventDefault();
+              const password = document.getElementById("password").value;
+      
+              if (testPasswordOk(password)) loginForm.submit()
+              else {
+                Toastify({
+                  text: 'La contrasenya no és vàlida. Ha de contenir almenys: 1 lletra minúscula, 1 lletra majúscula, 1 número, 1 caràcter especial i tenir una longitud de 8 a 16 caràcters.',
+                  gravity: 'top',
+                  position: 'center',
+                  close: true,
+                  duration: -1,
+                  stopOnFocus: true,
+                  style: {
+                    'background': '#CE1B1B',
+                    'color': 'white',
+                  }
+                }).showToast();
+              }
+            })
 
             {% if error %}
               Toastify({

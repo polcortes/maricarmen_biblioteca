@@ -1,24 +1,6 @@
+
 document.addEventListener("DOMContentLoaded", function () {
-    // Función para manejar el envío del formulario
-    /*
-    document.querySelector("form").addEventListener("submit", function(event) {
-        event.preventDefault(); // Evitar el envío del formulario por defecto
-        
-        // Obtener los valores de usuario y contraseña
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
-
-        // Determinar el tipo de usuario
-        var isAdmin = isUserAdmin(username);
-
-        // Redirigir según el tipo de usuario
-        if (isAdmin) {
-            window.location.href = "http://127.0.0.1:8000/dashboard/admin/";
-        } else {
-          console.error("Error en la respuesta de la API:", data.error);
-        }
-    });
-    */
+    
 
     // Función para determinar si el usuario es administrador o no
     function isUserAdmin(username) {

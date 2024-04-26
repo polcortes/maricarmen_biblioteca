@@ -14,6 +14,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password
+from re import match
 
 
 import json
@@ -41,7 +42,7 @@ def loginView(request):
                 data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
         except:
             data['error'] = True
-            data['errorMsg'] = "L'usuari o la contrasenya són lalalalincorrectes."
+            data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
         # print(data)
     return render(request, "landing_page.html", data)
 #pcortesgarcia.cf@iesesteveterradas.cat
@@ -84,7 +85,7 @@ def search_results(request):
     items = []
     if query:
         # Busca coincidencia exacta en lugar de coincidencias parciales
-        items = ItemCataleg.objects.filter(titol__iexact=query)
+        items = ItemCataleg.objects.filter(titol__icontains=query)
     context = {
         'items': items,
         'query': query
@@ -96,6 +97,13 @@ def cambiar_contrasenya(request):
     # Obtener los datos del formulario
     current_password = request.data.get('current_password')
     new_password = request.data.get('new_password')
+
+    check_pass_ok = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$'
+
+    if not match(check_pass_ok, new_password): 
+        return JsonResponse({ 
+            'error': 'La nova contrasenya no conté almenys: 1 lletra minúscula, 1 lletra majúscula, 1 número, 1 caràcter especial i tenir una longitud de 8 a 16 caràcters.' 
+        })
 
     # Verificar la autenticación del usuario
     user = authenticate(request, username=request.user.username, password=current_password)
