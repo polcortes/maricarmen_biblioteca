@@ -24,6 +24,7 @@ urlpatterns = [
     path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
     path('profile/general/', views.general_profile, name='general_profile'),
     path('profile/admin/', views.admin_profile, name='admin_profile'),
+    path('mostrar_usuaris/', views.mostrar_usuaris, name='mostrar_usuaris'),
     path('change_pass/', views.change_pass, name='change_pass'),
     path('logout/', views.logout_view, name='logout'),
     path('cambiar-contrasenya/', views.cambiar_contrasenya, name='cambiar_contrasenya'),
@@ -31,7 +32,4 @@ urlpatterns = [
     path('autocomplete/', views.autocomplete, name='autocomplete'),
     path('actualizar-datos/', views.actualizar_datos, name='actualizar_datos'),
     path('actualizar-datos-user/', views.actualizar_datos_usuario, name='actualizar_datos_usuario'),
-    path('cargar-usuarios/', views.cargar_usuarios, name='cargar_usuarios'),
-
-
 ]

@@ -12,9 +12,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* .headerWithUser,
+        .sidebar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .headerWithUser.sticky,
+        .sidebar.sticky {
+            z-index: 1020;
+        } */
+    </style>
 </head>
 
-<body class="general_dashboard">
+<body class="list_users">
     <header class="headerWithUser">
         <div class="user-info">
             <div class="dropdown-content">
@@ -43,7 +56,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'mostrar_usuaris' %}" >
+                            <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
                                 <i class="fa-solid fa-user"></i>
                                 Usuaris
                             </a>
@@ -59,9 +72,31 @@
                     <h1 class="h2">Panell</h1>
                 </div>
 
-                <!-- <div id="import-users" class="content" style="display: none;">
-                    <h2>Importacio Usuaris</h2>
-                </div> -->
+                <div id="usuarios-container" class="content">
+                    <h2>Usuarios</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellidos</th>
+                                <th>Fecha de Nacimiento</th>
+                                <th>Email</th>
+                                <th>Centro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for usuario in usuarios %}
+                            <tr>
+                                <td>{{ usuario.nom }}</td>
+                                <td>{{ usuario.cognoms }}</td>
+                                <td>{{ usuario.any_naixement }}</td>
+                                <td>{{ usuario.email }}</td>
+                                <td>{{ usuario.centre }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
 
                 <!-- Contenido principal -->
                 <canvas class="my-4 w-100" id="myChart" width="900" height="600"></canvas>
