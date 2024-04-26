@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,23 +15,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     {% load static %}
-    <script src="{% static "js/dashboards.js" %}"></script>
+    <script src="{% static 'js/dashboards.js' %}"></script>
 </head>
+
 <body class="general_dashboard">
-  <header class="headerWithUser">
-    <div class="user-info">
-      <div class="dropdown-content">
-        <p>El teu compte</p>
-        <a href="{% url 'admin_profile' %}">Editar Perfil</a>
-        <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
-      </div>
-      <img
-        id="user-img"
-        src="{% static 'img/user_header.png' %}"
-        alt="User Picture"
-      />
-    </div>
-  </header>
+    <header class="headerWithUser">
+        <div class="user-info">
+            <div class="dropdown-content">
+                <p>El teu compte</p>
+                <a href="{% url 'admin_profile' %}">Editar Perfil</a>
+                <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
+            </div>
+            <img id="user-img" src="{% static 'img/user_header.png' %}" alt="User Picture" />
+        </div>
+    </header>
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
@@ -44,37 +42,25 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="file"></span>
-                                Prestecs
+                            <a class="nav-link" href="#" onclick="mostrar('import-users')">
+                                Importacio Usuaris
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="shopping-cart"></span>
-                                Reserves
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="users"></span>
-                                Peticions
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="#" onclick="mostrar('usuarios-container')">
                                 <i class="fa-solid fa-user"></i>
                                 Usuaris
                             </a>
                         </li>
-                        
+
                     </ul>
                 </div>
             </nav>
 
             <!-- Main content area -->
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Panell</h1>
                 </div>
 
@@ -82,12 +68,34 @@
                     <h2>Usuarios</h2>
                 </div>
 
+                <div id="import-users" style="display: none;">
+                    <h2>Importacio Usuaris</h2>
+                </div>
+
                 <!-- Contenido principal -->
                 <canvas class="my-4 w-100" id="myChart" width="900" height="600"></canvas>
             </main>
         </div>
     </div>
+    <script>
+        function mostrar(id) {
+            // Oculta todos los elementos con la clase "mostrar"
+            var elementos = document.querySelectorAll('[id^="mostrar-"]');
+            elementos.forEach(function (elemento) {
+                elemento.style.display = 'none';
+            });
+
+            // Muestra el elemento correspondiente al ID pasado como parámetro
+            var elementoMostrar = document.getElementById(id);
+            if (elementoMostrar) {
+                elementoMostrar.style.display = 'block';
+            }
+        }
+    </script>
+    {% load static %}
     <script src="{% static 'js/handleLogCreation.js' %}"></script>
+    {% load static %}
     <script src="{% static 'js/dashboard.js' %}"></script>
 </body>
+
 </html>

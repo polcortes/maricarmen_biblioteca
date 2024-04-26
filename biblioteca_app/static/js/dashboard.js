@@ -13,3 +13,17 @@ function cargarUsuarios() {
         }
     });
 }
+
+function mostrar(id) {
+    // Oculta todos los elementos con la clase "mostrar"
+    var elementos = document.querySelectorAll('[id^="mostrar-"]');
+    elementos.forEach(function(elemento) {
+        elemento.style.display = 'none';
+    });
+
+    // Muestra el elemento correspondiente al ID pasado como parámetro
+    var elementoMostrar = document.getElementById(id);
+    if (elementoMostrar) {
+        elementoMostrar.style.display = 'block';
+    }
+}

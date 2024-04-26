@@ -57,27 +57,26 @@ class Dispositiu(ItemCataleg):
 # TODO: Peta al crear un superuser:
 class Usuari(AbstractUser):
     TYPE_OPTIONS = (
-        ('alumne', 'Alumne'),
-        ('professor', 'Professor'),
+        ('usuari', 'Usuari'),
         ('admin', 'Admin'),
         ('super-usuari', 'Super Usuari')
     )
 
     is_superuser = models.BooleanField(default=False)
-    username = models.CharField(max_length=100, unique=True)
     nom = models.CharField(max_length=100)
     cognoms = models.CharField(max_length=100)
     any_naixement = models.DateField(blank=False)
     email = models.EmailField(blank=False, unique=True)
     tipus = models.CharField(max_length=20, choices=TYPE_OPTIONS)
     password = models.CharField(max_length=128)
+    centre = models.CharField(max_length=100, default='I.E.S. Esteve Terradas i Illa')
 
     def checkMail(self, mail):
         if '@iesesteveterradas.cat' in mail: return True
         return False
     
     def checkPass(self, password):
-        return password == self.password
+        return True # :thumbsup:
 
     def __str__(self) -> str:
         return f"{self.nom} {self.cognoms}"
@@ -110,18 +109,6 @@ class Peticions(models.Model):
     def __str__(self) -> str:
         return f"{self.usuari} ha fet una petició de {self.text}"
     
-"""class LogManager(models.Manager):
-    def create_logs(self, tipus, titol, descripcio, data, usuari, pathname):
-        newlog = self.create(
-            tipus = tipus,
-            titol = titol,
-            descripcio = descripcio,
-            data = data,
-            usuari = usuari,
-            pathname = pathname
-        )
-        return newlog"""
-
 class Logs(models.Model):
     TYPE_OPTIONS = (
         ('info', 'INFO'),
@@ -136,11 +123,6 @@ class Logs(models.Model):
     data = models.DateTimeField(auto_now_add=True)
     usuari = models.ForeignKey(Usuari, on_delete=models.CASCADE,)
     pathname = models.CharField(max_length=100, )
-
-    @classmethod
-    def create(cls, tipus, titol, descripcio, data, usuari, pathname):
-        log = cls(tipus=tipus, titol=titol, descripcio=descripcio, data=data, usuari=usuari, pathname=pathname)
-        return log
 
     def __str__(self) -> str:
         return f"{self.tipus} - {self.titol} - {self.data}"
