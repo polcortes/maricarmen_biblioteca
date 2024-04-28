@@ -35,7 +35,7 @@
     <div class="container">
       <!-- Agrega el atributo method con el valor "POST" -->
       <form
-        action="{% url 'actualizar_datos' %}"
+        action="{% url 'editar_usuari' user_data.id %}"
         class="user-form"
         method="POST"
       >
@@ -69,7 +69,7 @@
             type="email"
             id="correu"
             name="correu"
-            placeholder="{{ user_data.correu }}"
+            placeholder="{{ user_data.email }}"
             required
           />
         </div>

@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -187,6 +187,69 @@ def actualizar_datos_usuario(request):
             return response
     
     
+def editar_usuari(request, usuario_id):
+    # Obtener el usuario a editar utilizando la ID pasada en la URL
+    usuario = get_object_or_404(Usuari, pk=usuario_id)
+    
+    if request.method == 'POST':
+        # Obtener los nuevos valores del formulario
+        nom = request.POST.get('nom')
+        cognoms = request.POST.get('cognoms')
+        correu = request.POST.get('correu')
+        
+        # Actualizar los datos del usuario en la base de datos
+        usuario.nom = nom
+        usuario.cognoms = cognoms
+        usuario.email = correu
+        usuario.save()
+        
+        # Redirigir al usuario a la página de éxito o a la lista de usuarios
+        # Cambia 'nombre_de_la_vista' al nombre de la vista donde deseas redirigir al usuario
+        return redirect('mostrar_usuaris')
+
+    # Pasar los datos del usuario a la plantilla para que los placeholders funcionen correctamente
+    return render(request, 'edit_users.html', {'user_data': usuario})
+
+
+# @login_required
+# def actualizar_list_users(request, usuario_id):
+
+#     print("usuario_id:", usuario_id)  # Imprimir el usuario_id para verificar si se está pasando correctamente
+
+#     # Obtener el usuario correspondiente a partir de la ID proporcionada en la URL
+#     usuario = get_object_or_404(Usuari, pk=usuario_id)
+#     print("usuario:", usuario)  # Imprimir el usuario para verificar si se está encontrando correctamente
+
+#     # Obtener el usuario correspondiente a partir de la ID proporcionada en la URL
+
+#     if request.method == 'POST':
+#         # Obtener los nuevos valores del formulario
+#         nom = request.POST.get('nom')
+#         cognoms = request.POST.get('cognoms')
+#         correu = request.POST.get('correu')
+        
+#         # Verificar que la ID del usuario en la URL coincide con el usuario que se está modificando
+#         if int(usuario_id) == usuario.id:
+#             # Actualizar los datos del usuario en la base de datos
+#             usuario.nom = nom
+#             usuario.cognoms = cognoms
+#             usuario.email = correu
+#             usuario.save()
+
+#             # Mostrar mensaje de éxito
+#             messages.success(request, 'Los datos se han actualizado correctamente.')
+
+#             # Redirigir al usuario a la página de la lista de usuarios
+#             return redirect('mostrar_usuaris')
+#         else:
+#             # Si la ID del usuario en la URL no coincide con el usuario que se está modificando, mostrar un mensaje de error
+#             messages.error(request, 'Error: No se puede modificar este usuario.')
+#             return redirect('mostrar_usuaris')
+
+#     # Si el método no es POST, simplemente renderiza la página con los datos actuales del usuario
+#     return render(request, 'edit_users.html', {'usuario': usuario})  # Pasamos el objeto 'usuario' a la plantilla
+
+
 def general_dashboard(request):
     return render(request, 'general_dashboard.html')
 

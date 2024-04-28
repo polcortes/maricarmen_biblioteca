@@ -234,7 +234,11 @@ h2 {
   text-align: center;
   padding: 30px;
   border-bottom: 2px solid #45a049;
-  position: relative; /* Agrega posición relativa al contenedor principal */
+  position: fixed; /* Agrega posición relativa al contenedor principal */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1001;
 }
 
 .headerWithUser .user-info {
@@ -295,6 +299,10 @@ p {
 
 .headerWithUser .user-info img:hover + .dropdown-content {
   display: block;
+}
+
+#usuarios-container {
+  margin-top: 50px;
 }
 
 /* GENERAL_PROFILE & ADMIN_PROFILE*/
@@ -500,18 +508,22 @@ p {
 
 .sidebar {
   position: fixed;
-  top: 0;
   left: 0;
-  height: 900px;
+  height: 2974px;
   width: 250px;
   padding-top: 50px;
   background-color: #f8f9fa;
   border-right: 1px solid #dee2e6;
+  z-index: 1000; /* Asegura que la barra lateral esté en la parte superior */
 }
 
 .sidebar ul.nav.flex-column {
   padding-left: 20px;
   margin-top: 50px;
+}
+
+.container-fluid {
+  margin-top: 102px; /* Ajusta según el tamaño del encabezado */
 }
 
 .sidebar .nav-link {
@@ -532,6 +544,5 @@ p {
 
 /* Personalizar estilos del contenido principal */
 .main-content {
-  margin-left: 250px;
   padding: 20px;
 }
