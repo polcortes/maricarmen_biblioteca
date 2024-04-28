@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Change Password</title>
@@ -11,11 +18,11 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
   </head>
   <body class="change-pass-dashboard">
-    <header class="headerWithUser">
+    <header class="headerNoAdmin">
       <div class="user-info">
         <div class="dropdown-content">
           <p>El teu compte</p>
-          <a href="{% url 'logout' %}">Tancar sessió  </a>
+          <a href="{% url 'logout' %}">Tancar sessió </a>
         </div>
         <img
           id="user-img"
@@ -67,7 +74,14 @@
     </div>
     <script src="{% static 'js/handleLogCreation.js' %}"></script>
     <script src="{% static 'js/change_pass.js' %}"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-</body>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+  </body>
 </html>

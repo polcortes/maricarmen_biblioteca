@@ -6,13 +6,20 @@
     <title>Dashboard</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
     {% load static %}
     <script src="{% static 'js/dashboards.js' %}"></script>
   </head>
   <body class="general_dashboard">
-    <header class="headerWithUser">
+    <header class="headerNoAdmin">
       <div class="user-info">
         <div class="dropdown-content">
           <p>El teu compte</p>

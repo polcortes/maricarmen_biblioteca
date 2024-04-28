@@ -315,12 +315,6 @@ def mostrar_usuaris(request):
     return render(request, 'list_users.html', {'usuarios': usuarios})
 
 
-# def cargar_usuarios(request):
-#     # Obtener los datos de los usuarios desde la base de datos o cualquier otra fuente
-#     all_rows = Usuari.objects.all()
-#     all_fields_names = Usuari._meta.get_fields()
-#     content = { 'all_rows': all_rows, 
-#     'all_fields_names': all_fields_names }
+def mostrar_crear_usuario(request):
+    return render(request, 'create_user.html')
 
-#     # Renderizar el contenido de usuarios utilizando una plantilla Django
-#     return render(request, 'admin_dashboard.html', content)
