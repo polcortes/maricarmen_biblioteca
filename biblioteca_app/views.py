@@ -81,14 +81,41 @@ def autocomplete(request):
 
 ## VIEW RESULTADOS BUSQUEDA
 def search_results(request):
-    query = request.GET.get('query', '').strip()
+    query = request.GET.get('query', '').strip().lower()
+    filters = {
+        'tipus': request.GET.getlist('tipus'), # los checkboxes
+        'editorial': request.GET.get('editorial', '').strip(),
+        'llengua': request.GET.get('llengua', '').strip(),
+        'centre': request.GET.get('centre', '').strip(),
+    }
+
     items = []
-    if query:
-        # Busca coincidencia exacta en lugar de coincidencias parciales
-        items = ItemCataleg.objects.filter(titol__icontains=query)
+
+    if len(filters['tipus']) >= 1:
+        items = ItemCataleg.objects.filter(
+            titol__icontains=query,
+            llengua__icontains=filters['llengua'],
+            centre__icontains=filters['centre'],
+            llibre__editorial__icontains=filters['editorial'],
+            tipus__in=filters['tipus']
+        )
+    else:
+        items = ItemCataleg.objects.filter(
+            titol__icontains=query, 
+            llibre__editorial__icontains=filters['editorial'],
+            llengua__icontains=filters['llengua'],
+            centre__icontains=filters['centre']
+        )
+
+    editorials = Llibre.objects.values('editorial').distinct()
+    llengues = ItemCataleg.objects.values('llengua').distinct()
+    centres = ItemCataleg.objects.values('centre').distinct()
     context = {
         'items': items,
-        'query': query
+        'query': query,
+        'editorials': editorials,
+        'llengues': llengues,
+        'centres': centres,
     }
     return render(request, 'search_results.html', context)
 
