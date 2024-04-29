@@ -23,7 +23,7 @@
       <div class="user-info">
         <div class="dropdown-content">
           <p>El teu compte</p>
-          <a href="{% url 'logout' %}" class=".ALogOut">Tancar sessió</a>
+          <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
         </div>
         <img
           id="user-img"
@@ -34,7 +34,7 @@
     </header>
     <div class="container_CREATE_USER">
       <h1>Crear Usuario</h1>
-      <form id="user-form" method="POST">
+      <form id="user-form" action="{% url 'crear_usuari' %}" method="POST">
         {% csrf_token %}
         <label for="nom">Nombre:</label>
         <input type="text" id="nom" name="nom" required /><br /><br />

@@ -17,19 +17,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <style>
-      /* .headerWithUser,
-        .sidebar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .headerWithUser.sticky,
-        .sidebar.sticky {
-            z-index: 1020;
-        } */
-    </style>
   </head>
 
   <body class="list_users">
@@ -84,37 +71,36 @@
             <h2>Usuarios</h2>
             <table class="table">
               <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Apellidos</th>
-                  <th>Fecha de Nacimiento</th>
-                  <th>Email</th>
-                  <th>Centro</th>
-                  <th>
-                    <a
-                      class="btn btn-primary"
-                      href="{% url 'mostrar_crear_usuario' %}"
-                      ><i class="fa-solid fa-plus"></i
-                    ></a>
-                  </th>
-                </tr>
+                  <tr>
+                      <th>Nombre</th>
+                      <th>Apellidos</th>
+                      <th>Fecha de Nacimiento</th>
+                      <th>Email</th>
+                      <th>Centro</th>
+                      <th>
+                          <a class="btn btn-primary" href="{% url 'mostrar_crear_usuario' %}">
+                              <i class="fa-solid fa-plus"></i>
+                          </a>
+                      </th>
+                  </tr>
               </thead>
               <tbody>
-                {% for usuario in usuarios %}
-                <tr>
-                  <td>
-                    <a href="{% url 'editar_usuari' usuario.id %}"
-                      >{{ usuario.nom }}</a
-                    >
-                  </td>
-                  <td>{{ usuario.cognoms }}</td>
-                  <td>{{ usuario.any_naixement }}</td>
-                  <td>{{ usuario.email }}</td>
-                  <td>{{ usuario.centre }}</td>
-                </tr>
-                {% endfor %}
+                  {% for usuario in usuarios %}
+                      {% if usuario.centre == request.user.centre %}
+                          <tr>
+                              <td>
+                                  <a href="{% url 'editar_usuari' usuario.id %}">{{ usuario.nom }}</a>
+                              </td>
+                              <td>{{ usuario.cognoms }}</td>
+                              <td>{{ usuario.any_naixement }}</td>
+                              <td>{{ usuario.email }}</td>
+                              <td>{{ usuario.centre }}</td>
+                          </tr>
+                      {% endif %}
+                  {% endfor %}
               </tbody>
-            </table>
+          </table>
+          
           </div>
 
           <!-- Contenido principal -->
