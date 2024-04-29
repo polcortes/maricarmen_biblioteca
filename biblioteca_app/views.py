@@ -91,7 +91,7 @@ def search_results(request):
 
     items = []
 
-    if len(filters['tipus']) >= 1:
+    if filters['tipus']:
         items = ItemCataleg.objects.filter(
             titol__icontains=query,
             llengua__icontains=filters['llengua'],
@@ -101,13 +101,15 @@ def search_results(request):
         )
     else:
         items = ItemCataleg.objects.filter(
-            titol__icontains=query, 
+            titol__icontains=query,
             llibre__editorial__icontains=filters['editorial'],
             llengua__icontains=filters['llengua'],
             centre__icontains=filters['centre']
         )
 
-    editorials = Llibre.objects.values('editorial').distinct()
+    if 'Llibre' in filters['tipus']:
+        editorials = Llibre.objects.values('editorial').distinct()
+    
     llengues = ItemCataleg.objects.values('llengua').distinct()
     centres = ItemCataleg.objects.values('centre').distinct()
     context = {

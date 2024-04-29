@@ -649,3 +649,17 @@ calendar-month::part(range-end) {
 calendar-month::part(range-start range-end) {
   border-radius: 5px;
 }
+
+span:has(> #total-resultats) {
+  font-size: 18px;
+  font-weight: 400;
+  margin-left: 15px;
+}
+
+[disabled] {
+  cursor: not-allowed;
+}
+
+[type="checkbox"] {
+  accent-color: #4D8434;
+}

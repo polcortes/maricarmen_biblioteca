@@ -6,7 +6,7 @@
     
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Change Password</title>
+    <title>Resultats per "{{ query }}" | </title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -17,6 +17,9 @@
             const calendar = document.querySelector('calendar-range');
             const calendarResult = document.querySelector('.any-filters input[type="text"]');
             const clearFields = [...document.querySelectorAll('.clear-field')];
+            const checkboxes = [...document.querySelectorAll('input[type="checkbox"]')];
+            const editorial = document.getElementById('editorial');
+            const clearEditorial = document.querySelector('.editorial-filters .clear-field');
 
             clearFields.forEach(clearField => {
                 clearField.addEventListener('click', () => {
@@ -27,7 +30,7 @@
 
             const clearChecks = document.querySelector('.clear-checks');
             clearChecks.addEventListener('click', () => {
-                const checkboxes = [...document.querySelectorAll('input[type="checkbox"]')];
+                // const checkboxes = [...document.querySelectorAll('input[type="checkbox"]')];
                 checkboxes.forEach(checkbox => {
                     checkbox.checked = false;
                 });
@@ -48,6 +51,22 @@
                     form.submit();
                 }
             });
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.value === 'Llibre') {
+                    checkbox.addEventListener('change', () => {
+                        if (checkbox.checked) {
+                            editorial.disabled = false;
+                            clearEditorial.disabled = false;
+                        } else {
+                            editorial.disabled = true;
+                            clearEditorial.disabled = true;
+                        }
+                    });
+                }
+            });
+
+            document.getElementById('total-resultats').textContent = document.querySelectorAll('.results > article').length;
         })
     </script>
 </head>
@@ -105,9 +124,9 @@
 
                     <fieldset class="editorial-filters">
                         <legend>Editorial</legend>
-                        <input type="search" name="editorial" id="editorial" list="editorials">
+                        <input type="search" name="editorial" id="editorial" list="editorials" disabled>
 
-                        <button type="button" class="clear-field"><i class="fa-solid fa-trash"></i></button>
+                        <button type="button" class="clear-field" disabled><i class="fa-solid fa-trash"></i></button>
 
                         <datalist id="editorials">
                             {% for editorial in editorials %}
@@ -164,17 +183,17 @@
                 </div>
             </details>
         </form>
-        <h1>Resultats de la cerca:</h1>
+        <h1>Resultats de la cerca: <span><span id="total-resultats"></span> resultats.</span></h1>
 
         <section class="results">
             {% if items %}
                 {% for item in items %}
-                <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
+                <article style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
                     <h3>{{ item.titol }}</h3>
                     <p><strong>Autor:</strong> {{ item.autor }}</p>
                     <p><strong>Descripció:</strong> {{ item.descripcio }}</p>
                     <!-- Añadir más detalles según sea necesario -->
-                </div>
+                </article>
                 {% endfor %}
             {% else %}
                 <p>No s'ha trobat resultats per: "{{ query }}".</p>
