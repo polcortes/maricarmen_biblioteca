@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -18,7 +18,9 @@ from re import match
 
 
 import json
+import logging
 
+logger = logging.getLogger(__name__)
 
 def loginView(request):
     data = {}
@@ -222,6 +224,104 @@ def actualizar_datos_usuario(request):
             return response
     
     
+def editar_usuari(request, usuario_id):
+    # Obtener el usuario a editar utilizando la ID pasada en la URL
+    usuario = get_object_or_404(Usuari, pk=usuario_id)
+    
+    # Verificar si el usuario autenticado tiene el mismo centro que el usuario a editar
+    if usuario.centre != request.user.centre:
+        messages.error(request, 'No tienes permiso para editar este usuario.')
+        return redirect('mostrar_usuaris')
+
+    if request.method == 'POST':
+        # Obtener los nuevos valores del formulario
+        nom = request.POST.get('nom')
+        cognoms = request.POST.get('cognoms')
+        correu = request.POST.get('correu')
+        
+        # Actualizar los datos del usuario en la base de datos
+        usuario.nom = nom
+        usuario.cognoms = cognoms
+        usuario.email = correu
+        usuario.save()
+        
+        # Redirigir al usuario a la página de éxito o a la lista de usuarios
+        # Cambia 'nombre_de_la_vista' al nombre de la vista donde deseas redirigir al usuario
+        return redirect('mostrar_usuaris')
+
+    # Renderizar el formulario de edición
+    return render(request, 'edit_users.html', {'user_data': usuario})
+
+
+
+
+
+
+
+def mostrar_usuaris(request):
+    # Obtener los datos de los usuarios desde la base de datos o cualquier otra fuente
+    usuarios = Usuari.objects.all()
+
+    # Renderizar el contenido de usuarios utilizando una plantilla Django
+    return render(request, 'list_users.html', {'usuarios': usuarios})
+
+
+def mostrar_crear_usuario(request):
+    return render(request, 'create_user.html')
+
+
+def crear_usuari(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nom')
+        apellidos = request.POST.get('cognoms')
+        fecha_nacimiento = request.POST.get('any_naixement')
+        email = request.POST.get('email')
+        tipo = request.POST.get('tipus')
+        password = request.POST.get('password')
+        centro = request.POST.get('centre')
+
+        # Comprobación de existencia de usuario con el mismo email
+        if Usuari.objects.filter(email=email).exists():
+            messages.error(request, 'El email ya está en uso.')
+            return redirect('crear_usuari')
+
+        # Encriptar la contraseña antes de guardarla
+        hashed_password = make_password(password)
+
+        # Creación del username
+        username = f'{nombre}_{apellidos}'
+
+        # Creación del usuario
+        user = Usuari.objects.create(
+            nom=nombre,
+            cognoms=apellidos,
+            any_naixement=fecha_nacimiento,
+            email=email,
+            tipus=tipo,
+            password=hashed_password,
+            centre=centro,
+            username=username  # Añadimos el username aquí
+        )
+
+        # Personalización del usuario según el tipo
+        # Aquí puedes añadir más lógica según los tipos de usuario
+        if tipo == 'admin':
+            user.is_staff = True
+        elif tipo == 'super-usuari':
+            user.is_superuser = True
+
+        # Guardar el tipo de usuario
+        user.save()
+
+        # Mensaje de éxito
+        messages.success(request, 'Usuario creado exitosamente.')
+
+        # Redireccionar o renderizar otra página
+        return redirect('mostrar_usuaris')  # Cambia 'mostrar_usuaris' por la URL a la que quieras redirigir después de crear el usuario
+
+    # Si es un GET, renderizar la página de creación de usuario
+    return render(request, 'create_user.html') 
+
 def general_dashboard(request):
     return render(request, 'general_dashboard.html')
 
@@ -279,9 +379,4 @@ def cambiar_contrasenya(request):
     
     
     
-def cargar_usuarios(request):
-    # Obtener los datos de los usuarios desde la base de datos o cualquier otra fuente
-    usuarios = Usuari.objects.all()  # Suponiendo que tienes un modelo Usuario
 
-    # Renderizar el contenido de usuarios utilizando una plantilla Django
-    return render(request, 'admin_dashboard.html', {'usuarios': usuarios})

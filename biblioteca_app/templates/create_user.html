@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    {% load static %}
+    <script src="{% static 'js/dashboards.js' %}"></script>
+  </head>
+  <body class="CREATE_USER">
+    <header class="headerNoAdmin">
+      <div class="user-info">
+        <div class="dropdown-content">
+          <p>El teu compte</p>
+          <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
+        </div>
+        <img
+          id="user-img"
+          src="{% static 'img/user_header.png' %}"
+          alt="User Picture"
+        />
+      </div>
+    </header>
+    <div class="container_CREATE_USER">
+      <h1>Crear Usuario</h1>
+      <form id="user-form" action="{% url 'crear_usuari' %}" method="POST">
+        {% csrf_token %}
+        <label for="nom">Nombre:</label>
+        <input type="text" id="nom" name="nom" required /><br /><br />
+
+        <label for="cognoms">Apellidos:</label>
+        <input type="text" id="cognoms" name="cognoms" required /><br /><br />
+
+        <label for="any_naixement">Fecha de Nacimiento:</label>
+        <input
+          type="date"
+          id="any_naixement"
+          name="any_naixement"
+          required
+        /><br /><br />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required /><br /><br />
+
+        <label for="tipus">Tipo:</label>
+        <select id="tipus" name="tipus" required>
+          <option value="usuari">Usuari</option>
+          <option value="admin">Admin</option>
+          <option value="super-usuari">Super Usuari</option></select
+        ><br /><br />
+
+        <label for="password">Contraseña:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+        /><br /><br />
+
+        <label for="centre">Centro:</label>
+        <input
+          type="text"
+          id="centre"
+          name="centre"
+          value="I.E.S. Esteve Terradas i Illa"
+          required
+        /><br /><br />
+
+        <input type="submit" value="Crear Usuario" />
+      </form>
+    </div>
+    <script src="{% static 'js/handleLogCreation.js' %}"></script>
+  </body>
+</html>

@@ -6,9 +6,18 @@
     <title>Dashboard</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    {% load static %}
+    <script src="{% static 'js/dashboards.js' %}"></script>
   </head>
-
   <body class="profile">
     <header class="headerNoAdmin">
       <div class="user-info">
@@ -24,12 +33,14 @@
       </div>
     </header>
     <div class="container">
+      <!-- Agrega el atributo method con el valor "POST" -->
       <form
-        action="{% url 'actualizar_datos_usuario' %}"
+        action="{% url 'editar_usuari' user_data.id %}"
         class="user-form"
         method="POST"
       >
-        <h2>El teu compte:</h2>
+        <!-- Agrega placeholders para mostrar los valores actuales del usuario -->
+        <h2 id="h2admin">El teu compte de administrador:</h2>
         <div class="input-group">
           <div class="half-width">
             <label for="nom">Nom:</label>
@@ -53,24 +64,22 @@
           </div>
         </div>
         <div class="input-group">
-            <label for="correu">Correu electrònic:</label>
-            <span id="correu" name="correu" class="email-placeholder" required>{{ user_data.correu }}</span>
-          </div>
-
+          <label for="correu">Correu electrònic:</label>
+          <input
+            type="email"
+            id="correu"
+            name="correu"
+            placeholder="{{ user_data.email }}"
+            required
+          />
+        </div>
+        <!-- Agrega un campo de entrada para el token CSRF -->
         {% csrf_token %}
         <div class="button-container">
           <button class="left-button">Actualitza les dades</button>
-          <a href="{% url 'change_pass' %}" class="right-button"
-            >Canvia la teva contrassenya</a
-          >
         </div>
       </form>
     </div>
-    
     <script src="{% static 'js/handleLogCreation.js' %}"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    {% load static %}
-    <script src="{% static "js/dashboards.js" %}"></script>
   </body>
 </html>

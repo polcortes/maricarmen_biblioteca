@@ -19,7 +19,7 @@
     />
   </head>
 
-  <body class="general_dashboard">
+  <body class="list_users">
     <header class="headerWithUser">
       <div class="user-info">
         <div class="dropdown-content">
@@ -67,9 +67,41 @@
             <h1 class="h2">Panell</h1>
           </div>
 
-          <!-- <div id="import-users" class="content" style="display: none;">
-                    <h2>Importacio Usuaris</h2>
-                </div> -->
+          <div id="usuarios-container" class="content">
+            <h2>Usuarios</h2>
+            <table class="table">
+              <thead>
+                  <tr>
+                      <th>Nombre</th>
+                      <th>Apellidos</th>
+                      <th>Fecha de Nacimiento</th>
+                      <th>Email</th>
+                      <th>Centro</th>
+                      <th>
+                          <a class="btn btn-primary" href="{% url 'mostrar_crear_usuario' %}">
+                              <i class="fa-solid fa-plus"></i>
+                          </a>
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for usuario in usuarios %}
+                      {% if usuario.centre == request.user.centre %}
+                          <tr>
+                              <td>
+                                  <a href="{% url 'editar_usuari' usuario.id %}">{{ usuario.nom }}</a>
+                              </td>
+                              <td>{{ usuario.cognoms }}</td>
+                              <td>{{ usuario.any_naixement }}</td>
+                              <td>{{ usuario.email }}</td>
+                              <td>{{ usuario.centre }}</td>
+                          </tr>
+                      {% endif %}
+                  {% endfor %}
+              </tbody>
+          </table>
+          
+          </div>
 
           <!-- Contenido principal -->
           <canvas
