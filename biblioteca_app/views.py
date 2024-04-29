@@ -17,6 +17,8 @@ from django.contrib.auth.hashers import make_password
 from re import match
 from django.db.models import Count
 
+import datetime
+
 import json
 import logging
 
@@ -89,6 +91,7 @@ def search_results(request):
         'editorial': request.GET.get('editorial', '').strip(),
         'llengua': request.GET.get('llengua', '').strip(),
         'centre': request.GET.get('centre', '').strip(),
+        'data-edicio': request.GET.get('data-edicio', '').strip(),
     }
 
     # items = ItemCataleg.objects.filter(
@@ -99,10 +102,16 @@ def search_results(request):
 
     items = ItemCataleg.objects.all()
 
+    for item in items:
+        print(item.tipus)
+
     if filters['tipus']:
-        items = items.annotate(num_tipus=Count('tipus'))
-        for tipus in filters['tipus']:
-            items = items.filter(tipus=tipus, num_tipus__gt=0)
+        # items = items.annotate(num_tipus=Count('tipus'))
+        # for tipus in filters['tipus']:
+        #     items = items.filter(tipus=tipus.lower(), num_tipus__gt=0)
+        for i in range(len(filters['tipus'])):
+            filters['tipus'][i] = filters['tipus'][i].lower()
+        items = items.filter(tipus__in=filters['tipus'])
 
     if query:
         items = items.filter(titol__icontains=query)
@@ -115,6 +124,14 @@ def search_results(request):
 
     if 'Llibre' in filters['tipus']:
         items = items.filter(llibre__editorial__icontains=filters['editorial'],)
+
+    # if filters['data-edicio']:
+    #     for item in items:
+    #         print(item.any)
+    #         any = int(item.any)
+    #         data_edicio = datetime.datetime(any, 1, 1)
+    #         if (data_edicio > datetime.datetime(filters['data-edicio'].split(' - ')[0]) and data_edicio < datetime.datetime(filters['data-edicio'].split(' - ')[1])):
+    #             items = items.filter(any=any)
 
     editorials = Llibre.objects.values('editorial').distinct()
     llengues = ItemCataleg.objects.values('llengua').distinct()
