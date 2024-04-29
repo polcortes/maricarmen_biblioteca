@@ -9,4 +9,10 @@ class LogsAdmin(admin.ModelAdmin):
     date_hierarchy = 'data'
     ordering = ('data',)
 
+class UsersAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_active', 'tipus', 'centre')
+    list_filter = ('is_staff', 'is_active', 'tipus',)
+
+admin.site.register(Usuari, UsersAdmin)
+
 admin.site.register(Logs, LogsAdmin)

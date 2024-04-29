@@ -181,7 +181,7 @@ admin.site.register(DVD)
 admin.site.register(BR)
 admin.site.register(Dispositiu)
 
-admin.site.register(Usuari)
+# admin.site.register(Usuari)
 admin.site.register(Prestecs)
 admin.site.register(Reserves)
 admin.site.register(Peticions)

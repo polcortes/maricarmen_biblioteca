@@ -855,3 +855,9 @@ span:has(> #total-resultats) {
 [type="checkbox"] {
   accent-color: #4D8434;
 }
+
+fieldset[class$=-filters]:not(.type-filters):not(.any-filters) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

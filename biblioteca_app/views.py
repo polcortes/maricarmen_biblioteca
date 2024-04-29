@@ -15,7 +15,7 @@ from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password
 from re import match
-
+from django.db.models import Count
 
 import json
 import logging
@@ -91,27 +91,32 @@ def search_results(request):
         'centre': request.GET.get('centre', '').strip(),
     }
 
-    items = []
+    # items = ItemCataleg.objects.filter(
+    #     titol__icontains=query,
+    #     llengua__icontains=filters['llengua'],
+    #     centre__icontains=filters['centre'],
+    # )
+
+    items = ItemCataleg.objects.all()
 
     if filters['tipus']:
-        items = ItemCataleg.objects.filter(
-            titol__icontains=query,
-            llengua__icontains=filters['llengua'],
-            centre__icontains=filters['centre'],
-            llibre__editorial__icontains=filters['editorial'],
-            tipus__in=filters['tipus']
-        )
-    else:
-        items = ItemCataleg.objects.filter(
-            titol__icontains=query,
-            llibre__editorial__icontains=filters['editorial'],
-            llengua__icontains=filters['llengua'],
-            centre__icontains=filters['centre']
-        )
+        items = items.annotate(num_tipus=Count('tipus'))
+        for tipus in filters['tipus']:
+            items = items.filter(tipus=tipus, num_tipus__gt=0)
+
+    if query:
+        items = items.filter(titol__icontains=query)
+    
+    if filters['llengua']:
+        items = items.filter(llengua__icontains=filters['llengua'])
+    
+    if filters['centre']:
+        items = items.filter(centre__icontains=filters['centre'])
 
     if 'Llibre' in filters['tipus']:
-        editorials = Llibre.objects.values('editorial').distinct()
-    
+        items = items.filter(llibre__editorial__icontains=filters['editorial'],)
+
+    editorials = Llibre.objects.values('editorial').distinct()
     llengues = ItemCataleg.objects.values('llengua').distinct()
     centres = ItemCataleg.objects.values('centre').distinct()
     context = {
