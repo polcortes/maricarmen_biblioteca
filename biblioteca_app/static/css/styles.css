@@ -422,12 +422,7 @@ p {
   align-items: center;
 }
 
-.user-form .img_gnrl_prof {
-  width: 180px;
-  margin-inline: auto;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-}
+
 
 .user-form #cognoms {
   margin-left: 20px; /* Agregar espacio entre el input #nom y el input #cognoms */
@@ -474,11 +469,21 @@ p {
   border: 2px solid #4caf50; /* Color del borde */
 }
 
-.user-form #imagen {
+.user-form #imatge_perfil {
   border: none;
-  margin-bottom: 0px;
+  width: auto;
+  margin-inline: auto;
+  width: 120px;
+}
+
+.user-form .img_gnrl_prof {
   margin-top: 20px;
-  margin-left: 135px;
+  border-radius: 50%; /* Hace que la imagen sea redonda */
+  width: 180px;
+  margin-inline: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  margin-bottom: 30px;
 
 }
 
