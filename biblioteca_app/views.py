@@ -18,7 +18,7 @@ from re import match
 from django.db.models import Count
 
 import datetime
-
+import os
 import json
 import logging
 
@@ -215,35 +215,28 @@ def actualizar_datos(request):
 def actualizar_datos_usuario(request):
     if request.method == 'POST':
         # Obtener los nuevos valores del formulario
-        nom = request.POST.get('nom')
-        cognoms = request.POST.get('cognoms')
-        
+        imatge_perfil = request.FILES.get('imatge_perfil')
+
         # Actualizar los datos del usuario en la base de datos
         user = request.user
-        user.nom = nom
-        user.cognoms = cognoms
+        if imatge_perfil:
+            # Guardar el archivo en la carpeta de medios
+            user.imatge_perfil.save(imatge_perfil.name, imatge_perfil)
         user.save()
 
-        isAdmin = request.user.is_staff
-        if isAdmin:
-            # Devolver una respuesta con un script de alerta en JavaScript
-            response = HttpResponse("""<script>window.location.href='/dashboard/admin?succ=1'; </script>""")
-            return response
+        if request.user.is_staff:
+            messages.success(request, 'Dades actualitzades correctament!')
+            return redirect('/dashboard/admin')
         else:
-            # Devolver una respuesta con un script de alerta en JavaScript
-            response = HttpResponse("""<script>window.location.href='/dashboard/general?succ=1'; </script>""")
-            return response
+            messages.success(request, 'Dades actualitzades correctament!')
+            return redirect('/dashboard/general')
     else:
-        # Devolver una respuesta con un script de alerta en JavaScript para el método no permitido
-        #response = HttpResponse("""<script>window.history.back(); </script>""")
-        #return response
-        isAdmin = request.user.is_staff
-        if isAdmin:
-            response = HttpResponse("""<script>window.location.href='/dashboard/admin?succ=0'; </script>""")
-            return response
+        if request.user.is_staff:
+            messages.error(request, 'Error en la actualització de les dades!')
+            return redirect('/dashboard/admin')
         else:
-            response = HttpResponse("""<script>window.location.href='/dashboard/general?succ=0'; </script>""")
-            return response
+            messages.error(request, 'Error en la actualització de les dades!')
+            return redirect('/dashboard/general')
     
     
 def editar_usuari(request, usuario_id):
@@ -357,6 +350,7 @@ def general_profile(request):
         'nom': user.nom,
         'cognoms': user.cognoms,
         'correu': user.email,
+        'imatge_perfil': user.imatge_perfil
     }
     return render(request, 'general_profile.html', {'user_data': user_data})
 

@@ -108,6 +108,7 @@ class Usuari(AbstractUser):
     tipus = models.CharField(max_length=20, choices=TYPE_OPTIONS)
     password = models.CharField(max_length=128)
     centre = models.CharField(max_length=100, default='I.E.S. Esteve Terradas i Illa')
+    imatge_perfil = models.ImageField(upload_to='static/img/profiles/', default='static/img/user_default.webp')
 
     def checkMail(self, mail):
         if '@iesesteveterradas.cat' in mail: return True

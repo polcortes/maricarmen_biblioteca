@@ -164,6 +164,10 @@ for directory in cwd:
 # STATIC_URL = staticURL + 'biblioteca_app/static/'
 
 STATIC_URL = 'static/'
+MEDIA_URL = ''
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'biblioteca_app', '')
+
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'biblioteca_app', 'static'),
