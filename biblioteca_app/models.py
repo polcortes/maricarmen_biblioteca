@@ -166,7 +166,15 @@ class Logs(models.Model):
     def __str__(self) -> str:
         return f"{self.tipus} - {self.titol} - {self.data}"
     
+class Estudiante(models.Model):
+    nom = models.CharField(max_length=100)
+    cognoms = models.CharField(max_length=200)
+    email = models.EmailField()
+    telefon = models.CharField(max_length=9)
+    curs = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.nom + " " + self.cognoms
 #class UserAdmin(admin.ModelAdmin):
 #    list_display = ('correu_ieti', 'first_name', 'last_name')
 #    list_filter = ('is_staff', 'is_superuser')
@@ -186,4 +194,5 @@ admin.site.register(Dispositiu)
 admin.site.register(Prestecs)
 admin.site.register(Reserves)
 admin.site.register(Peticions)
+admin.site.register(Estudiante)
 # admin.site.register(Logs)

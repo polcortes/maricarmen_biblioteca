@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 #? Para generar el requirements.txt: pip freeze > requirements.txt
 #? Para instalar las dependencias: pip install -r requirements.txt
 import os
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 from pathlib import Path
 import os
 
