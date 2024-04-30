@@ -7,8 +7,6 @@ from django.shortcuts import render, redirect
 
 @api_view(['POST'])
 def create_log(request):
-    print(f'request.data: {request.user}')
-    print(f'request.user: {request.data.get("title")}')
     try:
         log = Logs.objects.create(
             tipus = request.data.get('type'),
@@ -18,8 +16,6 @@ def create_log(request):
             usuari = Usuari.objects.get(id=request.user.id),
             pathname = request.data.get('pathname')
         )
-
-        print("Hola\nHola\nHola")
 
         return JsonResponse({
                 "status": "OK"

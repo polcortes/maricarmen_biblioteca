@@ -1,17 +1,206 @@
-{% if items %}
-    <h2>Resultats per "{{ query }}"</h2>
-    <div>
-        {% for item in items %}
-        <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
-            <h3>{{ item.titol }}</h3>
-            <p><strong>Autor:</strong> {{ item.autor }}</p>
-            <p><strong>Descripció:</strong> {{ item.descripcio }}</p>
-            <!-- Añadir más detalles según sea necesario -->
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resultats per "{{ query }}" | Biblioteca Mari Carmen Brito</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script type="module" src="https://unpkg.com/cally"></script>
+    <script>
+        addEventListener('load', () => {
+            const calendar = document.querySelector('calendar-range');
+            const calendarResult = document.querySelector('.any-filters input[type="text"]');
+            const clearFields = [...document.querySelectorAll('.clear-field')];
+            const checkboxes = [...document.querySelectorAll('input[type="checkbox"]')];
+            const editorial = document.getElementById('editorial');
+            const clearEditorial = document.querySelector('.editorial-filters .clear-field');
+
+            clearFields.forEach(clearField => {
+                clearField.addEventListener('click', () => {
+                    clearField.previousElementSibling.value = '';
+                    if (clearField.classList.contains('calendar-clear-field')) calendar.value = '';
+                });
+            });
+
+            const clearChecks = document.querySelector('.clear-checks');
+            clearChecks.addEventListener('click', () => {
+                // const checkboxes = [...document.querySelectorAll('input[type="checkbox"]')];
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+            });
+
+
+            calendar.addEventListener('change', () => {
+                const [ start, end ] = calendar.value.split('/');
+                calendarResult.value = `${new Date(start).toLocaleDateString()} - ${new Date(end).toLocaleDateString()}`;
+                //calendarResult.value = calendar.value;
+            });
+
+            const searchItems = document.getElementById('search-items');
+            const form = document.querySelector('.search-section');
+            searchItems.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    form.submit();
+                }
+            });
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.value === 'Llibre') {
+                    checkbox.addEventListener('change', () => {
+                        if (checkbox.checked) {
+                            editorial.disabled = false;
+                            clearEditorial.disabled = false;
+                        } else {
+                            editorial.disabled = true;
+                            clearEditorial.disabled = true;
+                        }
+                    });
+                }
+            });
+
+            document.getElementById('total-resultats').textContent = document.querySelectorAll('.results > article').length;
+        })
+    </script>
+</head>
+<body id="search-results">
+    <header class="headerWithUser">
+        <div class="user-info">
+            <div class="dropdown-content">
+                <p>El teu compte</p>
+                <a href="{% url 'general_profile' %}">Editar Perfil</a>
+                <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
+            </div>
+            <img
+                id="user-img"
+                src="{% static 'img/user_header.png' %}"
+                alt="User Picture"
+            />
         </div>
-        {% endfor %}
-    </div>
-{% else %}
-    <p>No s'ha trobat resultats per: "{{ query }}".</p>
-{% endif %}
+    </header>
+    <main style="padding-top: 100px;">
+        <form class="search-section" action="{% url 'search_results' %}" method="get" >
+            <label class="custom-search">
+                <span>La teva cerca:</span>
+                <input type="search" name="query" id="search-items" placeholder="{{ query }}" />
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </label>
+
+            <details>
+                <summary>Filtres</summary>
+                <div>
+                    <fieldset class="type-filters">
+                        <legend>Tipus:</legend>
+                        <label>
+                            <input type="checkbox" name="tipus" id="tipus-llibre" value="Llibre">
+                            Llibres
+                        </label>
+                        <label>
+                            <input type="checkbox" name="tipus" id="tipus-cd" value="CD">
+                            CDs
+                        </label>
+                        <label>
+                            <input type="checkbox" name="tipus" id="tipus-dvd" value="DVD">
+                            DVDs
+                        </label>
+                        <label>
+                            <input type="checkbox" name="tipus" id="tipus-br" value="BR">
+                            BlueRays
+                        </label>
+                        <label>
+                            <input type="checkbox" name="tipus" id="tipus-dispositiu" value="Dispositiu">
+                            Dispositius
+                        </label>
+                        
+                        <button type="button" style="margin-top: 10px; width: fit-content; margin-inline: auto;" class="clear-checks"><i class="fa-solid fa-trash"></i></button>
+                    </fieldset>
+
+                    <fieldset class="editorial-filters">
+                        <legend>Editorial</legend>
+                        <input type="search" name="editorial" id="editorial" list="editorials" disabled>
+
+                        <button type="button" class="clear-field" disabled><i class="fa-solid fa-trash"></i></button>
+
+                        <datalist id="editorials">
+                            {% for editorial in editorials %}
+                                <option value="{{ editorial.editorial }}">
+                                    {{ editorial.editorial }}
+                                </option>
+                            {% endfor %}
+                        </datalist>
+                    </fieldset>
+
+                    <fieldset class="llengua-filters">
+                        <legend>Llengua</legend>
+                        <input type="search" name="llengua" id="llengua" list="llengues">
+                        
+                        <button type="button" class="clear-field"><i class="fa-solid fa-trash"></i></button>
+
+                        <datalist id="llengues">
+                            {% for llengua in llengues %}
+                                <option value="{{ llengua.llengua }}">
+                                    {{ llengua.llengua }}
+                                </option>
+                            {% endfor %}
+                        </datalist>
+                    </fieldset>
+
+                    <fieldset class="centre-filters">
+                        <legend>Centre</legend>
+                        <input type="search" name="centre" id="centre" list="centres">
+
+                        <button type="button" class="clear-field"><i class="fa-solid fa-trash"></i></button>
+
+                        <datalist id="centres">
+                            {% for centre in centres %}
+                                <option value="{{ centre.centre }}">
+                                    {{ centre.centre }}
+                                </option>
+                            {% endfor %}
+                        </datalist>
+                    </fieldset>
+
+                    <fieldset class="any-filters">
+                        <legend>Data d'edició:</legend>
+                        <div>
+                            <input type="text" name="data-edicio" id="data-edicio" style="width: 212px; margin: 5px 0 7px 0;">
+                            <button type="button" class="clear-field calendar-clear-field"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+
+                        <calendar-range>
+                            <div>
+                                <calendar-month></calendar-month>
+                            </div>
+                        </calendar-range>
+                    </fieldset>
+                </div>
+            </details>
+        </form>
+        <h1>Resultats de la cerca: <span><span id="total-resultats"></span> resultats.</span></h1>
+
+        <section class="results">
+            {% if items %}
+                {% for item in items %}
+                <article style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
+                    <h3>{{ item.titol }}</h3>
+                    <p><strong>Autor:</strong> {{ item.autor }}</p>
+                    <p><strong>Descripció:</strong> {{ item.descripcio }}</p>
+                    <!-- Añadir más detalles según sea necesario -->
+                </article>
+                {% endfor %}
+            {% else %}
+                <p>No s'ha trobat resultats per: "{{ query }}".</p>
+            {% endif %}
+        </section>  
+    </main>
+</body>
+
 {% load static %}
 <script src="{% static 'js/handleLogCreation.js' %}"></script>

@@ -21,6 +21,14 @@ class Command(BaseCommand):
                 nouAutor = fake.name()
             autores.append(nouAutor)
 
+        centres = []
+
+        for _ in range(30):
+            centre = f'INS {fake.first_name()} {fake.last_name()}'
+            while centre in centres:
+                centre = f'INS {fake.first_name()} {fake.last_name()}'
+            centres.append(centre)
+
         articulos = ['el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas']
         nombres_comunes = ['perro', 'gato', 'mesa', 'silla', 'coche', 'casa', 'pueblo', 'ciudad', 'país', 'continente', 'planeta', 'universo', 'lápiz', 'bolígrafo', 'libreta', 'cuaderno', 'papel', 'cartón', 'plástico', 'metal', 'madera', 'vidrio', 'cerámica', 'piedra', 'arena', 'tierra', 'agua', 'aire', 'fuego', 'hierro', 'cobre', 'aluminio', 'plata', 'oro', 'diamante', 'esmeralda', 'rubí', 'zafiro', 'topacio', 'cuarzo', 'granito', 'mármol', 'caliza', 'arcilla', 'barro', 'yeso', 'cemento', 'asfalto', 'piedra pómez', 'piedra volcánica', 'piedra caliza', 'piedra arenisca', 'piedra basáltica', 'piedra de río', 'piedra de cantera', 'piedra de mármol', 'piedra de granito', 'piedra de cuarzo', 'piedra de ónix', 'piedra de jade', 'piedra de ámbar', 'piedra de coral', 'piedra de luna', 'piedra de sol', 'piedra de estrella', 'piedra de cometa', 'piedra de meteorito', 'piedra de asteroide', 'piedra de planeta', 'piedra de galaxia', 'piedra de universo', 'piedra de multiverso', 'piedra de omniverso', 'piedra de hiperverso', 'piedra de ultraverso', 'piedra de megaverso', 'piedra de gigaverso', 'piedra de teraverso', 'piedra de exaverso', 'piedra de zettaverso', 'piedra de yottaverso', 'piedra de xennaverso', 'piedra de wekaverso', 'piedra de vundaverso', 'piedra de uundaverso', 'piedra de tundaverso', 'piedra de sundaverso', 'piedra de rundaverso', 'piedra de qundaverso', 'piedra de pundaverso', 'piedra de oundaverso', 'piedra de nundaverso', 'piedra de mundaverso', 'piedra de lundaverso', 'piedra de kundaverso', 'piedra de jundaverso', 'piedra de iundaverso', 'piedra de hundaverso', 'piedra de gundaverso', 'piedra de fundaverso', 'piedra de eundaverso', 'piedra de dundaverso', 'piedra de cundaverso', 'piedra de bundaverso', 'piedra de aundaverso']
         adjetivos = ['rojo', 'azul', 'verde', 'amarillo', 'naranja', 'violeta', 'morado', 'rosa', 'blanco', 'guapo', 'feo', 'alto', 'bajo', 'gordo', 'flaco', 'fuerte', 'débil', 'inteligente', 'tonto', 'listo', 'listillo']
@@ -40,6 +48,8 @@ class Command(BaseCommand):
                     imatge=fake.image_url(),
                     mides="10x15",
                     procedencia=fake.company(),
+                    llengua=choice(['Català', 'Castellà', 'Anglès', 'Francès', 'Alemany', 'Italià', 'Portuguès', 'Àrab', 'Grec', 'Hebreu', 'Llatí']),
+                    centre=choice(centres),
                     caracteristiques=choice(caracteristiques_llibres),
                     altra_informacio=fake.text(),
                     CDU=fake.ean8(),
@@ -50,6 +60,7 @@ class Command(BaseCommand):
                     descriptors = fake.words(),
                     resum = fake.text(),
                     volums = randint(1, 13),
+                    tipus = 'llibre',
                 )
                 llibre.save()
 
@@ -71,11 +82,14 @@ class Command(BaseCommand):
                 imatge = fake.image_url(),
                 mides = "10x15",
                 procedencia = fake.company(),
+                llengua=choice(['Català', 'Castellà', 'Anglès', 'Francès', 'Alemany', 'Italià', 'Portuguès', 'Àrab', 'Grec', 'Hebreu', 'Llatí']),
+                centre=choice(centres),
                 caracteristiques = choice(procedencies_dvds),
                 altra_informacio = fake.text(),
                 discografia = fake.company(),
                 estil = choice(estils_dvds),
                 duracio = f'0{randint(0, 1)}:{randint(0,59)}:{randint(0,59)}',
+                tipus = 'dvd',
             )
             dvd.save()
 
@@ -97,11 +111,14 @@ class Command(BaseCommand):
                 imatge = fake.image_url(),
                 mides = "10x15",
                 procedencia = fake.company(),
+                llengua=choice(['Català', 'Castellà', 'Anglès', 'Francès', 'Alemany', 'Italià', 'Portuguès', 'Àrab', 'Grec', 'Hebreu', 'Llatí']),
+                centre=choice(centres),
                 caracteristiques = choice(procedencies_cds),
                 altra_informacio = fake.text(),
                 discografia = fake.company(),
                 estil = choice(estils_cds),
                 duracio = f'0{randint(0, 1)}:{randint(0,59)}:{randint(0,59)}',
+                tipus = 'cd',
             )
             cd.save()
 
@@ -124,11 +141,14 @@ class Command(BaseCommand):
                 imatge = fake.image_url(),
                 mides = "10x15",
                 procedencia = fake.company(),
+                llengua=choice(['Català', 'Castellà', 'Anglès', 'Francès', 'Alemany', 'Italià', 'Portuguès', 'Àrab', 'Grec', 'Hebreu', 'Llatí']),
+                centre=choice(centres),
                 caracteristiques = choice(procedencies_brs),
                 altra_informacio = fake.text(),
                 discografia = fake.company(),
                 estil = choice(estils_brs),
                 duracio = f'0{randint(0, 1)}:{randint(0,59)}:{randint(0,59)}',
+                tipus = 'br',
             )
             br.save()
 
@@ -147,12 +167,15 @@ class Command(BaseCommand):
                 imatge = fake.image_url(),
                 mides = "10x15",
                 procedencia = fake.company(),
+                llengua=choice(['Català', 'Castellà', 'Anglès', 'Francès', 'Alemany', 'Italià', 'Portuguès', 'Àrab', 'Grec', 'Hebreu', 'Llatí']),
+                centre=choice(centres),
                 caracteristiques = choice(procedencies_brs),
                 altra_informacio = fake.text(),
                 marca = fake.company(),
                 model = fake.word(),
                 capacitat = choice(['8GB', '16GB', '32GB', '64GB', '128GB', '256GB', '512GB', '1TB']),
                 bateria = choice(['1000mAh', '2000mAh', '3000mAh', '4000mAh', '5000mAh', '6000mAh', '7000mAh', '8000mAh', '9000mAh', '10000mAh']),
+                tipus = 'dispositiu',
             )
             dispositiu.save()
 
@@ -162,9 +185,6 @@ class Command(BaseCommand):
         for _ in range(35):
             nom = fake.first_name()
             cognoms = fake.last_name()
-            password = fake.password()
-
-            print(f'Usuari: {nom}_{cognoms} -> {password}')
             
             usuari = Usuari(
                 nom = nom,
@@ -174,19 +194,15 @@ class Command(BaseCommand):
                 email = f'{nom[0].lower()}{cognoms.lower()}@gmail.com',
                 tipus = 'usuari',
                 centre = f'INS {fake.first_name()} {fake.last_name()}',
-                password = make_password(password),
+                password = make_password('12345678aA@'),
                 is_staff = False,
                 is_superuser = False,
             )
             usuari.save()
-            usuaris.append({'correo': usuari.email, 'contraseña': password})
 
         for _ in range(5):
             nom = fake.first_name()
             cognoms = fake.last_name()
-            password = fake.password()
-
-            print(f'Usuari: {nom}_{cognoms} -> {password}')
 
             usuari = Usuari(
                 nom = nom,
@@ -196,20 +212,15 @@ class Command(BaseCommand):
                 email = f'{nom[0].lower()}{cognoms.lower()}@gmail.com',
                 tipus = 'admin',
                 centre = f'INS {fake.first_name()} {fake.last_name()}',
-                password = make_password(password),
+                password = make_password('12345678aA@'),
                 is_staff = True,
                 is_superuser = False,
             )
             usuari.save()
-            usuaris.append({'correo': usuari.email, 'contraseña': password})
 
         for _ in range(2):
             nom = fake.first_name()
             cognoms = fake.last_name()
-
-            password = fake.password()
-
-            print(f'Usuari: {nom}_{cognoms} -> {password}')
 
             usuari = Usuari(
                 nom = nom,
@@ -219,12 +230,11 @@ class Command(BaseCommand):
                 email = f'{nom[0].lower()}{cognoms.lower()}@gmail.com',
                 tipus = 'super-usuari',
                 centre = f'INS {fake.first_name()} {fake.last_name()}',
-                password = make_password(password),
+                password = make_password('12345678aA@'),
                 is_staff = True,
                 is_superuser = True,
             )
             usuari.save()
-            usuaris.append({'correo': usuari.email, 'contraseña': password})
 
         # Generar reserves
         for usuari in Usuari.objects.all():

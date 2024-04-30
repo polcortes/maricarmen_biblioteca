@@ -14,7 +14,10 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password
+from re import match
+from django.db.models import Count
 
+import datetime
 
 import json
 import logging
@@ -43,7 +46,7 @@ def loginView(request):
                 data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
         except:
             data['error'] = True
-            data['errorMsg'] = "L'usuari o la contrasenya són lalalalincorrectes."
+            data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
         # print(data)
     return render(request, "landing_page.html", data)
 #pcortesgarcia.cf@iesesteveterradas.cat
@@ -82,14 +85,63 @@ def autocomplete(request):
 
 ## VIEW RESULTADOS BUSQUEDA
 def search_results(request):
-    query = request.GET.get('query', '').strip()
-    items = []
+    query = request.GET.get('query', '').strip().lower()
+    filters = {
+        'tipus': request.GET.getlist('tipus'), # los checkboxes
+        'editorial': request.GET.get('editorial', '').strip(),
+        'llengua': request.GET.get('llengua', '').strip(),
+        'centre': request.GET.get('centre', '').strip(),
+        'data-edicio': request.GET.get('data-edicio', '').strip(),
+    }
+
+    # items = ItemCataleg.objects.filter(
+    #     titol__icontains=query,
+    #     llengua__icontains=filters['llengua'],
+    #     centre__icontains=filters['centre'],
+    # )
+
+    items = ItemCataleg.objects.all()
+
+    for item in items:
+        print(item.tipus)
+
+    if filters['tipus']:
+        # items = items.annotate(num_tipus=Count('tipus'))
+        # for tipus in filters['tipus']:
+        #     items = items.filter(tipus=tipus.lower(), num_tipus__gt=0)
+        for i in range(len(filters['tipus'])):
+            filters['tipus'][i] = filters['tipus'][i].lower()
+        items = items.filter(tipus__in=filters['tipus'])
+
     if query:
-        # Busca coincidencia exacta en lugar de coincidencias parciales
-        items = ItemCataleg.objects.filter(titol__iexact=query)
+        items = items.filter(titol__icontains=query)
+    
+    if filters['llengua']:
+        items = items.filter(llengua__icontains=filters['llengua'])
+    
+    if filters['centre']:
+        items = items.filter(centre__icontains=filters['centre'])
+
+    if 'Llibre' in filters['tipus']:
+        items = items.filter(llibre__editorial__icontains=filters['editorial'],)
+
+    # if filters['data-edicio']:
+    #     for item in items:
+    #         print(item.any)
+    #         any = int(item.any)
+    #         data_edicio = datetime.datetime(any, 1, 1)
+    #         if (data_edicio > datetime.datetime(filters['data-edicio'].split(' - ')[0]) and data_edicio < datetime.datetime(filters['data-edicio'].split(' - ')[1])):
+    #             items = items.filter(any=any)
+
+    editorials = Llibre.objects.values('editorial').distinct()
+    llengues = ItemCataleg.objects.values('llengua').distinct()
+    centres = ItemCataleg.objects.values('centre').distinct()
     context = {
         'items': items,
-        'query': query
+        'query': query,
+        'editorials': editorials,
+        'llengues': llengues,
+        'centres': centres,
     }
     return render(request, 'search_results.html', context)
 
@@ -98,6 +150,13 @@ def cambiar_contrasenya(request):
     # Obtener los datos del formulario
     current_password = request.data.get('current_password')
     new_password = request.data.get('new_password')
+
+    check_pass_ok = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$'
+
+    if not match(check_pass_ok, new_password): 
+        return JsonResponse({ 
+            'error': 'La nova contrasenya no conté almenys: 1 lletra minúscula, 1 lletra majúscula, 1 número, 1 caràcter especial i tenir una longitud de 8 a 16 caràcters.' 
+        })
 
     # Verificar la autenticación del usuario
     user = authenticate(request, username=request.user.username, password=current_password)

@@ -26,28 +26,10 @@ function sendData() {
             .then(res => {
                 if (res.ok) { // Cambiado de res.status a res.ok para verificar si la solicitud fue exitosa
                     window.localStorage.setItem('logQueue', JSON.stringify([]));
-                    console.log('Funciona: ', res);
                 } else {
-                    console.log('No funciona');
                     return res.json(); // Parsea la respuesta JSON para acceder a los datos
                 }
             })
-        // .then(res => {
-        //     if (res.ok) { // Cambiado de res.status a res.ok para verificar si la solicitud fue exitosa
-        //         window.localStorage.setItem('logQueue', JSON.stringify([]));
-        //         console.log('Funciona: ', res);
-        //     } else {
-        //         console.log('No funciona');
-        //         return res.json(); // Parsea la respuesta JSON para acceder a los datos
-        //     }
-        // })
-        // .then(data => {
-        //     if (data) { // Verifica si hay datos de respuesta
-        //         console.log(data)
-        //         throw new Error('Data couldn\'t be saved. Error: ' + data);
-        //     }
-        // })
-        // .catch(err => console.error('Data couldn\'t be saved. Error: ', err));
     });
 }
 
@@ -60,7 +42,6 @@ document.addEventListener('click', (ev) => {
         pathname: window.location.pathname
     })
 
-    console.log('Has hecho click en el documento, exactamente en: ', ev.target)
 })
 
 addEventListener('load', () => {

@@ -19,8 +19,17 @@ class ItemCataleg(models.Model):
     imatge = models.ImageField()
     mides = models.CharField(max_length=100)
     procedencia = models.CharField(max_length=100)
+    llengua = models.CharField(max_length=100, default='Català')
+    centre = models.CharField(max_length=100, default='I.E.S. Esteve Terradas i Illa')
     caracteristiques = models.TextField()
     altra_informacio = models.TextField()
+    tipus = models.CharField(max_length=100, default="llibre", choices=(
+        ('llibre', 'Llibre'),
+        ('cd', 'CD'),
+        ('dvd', 'DVD'),
+        ('br', 'BR'),
+        ('dispositiu', 'Dispositiu'),
+    ))
 
 class Llibre(ItemCataleg):
     CDU = models.CharField(max_length=100)
@@ -31,28 +40,57 @@ class Llibre(ItemCataleg):
     descriptors = models.CharField(max_length=100, blank=True) #TODO: Que es un descriptor?? (Se podria generar de manera automatica con el CDU)
     resum = models.TextField()
     volums = models.IntegerField()
+    def __str__(self) -> str:
+        return "Llibre"
+    def save(self, *args, **kwargs):
+        self.tipus = 'llibre'
+        super(Llibre, self).save(*args, **kwargs)
+
 
 class CD(ItemCataleg):
     discografia = models.CharField(max_length=100)
     estil = models.CharField(max_length=100)
     duracio = models.TimeField()
+    def __str__(self) -> str:
+        return "CD"
+    def save(self, *args, **kwargs):
+        self.tipus = 'cd'
+        super(CD, self).save(*args, **kwargs)
+    
 
 class DVD(ItemCataleg):
     discografia = models.CharField(max_length=100)
     estil = models.CharField(max_length=100)
     duracio = models.TimeField()
+    def __str__(self) -> str:
+        return "DVD"
+    def save(self, *args, **kwargs):
+        self.tipus = 'dvd'
+        super(DVD, self).save(*args, **kwargs)
+
 
 class BR(ItemCataleg):
     discografia = models.CharField(max_length=100)
     estil = models.CharField(max_length=100)
     duracio = models.TimeField()
+    def __str__(self) -> str:
+        return "BR"
+    def save(self, *args, **kwargs):
+        self.tipus = 'br'
+        super(BR, self).save(*args, **kwargs)
+
 
 class Dispositiu(ItemCataleg):
     marca = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
     capacitat = models.CharField(max_length=100)
     bateria = models.CharField(max_length=100)
-
+    def __str__(self) -> str:
+        return "Dispositiu"
+    def save(self, *args, **kwargs):
+        self.tipus = 'dispositiu'
+        super(Dispositiu, self).save(*args, **kwargs)
+    
 
 # TODO: Peta al crear un superuser:
 class Usuari(AbstractUser):
@@ -143,7 +181,7 @@ admin.site.register(DVD)
 admin.site.register(BR)
 admin.site.register(Dispositiu)
 
-admin.site.register(Usuari)
+# admin.site.register(Usuari)
 admin.site.register(Prestecs)
 admin.site.register(Reserves)
 admin.site.register(Peticions)
