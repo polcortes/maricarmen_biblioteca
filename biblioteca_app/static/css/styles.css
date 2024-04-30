@@ -643,6 +643,58 @@ p {
   color: #212529;
 }
 
+.importbutton {
+  appearance: none;
+  background-color: #2ea44f;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.importbutton:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.importbutton-3:hover {
+  background-color: #2c974b;
+}
+
+.importbutton:focus {
+  box-shadow: rgba(46, 164, 79, 0.4) 0 0 0 3px;
+  outline: none;
+}
+
+.importbutton:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: default;
+}
+
+.importbutton:active {
+  background-color: #298e46;
+  box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
+}
+
 /* Personalizar estilos del contenido principal */
 .main-content {
   padding: 20px;
@@ -884,3 +936,44 @@ fieldset[class$=-filters]:not(.type-filters):not(.any-filters) {
   align-items: center;
   justify-content: center;
 }
+.error-message {
+  color: red; /* Color rojo para el mensaje de error */
+  margin-top: 10px; /* Espacio sobre el mensaje */
+}
+
+/* Importacion */
+
+.importacion html {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  justify-content: center;
+}
+
+.registroImportacion {
+  width: 50%;
+  padding: 12%;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-style: double;
+  border-radius: 10px;
+  border-color: #298e46;
+}
+
+.listaImportados {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 20px;
+  display: inline-block; /* Hace que el ul se comporte como un elemento inline-block */
+  width: calc(100% - 24%); /* Ajusta el ancho del ul al 100% menos el padding del div */
+  overflow: auto; /* Agrega una barra de desplazamiento si es necesario */
+}
+
+.añadirCSV{
+  
+  margin-bottom: 2%;
+}
+

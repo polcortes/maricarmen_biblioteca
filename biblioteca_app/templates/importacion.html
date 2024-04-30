@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        {% load static %}
+        <script src="{% static "js/dashboards.js" %}"></script>
+    </head>
+    <body class="importacion">
+        <header class="headerWithUser">
+            <div class="user-info">
+              <div class="dropdown-content">
+                <p>El teu compte</p>
+                <a href="{% url 'general_profile' %}">Editar Perfil</a>
+                <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
+              </div>
+              <img
+                id="user-img"
+                src="{% static 'img/user_header.png' %}"
+                alt="User Picture"
+              />
+            </div>
+        </header>
+        <h1>Importar CSV</h1>
+        <div class="añadirCSV">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="importbutton">Importar</button>
+            </form>
+        </div>
+        
+        
+        <div class="registroImportacion">
+            {% if messages %}
+            <ul class="listaImportados">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        
+    </body>
+</html>
