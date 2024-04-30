@@ -9,8 +9,8 @@
     <title>Resultats per "{{ query }}" | Biblioteca Mari Carmen Brito</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <script src="{% static 'js/header.js' %}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
     <script type="module" src="https://unpkg.com/cally"></script>
     <script>
         addEventListener('load', () => {
@@ -20,6 +20,7 @@
             const checkboxes = [...document.querySelectorAll('input[type="checkbox"]')];
             const editorial = document.getElementById('editorial');
             const clearEditorial = document.querySelector('.editorial-filters .clear-field');
+            const prestecBtns = [...document.querySelectorAll('.prestec-btn')];
 
             clearFields.forEach(clearField => {
                 clearField.addEventListener('click', () => {
@@ -67,6 +68,13 @@
             });
 
             document.getElementById('total-resultats').textContent = document.querySelectorAll('.results > article').length;
+
+            prestecBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // fetch createPrestec con el id del usuario y el id del producto (btn.dataset.itemId y request.user.id)
+                    // que el createPrestec haga el insert en la tabla prestecs y ItemCataleg.exemplars--
+                })
+            })
         })
     </script>
 </head>
@@ -190,8 +198,9 @@
                 {% for item in items %}
                 <article style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
                     <h3>{{ item.titol }}</h3>
-                    <p><strong>Autor:</strong> {{ item.autor }}</p>
-                    <p><strong>Descripció:</strong> {{ item.descripcio }}</p>
+                    <span><strong>Autor:</strong> {{ item.autor }}</span><br />
+                    <span><strong>Descripció:</strong> {{ item.descripcio }}</span><br />
+                    <span><strong>Stock: {{ item.exemplars }}</strong><button class="prestec-btn" data-item-id="{{item.id}}">Demanar prestec</button></span>
                     <!-- Añadir más detalles según sea necesario -->
                 </article>
                 {% endfor %}

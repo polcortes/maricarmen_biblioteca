@@ -400,5 +400,8 @@ def cambiar_contrasenya(request):
         return JsonResponse({'error': 'Método no permitido'}, status=405)
     
     
-    
+def admin_prestecs(request):
+    # Obtener todos los préstamos de la base de datos
+    prestecs = Prestecs.objects.filter(usuari__centre=request.user.centre)
 
+    return render(request, 'admin_prestecs.html', {'prestecs': prestecs})

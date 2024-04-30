@@ -43,3 +43,7 @@ def is_user_superuser(request):
     except Exception as e:
         return JsonResponse({'status': 'KO', 'message': str(e)}, safe=False)
     
+@api_view(['POST'])
+def create_prestec(request):
+    # request.itemId
+    pass

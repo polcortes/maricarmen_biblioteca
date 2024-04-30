@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib import admin
-# from .models import Usuari, Cataleg
 
 # Create your models here.
     
@@ -121,12 +120,10 @@ class Usuari(AbstractUser):
     
 class Prestecs(models.Model):
     usuari = models.ForeignKey(Usuari, on_delete=models.CASCADE)
-    # cataleg = models.ForeignKey(Cataleg, on_delete=models.CASCADE, required=True)
     item_cataleg = models.ForeignKey(ItemCataleg, on_delete=models.CASCADE)
     data_prestec = models.DateTimeField()
-    data_retorn = models.DateTimeField()
+    data_retorn = models.DateTimeField(blank=True, null=True)   
     data_limit = models.DateTimeField()
-    # observacions = models.TextField()
 
     def __str__(self) -> str:
         return f"{self.usuari} ha agafat en préstec {self.item_cataleg}"

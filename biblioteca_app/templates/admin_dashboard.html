@@ -17,6 +17,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
+    <script src="{% static 'js/header.js' %}"></script>
   </head>
 
   <body class="general_dashboard">
@@ -53,6 +54,11 @@
                 <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
                   <i class="fa-solid fa-user"></i>
                   Usuaris
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin_prestecs' %}">
+                  Prestecs
                 </a>
               </li>
             </ul>

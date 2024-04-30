@@ -258,7 +258,7 @@ class Command(BaseCommand):
             while timesdone < 3:
                 if (randint(0,1) == 1):
                     data_prestec = datetime.now() - timedelta(days=randint(1, 365))
-                    data_retorn = data_prestec + timedelta(days=randint(1, 30))
+                    data_retorn = choice([data_prestec + timedelta(days=randint(1, 30)), None])
                     data_limit = data_prestec + timedelta(days=30)
 
                     prestec = Prestecs(

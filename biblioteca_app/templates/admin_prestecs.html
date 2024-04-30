@@ -20,7 +20,7 @@
     <script src="{% static 'js/header.js' %}"></script>
   </head>
 
-  <body class="list_users">
+  <body id="admin_prestecs" class="general_dashboard">
     <header class="headerWithUser">
       <div class="user-info">
         <div class="dropdown-content">
@@ -73,41 +73,34 @@
             <h1 class="h2">Panell</h1>
           </div>
 
-          <div id="usuarios-container" class="content">
-            <h2>Usuarios</h2>
+          <div>
             <table class="table">
               <thead>
-                  <tr>
-                      <th>Nombre</th>
-                      <th>Apellidos</th>
-                      <th>Fecha de Nacimiento</th>
-                      <th>Email</th>
-                      <th>Centro</th>
-                      <th>
-                          <a class="btn btn-primary" href="{% url 'mostrar_crear_usuario' %}">
-                              <i class="fa-solid fa-plus"></i>
-                          </a>
-                      </th>
-                  </tr>
+                <tr>
+                  <th>Usuari</th>
+                  <th>Material</th>
+                  <th>Data de Prestec</th>
+                  <th>Data de Devolucio</th>
+                  <th>Data Limit</th>
+                </tr>
               </thead>
               <tbody>
-                  {% for usuario in usuarios %}
-                      {% if usuario.centre == request.user.centre %}
-                          <tr>
-                              <td>
-                                  <a href="{% url 'editar_usuari' usuario.id %}">{{ usuario.nom }}</a>
-                              </td>
-                              <td>{{ usuario.cognoms }}</td>
-                              <td>{{ usuario.any_naixement }}</td>
-                              <td>{{ usuario.email }}</td>
-                              <td>{{ usuario.centre }}</td>
-                          </tr>
-                      {% endif %}
-                  {% endfor %}
+                {% for prestec in prestecs %}
+                  <tr>
+                    <td>{{ prestec.usuari.nom }} {{ prestec.usuari.cognoms }}</td>
+                    <td>{{ prestec.item_cataleg.titol }}</td>
+                    <td>{{ prestec.data_prestec }}</td>
+                    <td>{{ prestec.data_retorn }}</td>
+                    <td>{{ prestec.data_limit }}</td>
+                  </tr>
+                {% endfor %}
               </tbody>
-          </table>
-          
+            </table>
           </div>
+
+          <!-- <div id="import-users" class="content" style="display: none;">
+                    <h2>Importacio Usuaris</h2>
+                </div> -->
 
           <!-- Contenido principal -->
           <canvas

@@ -301,11 +301,11 @@ p {
   background-color: lightcoral;
 }
 
-.headerWithUser:hover .dropdown-content {
-  display: block; /* Muestra el dropdown al pasar el ratón sobre el contenedor de usuario */
-}
+/* .headerWithUser:hover .dropdown-content { */
+  /* display: block; Muestra el dropdown al pasar el ratón sobre el contenedor de usuario */
+/* } */
 
-.headerWithUser .user-info img:hover + .dropdown-content {
+.dropdown-content.show {
   display: block;
 }
 
@@ -883,4 +883,12 @@ fieldset[class$=-filters]:not(.type-filters):not(.any-filters) {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#admin_prestecs {
+  overflow: hidden;
+}
+
+#admin_prestecs {
+  overflow-y: auto !important;
 }
