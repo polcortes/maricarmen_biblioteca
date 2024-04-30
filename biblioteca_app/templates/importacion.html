@@ -1,50 +1,86 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Dashboard</title>
-        {% load static %}
-        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-        {% load static %}
-        <script src="{% static "js/dashboards.js" %}"></script>
-    </head>
-    <body class="importacion">
-        <header class="headerWithUser">
-            <div class="user-info">
-              <div class="dropdown-content">
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+
+<body class="list_users">
+    <header class="headerWithUser">
+        <div class="user-info">
+            <div class="dropdown-content">
                 <p>El teu compte</p>
-                <a href="{% url 'general_profile' %}">Editar Perfil</a>
+                <a href="{% url 'admin_profile' %}">Editar Perfil</a>
                 <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
-              </div>
-              <img
-                id="user-img"
-                src="{% static 'img/user_header.png' %}"
-                alt="User Picture"
-              />
             </div>
-        </header>
-        <h1 class="tituloCSV">Importar CSV</h1>
-        <div class="añadirCSV">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="importbutton">Importar</button>
-            </form>
+            <img id="user-img" src="{% static 'img/user_header.png' %}" alt="User Picture" />
         </div>
-        
-        
-        <div class="registroImportacion">
-            {% if messages %}
-            <ul class="listaImportados">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <span data-feather="home"></span>
+                                Panell <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"> Importacio Usuaris </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
+                                <i class="fa-solid fa-user"></i>
+                                Usuaris
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content area -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Panell</h1>
+                </div>
+
+                <h1 class="tituloCSV">Importar CSV</h1>
+                <div class="añadirCSV">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="importbutton">Importar</button>
+                    </form>
+                </div>
+
+
+                <div class="registroImportacion">
+                    {% if messages %}
+                    <ul class="listaImportados">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                            {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <!-- Contenido principal -->
+                <canvas class="my-4 w-100" id="myChart" width="900" height="600"></canvas>
+            </main>
         </div>
-        
-    </body>
+    </div>
+</body>
+
 </html>
