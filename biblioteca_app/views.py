@@ -75,6 +75,7 @@ def change_pass(request):
 ## VIEW SEARCH RESULTS
 # @login_required
 def search_results(request):
+     
     return render(request, 'search_results.html')
 
 

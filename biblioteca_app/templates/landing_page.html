@@ -21,11 +21,13 @@
           Mari Carmen Brito
         </h2>
         <div class="input-group">
+          <label for="disponiblesCheckbox">Només disponibles</label>
           <label for="cerca">Cerca al nostre catàleg:</label>
           <div class="input-wrapper">
             <form action="{% url 'search_results' %}" method="get" class="formCatalogo">
                 <input type="text" id="searchInput" name="query" placeholder="Cerca..."/>
                 <button type="submit" class="searchButton">Buscar</button>
+                <input type="checkbox" id="disponiblesCheckbox" class="checkCatalogo" name="disponibles" value="1">
             </form>
           </div>
         </div>
