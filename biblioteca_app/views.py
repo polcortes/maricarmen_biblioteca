@@ -220,10 +220,14 @@ def actualizar_datos(request):
 def actualizar_datos_usuario(request):
     if request.method == 'POST':
         # Obtener los nuevos valores del formulario
+        nom = request.POST.get('nom')
+        cognoms = request.POST.get('cognoms')
         imatge_perfil = request.FILES.get('imatge_perfil')
 
         # Actualizar los datos del usuario en la base de datos
         user = request.user
+        user.nom = nom
+        user.cognoms = cognoms
         if imatge_perfil:
             # Guardar el archivo en la carpeta de medios
             user.imatge_perfil.save(imatge_perfil.name, imatge_perfil)
@@ -258,11 +262,21 @@ def editar_usuari(request, usuario_id):
         nom = request.POST.get('nom')
         cognoms = request.POST.get('cognoms')
         correu = request.POST.get('correu')
+        any_naixement = request.POST.get('data')
+        tipus = request.POST.get('tipus')
         
         # Actualizar los datos del usuario en la base de datos
         usuario.nom = nom
         usuario.cognoms = cognoms
         usuario.email = correu
+        usuario.any_naixement = any_naixement
+        usuario.tipus = tipus
+        
+        if tipus == 'admin':
+            usuario.is_staff = True
+        elif tipus == 'super-usuari':
+            usuario.is_superuser = True
+        
         usuario.save()
         
         # Redirigir al usuario a la página de éxito o a la lista de usuarios
@@ -287,7 +301,13 @@ def mostrar_usuaris(request):
 
 
 def mostrar_crear_usuario(request):
-    return render(request, 'create_user.html')
+    user = request.user
+    user_data = {
+        'centre': user.centre,
+        'any_naixement' : user.any_naixement
+
+    }
+    return render(request, 'create_user.html', {'user_data': user_data})
 
 
 def crear_usuari(request):
@@ -355,7 +375,8 @@ def general_profile(request):
         'nom': user.nom,
         'cognoms': user.cognoms,
         'correu': user.email,
-        'imatge_perfil': user.imatge_perfil
+        'imatge_perfil': user.imatge_perfil,
+        'any_naixement' : user.any_naixement
     }
     return render(request, 'general_profile.html', {'user_data': user_data})
 
@@ -366,6 +387,8 @@ def admin_profile(request):
         'nom': user.nom,
         'cognoms': user.cognoms,
         'correu': user.email,
+        'any_naixement' : user.any_naixement
+
     }
     return render(request, 'admin_profile.html', {'user_data': user_data})
 
