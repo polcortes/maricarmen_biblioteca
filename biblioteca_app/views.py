@@ -421,6 +421,10 @@ def cambiar_contrasenya(request):
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
     
+    
+def mostrar_importacion(request):
+    return render(request, 'importacion.html')
+    
 
 def import_csv(request):
     if request.method == 'POST':
