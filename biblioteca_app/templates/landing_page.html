@@ -24,29 +24,9 @@
           <label for="cerca">Cerca al nostre catàleg:</label>
           <div class="input-wrapper">
             <form action="{% url 'search_results' %}" method="get" class="formCatalogo">
-                <input
-                    type="text"
-                    id="searchInput"
-                    name="query"
-                    placeholder=""
-                />
+                <input type="text" id="searchInput" name="query" placeholder="Cerca..."/>
                 <button type="submit" class="searchButton">Buscar</button>
             </form>
-            {% comment %} <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="lupa-icon"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M14.3333 8.26667C14.3333 11.6172 11.6172 14.3333 8.26666 14.3333C4.91613 14.3333 2.19999 11.6172 2.19999 8.26667C2.19999 4.91613 4.91613 2.2 8.26666 2.2C11.6172 2.2 14.3333 4.91613 14.3333 8.26667ZM13.1353 14.3609C11.8009 15.4285 10.1083 16.0667 8.26666 16.0667C3.95884 16.0667 0.46666 12.5745 0.46666 8.26667C0.46666 3.95885 3.95884 0.466667 8.26666 0.466667C12.5745 0.466667 16.0667 3.95885 16.0667 8.26667C16.0667 10.1084 15.4284 11.801 14.3609 13.1353L19.2796 18.0538C19.6179 18.3923 19.6179 18.9411 19.2796 19.2796C18.941 19.6179 18.3923 19.6179 18.0538 19.2796L13.1353 14.3609Z"
-                fill="currentColor"
-              />
-            </svg> {% endcomment %}
           </div>
         </div>
         <!-- <button class="btnCerca">Cerca</button> -->

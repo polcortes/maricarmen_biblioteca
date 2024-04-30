@@ -645,6 +645,7 @@ p {
 
 .importbutton {
   appearance: none;
+  width: 30%;
   background-color: #2ea44f;
   border: 1px solid rgba(27, 31, 35, 0.15);
   border-radius: 6px;
@@ -955,11 +956,12 @@ fieldset[class$=-filters]:not(.type-filters):not(.any-filters) {
 .registroImportacion {
   width: 50%;
   padding: 12%;
-  margin-left: 10%;
+  margin-left: 13%;
   margin-right: 10%;
   border-style: double;
   border-radius: 10px;
   border-color: #298e46;
+  
 }
 
 .listaImportados {
@@ -970,10 +972,15 @@ fieldset[class$=-filters]:not(.type-filters):not(.any-filters) {
   display: inline-block; /* Hace que el ul se comporte como un elemento inline-block */
   width: calc(100% - 24%); /* Ajusta el ancho del ul al 100% menos el padding del div */
   overflow: auto; /* Agrega una barra de desplazamiento si es necesario */
+  
 }
 
 .añadirCSV{
-  
   margin-bottom: 2%;
+  margin-left: 38%;
 }
 
+.tituloCSV{
+  margin-top: 8%;
+  margin-left: 42%;
+}

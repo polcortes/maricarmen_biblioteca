@@ -425,11 +425,13 @@ def import_csv(request):
                             nom=row[0],
                             cognoms=row[1],
                             email=row[2],
-                            telefono=row[3],
-                            curso=row[4]
+                            telefon=row[3],
+                            curs=row[4]
                         )
                         inserted_count += 1
                     except Exception as e:
+                        error_type = type(e).__name__
+                        error_message = str(e)
                         messages.error(request, f"Error al registre en la línea {line_number}")
                 else:
                     duplicate_count += 1
