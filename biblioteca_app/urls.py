@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.urls import path
 from biblioteca_app import views, api
+from .views import import_csv
+
 
 urlpatterns = [
     path('', views.loginView, name='landing_page'),
@@ -30,6 +32,8 @@ urlpatterns = [
     path('search/', views.search_results, name='search_results'),
     path('autocomplete/', views.autocomplete, name='autocomplete'),
     path('actualizar-datos/', views.actualizar_datos, name='actualizar_datos'),
+    path('importacion/', import_csv, name='importacion'),
+    path('importacion/', import_csv, name='importacion'),
 
 
 ]

@@ -54,18 +54,24 @@
 
       <div class="right-block">
         <h2>Inicia sessió:</h2>
-        <form id="login-form" method="POST">{% csrf_token %}
-          <div class="input-group">
-            <label for="email">Correu electrònic:</label>
-            <input type="email" id="email" name="email" required />
-          </div>
-          <div class="input-group">
-            <label for="password">Contrasenya:</label>
-            <input type="password" id="password" name="password" required />
-          </div>
-          <button type="submit" class="btn">Iniciar sesión</button>
+        <form id="login-form" method="POST">
+            {% csrf_token %}
+            <div class="input-group">
+                <label for="email">Correu electrònic:</label>
+                <input type="email" id="email" name="email" required />
+            </div>
+            <div class="input-group">
+                <label for="password">Contrasenya:</label>
+                <input type="password" id="password" name="password" required />
+            </div>
+            <!-- Mensaje de error, oculto inicialmente -->
+            <div class="error-message" style="display:none; color: red;">
+                Usuari o contrasenya incorrecte.
+            </div>
+            <button type="submit" class="btn">Iniciar sesión</button>
         </form>
       </div>
+    
     </div>
 
 
@@ -93,11 +99,12 @@
             {% if error %}
               Toastify({
                 text: "{{ errorMsg }}",
-                gravity: 'top',
-                position: 'left',
+                offset: {
+                  x: 20,
+                  y:10,
+                },
                 close: true,
                 stopOnFocus: true,
-                autoclose: 5000,
                 style: {
                     'background': '#CE1B1B',
                     'color': 'white',

@@ -14,9 +14,11 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password
-
+from .forms import CSVUploadForm
+from .models import Estudiante
 
 import json
+import csv
 
 
 def loginView(request):
@@ -210,3 +212,42 @@ def cambiar_contrasenya(request):
         return JsonResponse({'message': 'Contraseña cambiada exitosamente'})
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
+    
+
+def import_csv(request):
+    if request.method == 'POST':
+        form = CSVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['file']
+            reader = csv.reader(csv_file.read().decode('utf-8').splitlines())
+            next(reader)  # Omitir la cabecera
+
+            inserted_count = 0
+            duplicate_count = 0
+            line_number = 1  # Comenzar el conteo desde 1 después de la cabecera
+
+            for row in reader:
+                line_number += 1  # Incrementar antes de procesar para reflejar el número correcto de línea
+                if not Estudiante.objects.filter(email=row[2]).exists():
+                    try:
+                        Estudiante.objects.create(
+                            nom=row[0],
+                            cognoms=row[1],
+                            email=row[2],
+                            telefono=row[3],
+                            curso=row[4]
+                        )
+                        inserted_count += 1
+                    except Exception as e:
+                        messages.error(request, f"Error al registre en la línea {line_number}")
+                else:
+                    duplicate_count += 1
+
+            messages.success(request, f'Registres inserits correctament: {inserted_count}')
+            if duplicate_count:
+                messages.info(request, f'Registres duplicats no inserits: {duplicate_count}')
+
+            return redirect('importacion')
+    else:
+        form = CSVUploadForm()
+    return render(request, 'importacion.html', {'form': form})
