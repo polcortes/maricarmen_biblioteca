@@ -926,7 +926,7 @@ fieldset[class$=-filters]:not(.type-filters):not(.any-filters) {
 }
 
 .registroImportacion {
-  width: 50%;
+  width: 75%;
   padding: 12%;
   margin-left: 13%;
   margin-right: 10%;
@@ -955,4 +955,8 @@ fieldset[class$=-filters]:not(.type-filters):not(.any-filters) {
 .tituloCSV{
   margin-top: 8%;
   margin-left: 42%;
+}
+
+.importbutton {
+  margin-left: 40px;
 }
