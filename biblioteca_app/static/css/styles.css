@@ -138,6 +138,14 @@ h2 {
   border-color: #4caf50;
 }
 
+.input-group #tipus {
+  width: 576px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 2px solid #4caf50;
+}
+
 .btn {
   padding: 15px 30px; /* Aumenta el tamaño del botón */
   font-size: 18px; /* Aumenta el tamaño del texto del botón */
@@ -736,72 +744,31 @@ p {
   font-weight: bold;
 }
 
-#user-form input[type="text"],
-#user-form input[type="date"],
-#user-form input[type="email"],
-#user-form input[type="password"],
 #user-form select {
-  width: 100%;
+  width: 576px;
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 5px;
   border: 2px solid #4caf50;
 }
 
-#user-form input[type="submit"] {
-  width: 100%;
-  padding: 15px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-#user-form input[type="submit"]:hover {
-  background-color: #45a049;
-}
-
-/* CREATE_USER.HTML */
-.CREATE_USER {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-.container_CREATE_USER {
-  width: 60%;
-  max-width: 540px;
-  margin: 50px auto;
-}
-
-.container_CREATE_USER h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-#user-form {
-  margin-top: 20px;
-}
-
-#user-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
 
 #user-form input[type="text"],
 #user-form input[type="date"],
 #user-form input[type="email"],
-#user-form input[type="password"],
-#user-form select {
-  width: 100%;
+#user-form input[type="password"] {
+  width: 550px;
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 5px;
   border: 2px solid #4caf50;
 }
+
+#user-form .inp_create_user {
+  width: 300px !important;
+  margin-left: 130px;
+}
+
 
 #user-form input[type="submit"] {
   width: 100%;

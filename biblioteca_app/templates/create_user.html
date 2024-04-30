@@ -36,13 +36,13 @@
       <h1>Crear Usuario</h1>
       <form id="user-form" action="{% url 'crear_usuari' %}" method="POST">
         {% csrf_token %}
-        <label for="nom">Nombre:</label>
+        <label for="nom">Nom:</label>
         <input type="text" id="nom" name="nom" required /><br /><br />
 
-        <label for="cognoms">Apellidos:</label>
+        <label for="cognoms">Cognoms:</label>
         <input type="text" id="cognoms" name="cognoms" required /><br /><br />
 
-        <label for="any_naixement">Fecha de Nacimiento:</label>
+        <label for="any_naixement">Data de Naixement:</label>
         <input
           type="date"
           id="any_naixement"
@@ -53,14 +53,14 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required /><br /><br />
 
-        <label for="tipus">Tipo:</label>
+        <label for="tipus">Tipus:</label>
         <select id="tipus" name="tipus" required>
           <option value="usuari">Usuari</option>
           <option value="admin">Admin</option>
           <option value="super-usuari">Super Usuari</option></select
         ><br /><br />
 
-        <label for="password">Contraseña:</label>
+        <label for="password">Contrasenya:</label>
         <input
           type="password"
           id="password"
@@ -68,16 +68,16 @@
           required
         /><br /><br />
 
-        <label for="centre">Centro:</label>
+        <label for="centre">Centre:</label>
         <input
           type="text"
           id="centre"
           name="centre"
-          value="I.E.S. Esteve Terradas i Illa"
+          value="{{ user_data.centre }}"
           required
         /><br /><br />
 
-        <input type="submit" value="Crear Usuario" />
+        <input type="submit" class="inp_create_user" value="Crear Usuario" />
       </form>
     </div>
     <script src="{% static 'js/handleLogCreation.js' %}"></script>

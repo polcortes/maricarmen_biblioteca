@@ -73,6 +73,25 @@
             required
           />
         </div>
+        <div class="input-group">
+          <label for="data">Data de Naixement:</label>
+          <input
+            type="date"
+            id="data"
+            name="data"
+            placeholder="{{ user_data.any_naixement }}"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+        <label for="tipus">Tipus:</label>
+        <select id="tipus" name="tipus" required>
+          <option value="usuari">Usuari</option>
+          <option value="admin">Admin</option>
+          <option value="super-usuari">Super Usuari</option></select>
+        </div>
+        
         <!-- Agrega un campo de entrada para el token CSRF -->
         {% csrf_token %}
         <div class="button-container">
