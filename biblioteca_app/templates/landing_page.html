@@ -21,12 +21,16 @@
           Mari Carmen Brito
         </h2>
         <div class="input-group">
+          
           <label for="cerca">Cerca al nostre catàleg:</label>
           <div class="input-wrapper">
             <form action="{% url 'search_results' %}" method="get" class="formCatalogo">
                 <input type="text" id="searchInput" name="query" placeholder="Cerca..."/>
+                <label for="disponiblesCheckbox">Només disponibles</label>
+                <input type="checkbox" id="disponiblesCheckbox" class="checkCatalogo" name="disponibles" value="1">
                 <button type="submit" class="searchButton">Buscar</button>
             </form>
+
           </div>
         </div>
         <!-- <button class="btnCerca">Cerca</button> -->
@@ -103,21 +107,21 @@
               }
             })
 
-            {% if error %}
-              Toastify({
-                text: "{{ errorMsg }}",
-                offset: {
-                  x: 20,
-                  y:10,
-                },
-                close: true,
-                stopOnFocus: true,
-                style: {
-                    'background': '#CE1B1B',
-                    'color': 'white',
-                }
-              }).showToast();
-            {% endif %}
+            // {% if error %}
+            //   Toastify({
+            //     text: "{{ errorMsg }}",
+            //     offset: {
+            //       x: 20,
+            //       y:10,
+            //     },
+            //     close: true,
+            //     stopOnFocus: true,
+            //     style: {
+            //         'background': '#CE1B1B',
+            //         'color': 'white',
+            //     }
+            //   }).showToast();
+            // {% endif %}
         });
     </script>
         

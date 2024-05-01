@@ -74,16 +74,22 @@ def change_pass(request):
 
 ## VIEW SEARCH RESULTS
 # @login_required
-def search_results(request):
-    return render(request, 'search_results.html')
+# def search_results(request):
+#     return render(request, 'search_results.html')
 
 
 ## VIEW AUTOCOMPLETAR
 def autocomplete(request):
-    query = request.GET.get('term', '')  # "term" es el parámetro que jQuery UI Autocomplete enviará
+    query = request.GET.get('term', '')
+    if 'disponibles' in request.GET:  # Verifica si el checkbox 'disponibles' está presente en la solicitud
+        disponibles = request.GET.get('disponibles') == '1'
+    else:
+        disponibles = False
     if len(query) >= 3:
-        items = ItemCataleg.objects.filter(titol__icontains=query)[:5]  # Limita a 5 resultados
-        results = [{'label': item.titol, 'value': item.titol} for item in items]
+        items = ItemCataleg.objects.filter(titol__icontains=query)
+        if disponibles:
+            items = items.filter(exemplars__gt=0)  # Filtra solo ítems con ejemplares disponibles
+        results = [{'label': item.titol, 'value': item.titol} for item in items[:5]]  # Limita a 5 resultados
     else:
         results = []
     return JsonResponse(results, safe=False)
@@ -99,21 +105,19 @@ def search_results(request):
         'data-edicio': request.GET.get('data-edicio', '').strip(),
     }
 
-    # items = ItemCataleg.objects.filter(
-    #     titol__icontains=query,
-    #     llengua__icontains=filters['llengua'],
-    #     centre__icontains=filters['centre'],
-    # )
-
+    if 'disponibles' in request.GET:  # Verifica si el checkbox 'disponibles' está presente en la solicitud
+        disponibles = request.GET.get('disponibles') == '1'
+    else:
+        disponibles = False
     items = ItemCataleg.objects.all()
-
+    if query:
+        items = items.filter(titol__icontains=query)
+    if disponibles:
+        items = items.filter(exemplars__gt=0)
     for item in items:
         print(item.tipus)
 
     if filters['tipus']:
-        # items = items.annotate(num_tipus=Count('tipus'))
-        # for tipus in filters['tipus']:
-        #     items = items.filter(tipus=tipus.lower(), num_tipus__gt=0)
         for i in range(len(filters['tipus'])):
             filters['tipus'][i] = filters['tipus'][i].lower()
         items = items.filter(tipus__in=filters['tipus'])
@@ -129,14 +133,6 @@ def search_results(request):
 
     if 'Llibre' in filters['tipus']:
         items = items.filter(llibre__editorial__icontains=filters['editorial'],)
-
-    # if filters['data-edicio']:
-    #     for item in items:
-    #         print(item.any)
-    #         any = int(item.any)
-    #         data_edicio = datetime.datetime(any, 1, 1)
-    #         if (data_edicio > datetime.datetime(filters['data-edicio'].split(' - ')[0]) and data_edicio < datetime.datetime(filters['data-edicio'].split(' - ')[1])):
-    #             items = items.filter(any=any)
 
     editorials = Llibre.objects.values('editorial').distinct()
     llengues = ItemCataleg.objects.values('llengua').distinct()
