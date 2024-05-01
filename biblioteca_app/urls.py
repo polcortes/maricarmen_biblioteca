@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.urls import path, reverse_lazy
 from biblioteca_app import views, api
+from .views import import_csv
+
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -26,6 +28,7 @@ urlpatterns = [
     path('profile/general/', views.general_profile, name='general_profile'),
     path('profile/admin/', views.admin_profile, name='admin_profile'),
     path('mostrar_usuaris/', views.mostrar_usuaris, name='mostrar_usuaris'),
+    path('import_csv/', views.mostrar_importacion, name='mostrar_importacion'),
     path('editar_usuari/<int:usuario_id>/', views.editar_usuari, name='editar_usuari'),
     path('mostrar_crear_usuari/', views.mostrar_crear_usuario, name='mostrar_crear_usuario'),
     path('crear_usuari/', views.crear_usuari, name='crear_usuari'),
@@ -37,6 +40,10 @@ urlpatterns = [
     path('autocomplete/', views.autocomplete, name='autocomplete'),
     path('actualizar-datos/', views.actualizar_datos, name='actualizar_datos'),
     path('actualizar-datos-user/', views.actualizar_datos_usuario, name='actualizar_datos_usuario'),
+    path('importacion/', import_csv, name='importacion'),
+    path('importacion/', import_csv, name='importacion'),
+
+
     path('admin_prestecs/', views.admin_prestecs, name='admin_prestecs'),
     path('api/createPrestec/', api.create_prestec, name='create_prestec'),
     path('llistat_prestecs/', views.llistat_prestecs, name='llistat_prestecs'),

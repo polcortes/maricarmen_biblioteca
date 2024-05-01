@@ -41,7 +41,7 @@
         method="POST"
       >
         <!-- Agrega placeholders para mostrar los valores actuales del usuario -->
-        <h2 id="h2admin">El teu compte de administrador:</h2>
+        <h2 id="h2admin">{{ user_data.nom }} {{ user_data.cognoms }}</h2>
         <div class="input-group">
           <div class="half-width">
             <label for="nom">Nom:</label>
@@ -74,6 +74,26 @@
             required
           />
         </div>
+        <div class="input-group">
+          <label for="data">Data de Naixement:</label>
+          <input
+            type="date"
+            id="data"
+            name="data"
+            placeholder="{{ user_data.any_naixement }}"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="tipus">Tipus:</label>
+          <select id="tipus" name="tipus" required>
+            <option value="usuari">Usuari</option>
+            <option value="admin">Admin</option>
+            <option value="super-usuari">Super Usuari</option>
+          </select>
+        </div>
+
         <!-- Agrega un campo de entrada para el token CSRF -->
         {% csrf_token %}
         <div class="button-container">

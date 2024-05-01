@@ -50,20 +50,31 @@ input[type="search"]::-webkit-search-results-decoration {
   font-size: 18px; /* Tamaño del texto */
 }
 
+.left-block .input-group #disponibleslabel {
+  width: 147px;
+}
+
+.left-block .input-group #disponiblesCheckbox {
+  width: 50px;
+  margin: 0;
+  vertical-align: bottom;
+  position: relative;
+  top: -51px;
+  left: -97px;
+}
+
 .left-block .input-wrapper {
-  width: 600px;
   position: relative;
 }
 
 .left-block .input-group input {
-  width: calc(
-    100% - 40px
-  ); /* Ancho del campo de entrada, restando el padding */
-  padding: 15px; /* Tamaño del campo de entrada */
-  font-size: 16px; /* Tamaño del texto */
+  width: 379px;
+  padding: 15px;
+  font-size: 16px;
   border-radius: 5px;
   border: 2px solid #4caf50;
   border-radius: 10px;
+  margin-left: -43px;
 }
 
 .left-block .input-group input:focus {
@@ -93,6 +104,17 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .left-block .btn:hover {
   background-color: #45a049;
+}
+
+.div1-leftblock,
+.div2-leftblock {
+  display: block;
+  /* Ajusta el ancho según sea necesario */
+  width: 100%;
+}
+
+.div2-leftblock {
+  margin-top: 24px;
 }
 
 .right-block {
@@ -136,6 +158,14 @@ h2 {
 .input-group input:focus {
   outline: none;
   border-color: #4caf50;
+}
+
+.input-group #tipus {
+  width: 576px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 2px solid #4caf50;
 }
 
 .btn {
@@ -184,7 +214,7 @@ h2 {
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
-  padding: 6px 16px;
+  padding: 6px 7px;
   position: relative;
   text-align: center;
   text-decoration: none;
@@ -193,7 +223,7 @@ h2 {
   touch-action: manipulation;
   vertical-align: middle;
   white-space: nowrap;
-  height: 53px;
+  height: 39px;
 }
 
 .searchButton:focus:not(:focus-visible):not(.focus-visible) {
@@ -222,13 +252,15 @@ h2 {
   box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
 }
 .formCatalogo {
-  display: flex;
+  display: contents;
   align-items: center;
 }
 .formCatalogo input {
   flex-grow: 1;
   margin-right: 10px;
   width: 300px;
+}
+.checkCatalogo {
 }
 
 /*  GENERAL_DASHBARD, ADMIN_DASHBOARD, CHANGE_PASS, SEARCH_RESULTS HEADER */
@@ -418,13 +450,6 @@ p {
   align-items: center;
 }
 
-.user-form .img_gnrl_prof {
-  width: 180px;
-  margin-inline: auto;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-}
-
 .user-form #cognoms {
   margin-left: 20px; /* Agregar espacio entre el input #nom y el input #cognoms */
 }
@@ -470,15 +495,26 @@ p {
   border: 2px solid #4caf50; /* Color del borde */
 }
 
-.user-form #imagen {
+.user-form #imatge_perfil {
   border: none;
-  margin-bottom: 0px;
-  margin-top: 20px;
-  margin-left: 135px;
-
+  width: auto;
+  margin-inline: auto;
+  width: 120px;
 }
 
-.email-placeholder, .correu-placeholder, .nom-placeholder {
+.user-form .img_gnrl_prof {
+  margin-top: 20px;
+  border-radius: 50%; /* Hace que la imagen sea redonda */
+  width: 180px;
+  margin-inline: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  margin-bottom: 30px;
+}
+
+.email-placeholder,
+.correu-placeholder,
+.nom-placeholder {
   width: calc(100% - 22px);
   display: inline-block;
   padding: 10px;
@@ -643,6 +679,59 @@ p {
   color: #212529;
 }
 
+.importbutton {
+  appearance: none;
+  width: 30%;
+  background-color: #2ea44f;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.importbutton:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.importbutton-3:hover {
+  background-color: #2c974b;
+}
+
+.importbutton:focus {
+  box-shadow: rgba(46, 164, 79, 0.4) 0 0 0 3px;
+  outline: none;
+}
+
+.importbutton:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: default;
+}
+
+.importbutton:active {
+  background-color: #298e46;
+  box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
+}
+
 /* Personalizar estilos del contenido principal */
 .main-content {
   padding: 20px;
@@ -676,16 +765,28 @@ p {
   font-weight: bold;
 }
 
-#user-form input[type="text"],
-#user-form input[type="date"],
-#user-form input[type="email"],
-#user-form input[type="password"],
 #user-form select {
-  width: 100%;
+  width: 576px;
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 5px;
   border: 2px solid #4caf50;
+}
+
+#user-form input[type="text"],
+#user-form input[type="date"],
+#user-form input[type="email"],
+#user-form input[type="password"] {
+  width: 550px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 2px solid #4caf50;
+}
+
+#user-form .inp_create_user {
+  width: 300px !important;
+  margin-left: 130px;
 }
 
 #user-form input[type="submit"] {
@@ -702,62 +803,6 @@ p {
 #user-form input[type="submit"]:hover {
   background-color: #45a049;
 }
-
-/* CREATE_USER.HTML */
-.CREATE_USER {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-.container_CREATE_USER {
-  width: 60%;
-  max-width: 540px;
-  margin: 50px auto;
-}
-
-.container_CREATE_USER h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-#user-form {
-  margin-top: 20px;
-}
-
-#user-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-#user-form input[type="text"],
-#user-form input[type="date"],
-#user-form input[type="email"],
-#user-form input[type="password"],
-#user-form select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: 2px solid #4caf50;
-}
-
-#user-form input[type="submit"] {
-  width: 100%;
-  padding: 15px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-#user-form input[type="submit"]:hover {
-  background-color: #45a049;
-}
-
 
 /* Estilos de search_results.html */
 #search-results {
@@ -799,7 +844,7 @@ p {
 .custom-search > input {
   padding: 10px 12px;
   padding-right: 31px;
-  border: 2px solid #4D8434;
+  border: 2px solid #4d8434;
   width: 400px;
   border-radius: 12px;
   font-size: 14px;
@@ -807,7 +852,7 @@ p {
 }
 
 .custom-search > input::placeholder {
-  color: rgba(0, 0, 0, .6)
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .custom-search {
@@ -821,7 +866,7 @@ p {
   right: 13px;
   top: 65%;
   transform: translateY(-50%);
-  color: #4D8434;
+  color: #4d8434;
 }
 
 #search-results .results {
@@ -836,19 +881,20 @@ p {
 }
 
 calendar-range {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 calendar-range::part(button) {
   border-radius: 5px;
-  background-color: #4D8434;
-  border: 1px solid #4D8434;
+  background-color: #4d8434;
+  border: 1px solid #4d8434;
   padding: 3px;
 }
 calendar-month::part(button) {
   border-radius: 5px;
 }
 calendar-month::part(selected) {
-  background-color: #4D8434;
+  background-color: #4d8434;
 }
 calendar-month::part(range-inner) {
   border-radius: 0;
@@ -876,14 +922,66 @@ span:has(> #total-resultats) {
 }
 
 [type="checkbox"] {
-  accent-color: #4D8434;
+  accent-color: #4d8434;
 }
 
-fieldset[class$=-filters]:not(.type-filters):not(.any-filters) {
+fieldset[class$="-filters"]:not(.type-filters):not(.any-filters) {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+.error-message {
+  color: red; /* Color rojo para el mensaje de error */
+  margin-top: 10px; /* Espacio sobre el mensaje */
+}
+
+/* Importacion */
+
+.importacion html {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  justify-content: center;
+}
+
+.registroImportacion {
+  width: 75%;
+  padding: 12%;
+  margin-left: 13%;
+  margin-right: 10%;
+  border-style: double;
+  border-radius: 10px;
+  border-color: #298e46;
+}
+
+.listaImportados {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 20px;
+  display: inline-block; /* Hace que el ul se comporte como un elemento inline-block */
+  width: calc(
+    100% - 24%
+  ); /* Ajusta el ancho del ul al 100% menos el padding del div */
+  overflow: auto; /* Agrega una barra de desplazamiento si es necesario */
+}
+
+.añadirCSV {
+  margin-bottom: 2%;
+  margin-left: 38%;
+}
+
+.tituloCSV {
+  margin-top: 8%;
+  margin-left: 42%;
+}
+
+.importbutton {
+  margin-left: 40px;
+}
+
 
 #admin_prestecs {
   overflow: hidden;

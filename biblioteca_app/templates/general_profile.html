@@ -24,37 +24,33 @@
       </div>
     </header>
     <div class="container">
-      <form
-        action="{% url 'actualizar_datos_usuario' %}"
-        class="user-form"
-        method="POST"
-      >
+      <form action="{% url 'actualizar_datos_usuario' %}" class="user-form" method="POST" enctype="multipart/form-data">
+
         <h2>El teu compte:</h2>
         {% load static %}
-        <img class="img_gnrl_prof" src="{% static 'img/user_default.webp' %}">
-        <input type="file" id="imagen" name="imagen" accept=".jpg, .png, .webp">
+        <img class="img_gnrl_prof" src="{{ user_data.imatge_perfil.url }}">
+        <input type="file" id="imatge_perfil" name="imatge_perfil" accept=".jpg, .png, .webp">
         <div class="input-group">
           <div class="half-width">
             <label for="nom">Nom:</label>
-            <span id="nom" name="nom" class="nom-placeholder" required> {{ user_data.nom }} </span>
-            <!-- <input
+            </span>
+            <input
               type="text"
               id="nom"
               name="nom"
               placeholder="{{ user_data.nom }}"
               required
-            /> -->
+            />
           </div>
           <div class="half-width">
             <label for="cognoms" id="label_cognoms">Cognoms:</label>
-            <span id="cognoms" name="cognoms" class="correu-placeholder" required> {{ user_data.cognoms }} </span>
-            <!-- <input
+            <input
               type="text"
               id="cognoms"
               name="cognoms"
               placeholder="{{ user_data.cognoms }}"
               required
-            /> -->
+            />
           </div>
         </div>
         <div class="input-group">

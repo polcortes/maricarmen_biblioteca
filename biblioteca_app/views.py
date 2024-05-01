@@ -24,9 +24,14 @@ import ssl
 from email.message import EmailMessage
 
 import datetime
-
+import os
 import json
 import logging
+from .forms import CSVUploadForm
+from .models import Estudiante
+
+import json
+import csv
 
 logger = logging.getLogger(__name__)
 
@@ -75,16 +80,22 @@ def change_pass(request):
 
 ## VIEW SEARCH RESULTS
 # @login_required
-def search_results(request):
-    return render(request, 'search_results.html')
+# def search_results(request):
+#     return render(request, 'search_results.html')
 
 
 ## VIEW AUTOCOMPLETAR
 def autocomplete(request):
-    query = request.GET.get('term', '')  # "term" es el parámetro que jQuery UI Autocomplete enviará
+    query = request.GET.get('term', '')
+    if 'disponibles' in request.GET:  # Verifica si el checkbox 'disponibles' está presente en la solicitud
+        disponibles = request.GET.get('disponibles') == '1'
+    else:
+        disponibles = False
     if len(query) >= 3:
-        items = ItemCataleg.objects.filter(titol__icontains=query)[:5]  # Limita a 5 resultados
-        results = [{'label': item.titol, 'value': item.titol} for item in items]
+        items = ItemCataleg.objects.filter(titol__icontains=query)
+        if disponibles:
+            items = items.filter(exemplars__gt=0)  # Filtra solo ítems con ejemplares disponibles
+        results = [{'label': item.titol, 'value': item.titol} for item in items[:5]]  # Limita a 5 resultados
     else:
         results = []
     return JsonResponse(results, safe=False)
@@ -100,21 +111,19 @@ def search_results(request):
         'data-edicio': request.GET.get('data-edicio', '').strip(),
     }
 
-    # items = ItemCataleg.objects.filter(
-    #     titol__icontains=query,
-    #     llengua__icontains=filters['llengua'],
-    #     centre__icontains=filters['centre'],
-    # )
-
+    if 'disponibles' in request.GET:  # Verifica si el checkbox 'disponibles' está presente en la solicitud
+        disponibles = request.GET.get('disponibles') == '1'
+    else:
+        disponibles = False
     items = ItemCataleg.objects.all()
-
+    if query:
+        items = items.filter(titol__icontains=query)
+    if disponibles:
+        items = items.filter(exemplars__gt=0)
     for item in items:
         print(item.tipus)
 
     if filters['tipus']:
-        # items = items.annotate(num_tipus=Count('tipus'))
-        # for tipus in filters['tipus']:
-        #     items = items.filter(tipus=tipus.lower(), num_tipus__gt=0)
         for i in range(len(filters['tipus'])):
             filters['tipus'][i] = filters['tipus'][i].lower()
         items = items.filter(tipus__in=filters['tipus'])
@@ -130,14 +139,6 @@ def search_results(request):
 
     if 'Llibre' in filters['tipus']:
         items = items.filter(llibre__editorial__icontains=filters['editorial'],)
-
-    # if filters['data-edicio']:
-    #     for item in items:
-    #         print(item.any)
-    #         any = int(item.any)
-    #         data_edicio = datetime.datetime(any, 1, 1)
-    #         if (data_edicio > datetime.datetime(filters['data-edicio'].split(' - ')[0]) and data_edicio < datetime.datetime(filters['data-edicio'].split(' - ')[1])):
-    #             items = items.filter(any=any)
 
     editorials = Llibre.objects.values('editorial').distinct()
     llengues = ItemCataleg.objects.values('llengua').distinct()
@@ -189,12 +190,26 @@ def actualizar_datos(request):
         nom = request.POST.get('nom')
         cognoms = request.POST.get('cognoms')
         correu = request.POST.get('correu')
+        any_naixement = request.POST.get('data')
+        tipus = request.POST.get('tipus')
         
         # Actualizar los datos del usuario en la base de datos
         user = request.user
         user.nom = nom
         user.cognoms = cognoms
         user.email = correu
+        user.any_naixement = any_naixement
+        user.tipus = tipus
+        
+        if tipus == 'admin':
+            user.is_staff = True
+            user.is_superuser = False
+        elif tipus == 'super-usuari':
+            user.is_superuser = True
+        elif tipus == 'usuari':
+            user.is_superuser = False
+            user.is_staff = False
+
         user.save()
 
         isAdmin = request.user.is_superuser or request.user.is_staff
@@ -223,33 +238,30 @@ def actualizar_datos_usuario(request):
         # Obtener los nuevos valores del formulario
         nom = request.POST.get('nom')
         cognoms = request.POST.get('cognoms')
-        
+        imatge_perfil = request.FILES.get('imatge_perfil')
+
         # Actualizar los datos del usuario en la base de datos
         user = request.user
         user.nom = nom
         user.cognoms = cognoms
+        if imatge_perfil:
+            # Guardar el archivo en la carpeta de medios
+            user.imatge_perfil.save(imatge_perfil.name, imatge_perfil)
         user.save()
 
-        isAdmin = request.user.is_staff
-        if isAdmin:
-            # Devolver una respuesta con un script de alerta en JavaScript
-            response = HttpResponse("""<script>window.location.href='/dashboard/admin?succ=1'; </script>""")
-            return response
+        if request.user.is_staff:
+            messages.success(request, 'Dades actualitzades correctament!')
+            return redirect('/dashboard/admin')
         else:
-            # Devolver una respuesta con un script de alerta en JavaScript
-            response = HttpResponse("""<script>window.location.href='/dashboard/general?succ=1'; </script>""")
-            return response
+            messages.success(request, 'Dades actualitzades correctament!')
+            return redirect('/dashboard/general')
     else:
-        # Devolver una respuesta con un script de alerta en JavaScript para el método no permitido
-        #response = HttpResponse("""<script>window.history.back(); </script>""")
-        #return response
-        isAdmin = request.user.is_staff
-        if isAdmin:
-            response = HttpResponse("""<script>window.location.href='/dashboard/admin?succ=0'; </script>""")
-            return response
+        if request.user.is_staff:
+            messages.error(request, 'Error en la actualització de les dades!')
+            return redirect('/dashboard/admin')
         else:
-            response = HttpResponse("""<script>window.location.href='/dashboard/general?succ=0'; </script>""")
-            return response
+            messages.error(request, 'Error en la actualització de les dades!')
+            return redirect('/dashboard/general')
     
     
 def editar_usuari(request, usuario_id):
@@ -266,11 +278,25 @@ def editar_usuari(request, usuario_id):
         nom = request.POST.get('nom')
         cognoms = request.POST.get('cognoms')
         correu = request.POST.get('correu')
+        any_naixement = request.POST.get('data')
+        tipus = request.POST.get('tipus')
         
         # Actualizar los datos del usuario en la base de datos
         usuario.nom = nom
         usuario.cognoms = cognoms
         usuario.email = correu
+        usuario.any_naixement = any_naixement
+        usuario.tipus = tipus
+        
+        if tipus == 'admin':
+            usuario.is_staff = True
+            usuario.is_superuser = False
+        elif tipus == 'super-usuari':
+            usuario.is_superuser = True
+        elif tipus == 'usuari':
+            usuario.is_superuser = False
+            usuario.is_staff = False
+        
         usuario.save()
         
         # Redirigir al usuario a la página de éxito o a la lista de usuarios
@@ -295,7 +321,13 @@ def mostrar_usuaris(request):
 
 
 def mostrar_crear_usuario(request):
-    return render(request, 'create_user.html')
+    user = request.user
+    user_data = {
+        'centre': user.centre,
+        'any_naixement' : user.any_naixement
+
+    }
+    return render(request, 'create_user.html', {'user_data': user_data})
 
 
 def crear_usuari(request):
@@ -363,6 +395,8 @@ def general_profile(request):
         'nom': user.nom,
         'cognoms': user.cognoms,
         'correu': user.email,
+        'imatge_perfil': user.imatge_perfil,
+        'any_naixement' : user.any_naixement
     }
     return render(request, 'general_profile.html', {'user_data': user_data})
 
@@ -373,6 +407,8 @@ def admin_profile(request):
         'nom': user.nom,
         'cognoms': user.cognoms,
         'correu': user.email,
+        'any_naixement' : user.any_naixement
+
     }
     return render(request, 'admin_profile.html', {'user_data': user_data})
 
@@ -406,6 +442,50 @@ def cambiar_contrasenya(request):
         return JsonResponse({'error': 'Método no permitido'}, status=405)
     
     
+def mostrar_importacion(request):
+    return render(request, 'importacion.html')
+    
+
+def import_csv(request):
+    if request.method == 'POST':
+        form = CSVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['file']
+            reader = csv.reader(csv_file.read().decode('utf-8').splitlines())
+            next(reader)  # Omitir la cabecera
+
+            inserted_count = 0
+            duplicate_count = 0
+            line_number = 1  # Comenzar el conteo desde 1 después de la cabecera
+
+            for row in reader:
+                line_number += 1  # Incrementar antes de procesar para reflejar el número correcto de línea
+                if not Estudiante.objects.filter(email=row[2]).exists():
+                    try:
+                        Estudiante.objects.create(
+                            nom=row[0],
+                            cognoms=row[1],
+                            email=row[2],
+                            telefon=row[3],
+                            curs=row[4]
+                        )
+                        inserted_count += 1
+                    except Exception as e:
+                        error_type = type(e).__name__
+                        error_message = str(e)
+                        messages.error(request, f"Error al registre en la línea {line_number}")
+                else:
+                    duplicate_count += 1
+
+            messages.success(request, f'Registres inserits correctament: {inserted_count}')
+            if duplicate_count:
+                messages.info(request, f'Registres duplicats no inserits: {duplicate_count}')
+
+            return redirect('importacion')
+    else:
+        form = CSVUploadForm()
+    return render(request, 'importacion.html', {'form': form})
+
 def admin_prestecs(request):
     # Obtener todos los préstamos de la base de datos
     # prestecs = Prestecs.objects.filter(usuari__centre=request.user.centre)
