@@ -47,7 +47,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'mostrar_importacion' %}"> Importacio Usuaris </a>
+                <a class="nav-link" href="{% url 'importacion' %}">
+                  Importacio Usuaris
+                </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
@@ -71,36 +73,42 @@
             <h2>Usuarios</h2>
             <table class="table">
               <thead>
-                  <tr>
-                      <th>Nombre</th>
-                      <th>Apellidos</th>
-                      <th>Fecha de Nacimiento</th>
-                      <th>Email</th>
-                      <th>Centro</th>
-                      <th>
-                          <a class="btn btn-primary" href="{% url 'mostrar_crear_usuario' %}">
-                              <i class="fa-solid fa-plus"></i>
-                          </a>
-                      </th>
-                  </tr>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellidos</th>
+                  <th>Fecha de Nacimiento</th>
+                  <th>Email</th>
+                  <th>Centro</th>
+                  <th>
+                    <a
+                      class="btn btn-primary"
+                      href="{% url 'mostrar_crear_usuario' %}"
+                    >
+                      <i class="fa-solid fa-plus"></i>
+                    </a>
+                  </th>
+                </tr>
               </thead>
               <tbody>
-                  {% for usuario in usuarios %}
-                      {% if usuario.centre == request.user.centre %}
-                          <tr>
-                              <td>
-                                  <a href="{% url 'editar_usuari' usuario.id %}">{{ usuario.nom }}</a>
-                              </td>
-                              <td>{{ usuario.cognoms }}</td>
-                              <td>{{ usuario.any_naixement }}</td>
-                              <td>{{ usuario.email }}</td>
-                              <td>{{ usuario.centre }}</td>
-                          </tr>
-                      {% endif %}
-                  {% endfor %}
+                {%for usuario in usuarios%}
+                <!--comentario para separar-->
+                {%if usuario.centre == request.user.centre%}
+                <tr>
+                  <td>
+                    <a href="{%url 'editar_usuari' usuario.id%}"
+                      >{{usuario.nom}}</a
+                    >
+                  </td>
+                  <td>{{usuario.cognoms}}</td>
+                  <td>{{usuario.any_naixement}}</td>
+                  <td>{{usuario.email}}</td>
+                  <td>{{usuario.centre}}</td>
+                </tr>
+                {%endif%}
+                <!--comentario para separar-->
+                {%endfor%}
               </tbody>
-          </table>
-          
+            </table>
           </div>
 
           <!-- Contenido principal -->
