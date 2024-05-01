@@ -17,6 +17,12 @@ from django.contrib.auth.hashers import make_password
 from re import match
 from django.db.models import Count
 
+# Para mandar mails:
+
+import smtplib
+import ssl
+from email.message import EmailMessage
+
 import datetime
 
 import json
@@ -38,9 +44,9 @@ def loginView(request):
                 if user.is_superuser:
                     return redirect("/admin") 
                 if user.is_staff:
-                    return redirect("dashboard/admin")                
+                    return redirect("/dashboard/admin")                
                 else:
-                    return redirect("dashboard/general")
+                    return redirect("/dashboard/general")
             else:
                 data['error'] = True
                 data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
@@ -402,6 +408,34 @@ def cambiar_contrasenya(request):
     
 def admin_prestecs(request):
     # Obtener todos los préstamos de la base de datos
-    prestecs = Prestecs.objects.filter(usuari__centre=request.user.centre)
+    # prestecs = Prestecs.objects.filter(usuari__centre=request.user.centre)
+    prestecs = Prestecs.objects.all()
 
     return render(request, 'admin_prestecs.html', {'prestecs': prestecs})
+
+def llistat_prestecs(request):
+    # Obtener todos los préstamos de la base de datos
+    prestecs = Prestecs.objects.filter(usuari=request.user)
+
+    return render(request, 'llistat_prestecs.html', {'prestecs': prestecs})
+
+# def recuperar_contrasenya(request):
+#     return render(request, 'recuperar_contrasenya.html')
+    
+# def recuperar_contrasenya_with_token(request):
+#     email = request.POST.get('email')
+#     user = Usuari.objects.get(email=email)
+#     if user:
+#         # send_mail(
+#         #     'Recuperar contraseña',
+#         #     'Hola, has sol·licitat recuperar la contrasenya. Pots canviar-la fent clic en el següent enllaç: http://localhost:8000/cambiar-contrasenya/',
+#         #     '',
+#         #     [email],
+#         #     fail_silently=False,
+#         # )
+#         pswrd = "jkzihqisysqocmjo"
+#         em = EmailMessage()
+#         em['From'] = "biblioteca2daw@gmail.com"
+#         em['To'] = email
+#         em['Subject'] = "Recuperar contrasenya"
+#         em.set_content("Hola, has sol·licitat recuperar la contrasenya. Pots canviar-la fent clic en el següent enllaç: http://localhost:8000/cambiar-contrasenya/")

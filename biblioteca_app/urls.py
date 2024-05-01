@@ -13,8 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import path, reverse_lazy
 from biblioteca_app import views, api
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.loginView, name='landing_page'),
@@ -37,4 +38,10 @@ urlpatterns = [
     path('actualizar-datos/', views.actualizar_datos, name='actualizar_datos'),
     path('actualizar-datos-user/', views.actualizar_datos_usuario, name='actualizar_datos_usuario'),
     path('admin_prestecs/', views.admin_prestecs, name='admin_prestecs'),
+    path('api/createPrestec/', api.create_prestec, name='create_prestec'),
+    path('llistat_prestecs/', views.llistat_prestecs, name='llistat_prestecs'),
+    # path('recuperar_contrasenya/', views.recuperar_contrasenya, name='recuperar_contrasenya'),
+    path('forgot_password/', auth_views.PasswordResetView.as_view(), name='forgot_password'),
+    path('password_reset_confirm/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(success_url=reverse_lazy('login')), name="password_reset_confirm"),
+    path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
 ]

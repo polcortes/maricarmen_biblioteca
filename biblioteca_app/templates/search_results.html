@@ -3,7 +3,7 @@
 <head>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    
+    {% csrf_token %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Resultats per "{{ query }}" | Biblioteca Mari Carmen Brito</title>
@@ -12,6 +12,9 @@
     <script src="{% static 'js/header.js' %}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script type="module" src="https://unpkg.com/cally"></script>
+    <!-- Jquery Google: -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="{% static 'js/notify.js' %}"></script>
     <script>
         addEventListener('load', () => {
             const calendar = document.querySelector('calendar-range');
@@ -21,6 +24,7 @@
             const editorial = document.getElementById('editorial');
             const clearEditorial = document.querySelector('.editorial-filters .clear-field');
             const prestecBtns = [...document.querySelectorAll('.prestec-btn')];
+            const stocks = [...document.querySelectorAll('.stock')];
 
             clearFields.forEach(clearField => {
                 clearField.addEventListener('click', () => {
@@ -68,12 +72,11 @@
             });
 
             document.getElementById('total-resultats').textContent = document.querySelectorAll('.results > article').length;
-
-            prestecBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // fetch createPrestec con el id del usuario y el id del producto (btn.dataset.itemId y request.user.id)
-                    // que el createPrestec haga el insert en la tabla prestecs y ItemCataleg.exemplars--
-                })
+            
+            stocks.forEach(stock => {
+                if (Number(stock.textContent) > 0) {
+                    stock.parentElement.parentElement.querySelector('.prestec-btn').disabled = false;
+                }
             })
         })
     </script>
@@ -200,7 +203,7 @@
                     <h3>{{ item.titol }}</h3>
                     <span><strong>Autor:</strong> {{ item.autor }}</span><br />
                     <span><strong>Descripció:</strong> {{ item.descripcio }}</span><br />
-                    <span><strong>Stock: {{ item.exemplars }}</strong><button class="prestec-btn" data-item-id="{{item.id}}">Demanar prestec</button></span>
+                    <span><strong>Stock: <span class="stock">{{ item.exemplars }}</span></strong><button disabled class="prestec-btn" data-item-id="{{ item.id_cataleg }}">Demanar prestec</button></span>
                     <!-- Añadir más detalles según sea necesario -->
                 </article>
                 {% endfor %}
@@ -209,6 +212,59 @@
             {% endif %}
         </section>  
     </main>
+    {% if user.is_authenticated %}
+    <script>
+        const prestecBtns = [...document.querySelectorAll('.prestec-btn')];
+        prestecBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // fetch createPrestec con el id del usuario y el id del producto (btn.dataset.itemId y request.user.id)
+                // que el createPrestec haga el insert en la tabla prestecs y ItemCataleg.exemplars--
+                const itemId = btn.dataset.itemId;
+                const stock = btn.parentElement.querySelector('.stock');
+                if (Number(stock.textContent) > 0) {
+                    fetch('/api/createPrestec/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value
+                        },
+                        body: JSON.stringify({
+                            itemId,
+                            userId: '{{ request.user.id }}'
+                        })
+                    }).then(data => {
+                        console.log(data)
+                        if (data.ok) {
+                            stock.textContent = Number(stock.textContent) - 1;
+                            // btn.disabled = true;
+                            notify("info", 'Prestec sol·licitat correctament', null)
+                        } else {
+                            notify("error", 'Error al sol·licitar el prestec', null)
+                        }
+                    }).catch(err => {
+                        console.error(err);
+                        notify("error", 'Error al sol·licitar el prestec', null)
+                    });
+                }
+            })
+        })
+    </script>
+    {% else %}
+    <script>
+        const prestecBtns = [...document.querySelectorAll('.prestec-btn')];
+        prestecBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                notify("error", 'Has d\'iniciar sessió per poder sol·licitar un prestec', null)
+            })
+        })
+    </script>
+    {% endif %}
+
+    {% if error %}
+    <script>
+        notify("error", "{{ error }}", null)
+    </script>
+    {% endif %}
 </body>
 
 {% load static %}

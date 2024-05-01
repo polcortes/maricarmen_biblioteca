@@ -86,13 +86,15 @@
               </thead>
               <tbody>
                 {% for prestec in prestecs %}
-                  <tr>
-                    <td>{{ prestec.usuari.nom }} {{ prestec.usuari.cognoms }}</td>
-                    <td>{{ prestec.item_cataleg.titol }}</td>
-                    <td>{{ prestec.data_prestec }}</td>
-                    <td>{{ prestec.data_retorn }}</td>
-                    <td>{{ prestec.data_limit }}</td>
-                  </tr>
+                  {% if prestec.usuari.centre == request.user.centre %}
+                    <tr>
+                      <td>{{ prestec.usuari.nom }} {{ prestec.usuari.cognoms }}</td>
+                      <td>{{ prestec.item_cataleg.titol }}</td>
+                      <td>{{ prestec.data_prestec }}</td>
+                      <td>{{ prestec.data_retorn }}</td>
+                      <td>{{ prestec.data_limit }}</td>
+                    </tr>
+                  {% endif %}
                 {% endfor %}
               </tbody>
             </table>

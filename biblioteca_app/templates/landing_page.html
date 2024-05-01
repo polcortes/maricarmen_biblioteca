@@ -14,6 +14,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="{% static 'js/header.js' %}"></script>
+    <script src="{% static 'js/notify.js' %}"></script>
   </head>
   <body class="landing_page">
     <div class="container">
@@ -66,6 +67,7 @@
             <input type="password" id="password" name="password" required />
           </div>
           <button type="submit" class="btn">Iniciar sesión</button>
+          <a href="{% url 'forgot_password' %}" style="font-size: 16px;">Recupera la teva contrasenya</a>
         </form>
       </div>
     </div>
@@ -104,37 +106,17 @@
       
               if (testPasswordOk(password)) loginForm.submit()
               else {
-                Toastify({
-                  text: 'La contrasenya no és vàlida. Ha de contenir almenys: 1 lletra minúscula, 1 lletra majúscula, 1 número, 1 caràcter especial i tenir una longitud de 8 a 16 caràcters.',
-                  gravity: 'top',
-                  position: 'center',
-                  close: true,
-                  duration: -1,
-                  stopOnFocus: true,
-                  style: {
-                    'background': '#CE1B1B',
-                    'color': 'white',
-                  }
-                }).showToast();
+                notify("error", 'La contrasenya no és vàlida. Ha de contenir almenys: 1 lletra minúscula, 1 lletra majúscula, 1 número, 1 caràcter especial i tenir una longitud de 8 a 16 caràcters.', $(".right-block h2"))
               }
             })
-
-            {% if error %}
-              Toastify({
-                text: "{{ errorMsg }}",
-                gravity: 'top',
-                position: 'left',
-                close: true,
-                stopOnFocus: true,
-                autoclose: 5000,
-                style: {
-                    'background': '#CE1B1B',
-                    'color': 'white',
-                }
-              }).showToast();
-            {% endif %}
         });
     </script>
+
+    {% if error %}
+    <script>
+      notify("error", "{{ errorMsg }}", $(".right-block h2"))
+    </script>
+    {% endif %}
         
 </body>
 </html>
