@@ -188,12 +188,26 @@ def actualizar_datos(request):
         nom = request.POST.get('nom')
         cognoms = request.POST.get('cognoms')
         correu = request.POST.get('correu')
+        any_naixement = request.POST.get('data')
+        tipus = request.POST.get('tipus')
         
         # Actualizar los datos del usuario en la base de datos
         user = request.user
         user.nom = nom
         user.cognoms = cognoms
         user.email = correu
+        user.any_naixement = any_naixement
+        user.tipus = tipus
+        
+        if tipus == 'admin':
+            user.is_staff = True
+            user.is_superuser = False
+        elif tipus == 'super-usuari':
+            user.is_superuser = True
+        elif tipus == 'usuari':
+            user.is_superuser = False
+            user.is_staff = False
+
         user.save()
 
         isAdmin = request.user.is_superuser or request.user.is_staff
@@ -274,8 +288,12 @@ def editar_usuari(request, usuario_id):
         
         if tipus == 'admin':
             usuario.is_staff = True
+            usuario.is_superuser = False
         elif tipus == 'super-usuari':
             usuario.is_superuser = True
+        elif tipus == 'usuari':
+            usuario.is_superuser = False
+            usuario.is_staff = False
         
         usuario.save()
         
