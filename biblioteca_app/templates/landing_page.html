@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Landing Page</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     {% csrf_token %}
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link
+      rel="stylesheet"
+      href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
   </head>
   <body class="landing_page">
     <div class="container">
@@ -21,16 +31,36 @@
           Mari Carmen Brito
         </h2>
         <div class="input-group">
-          
           <label for="cerca">Cerca al nostre catàleg:</label>
           <div class="input-wrapper">
-            <form action="{% url 'search_results' %}" method="get" class="formCatalogo">
-                <input type="text" id="searchInput" name="query" placeholder="Cerca..."/>
-                <label for="disponiblesCheckbox">Només disponibles</label>
-                <input type="checkbox" id="disponiblesCheckbox" class="checkCatalogo" name="disponibles" value="1">
+            <form
+              action="{% url 'search_results' %}"
+              method="get"
+              class="formCatalogo"
+            >
+              <div class="div1-leftblock">
+                <input
+                  type="text"
+                  id="searchInput"
+                  name="query"
+                  placeholder="Cerca..."
+                />
                 <button type="submit" class="searchButton">Buscar</button>
-            </form>
+              </div>
 
+              <div class="div2-leftblock">
+                <label for="disponiblesCheckbox" id="disponibleslabel"
+                  >Només disponibles</label
+                >
+                <input
+                  type="checkbox"
+                  id="disponiblesCheckbox"
+                  class="checkCatalogo"
+                  name="disponibles"
+                  value="1"
+                />
+              </div>
+            </form>
           </div>
         </div>
         <!-- <button class="btnCerca">Cerca</button> -->
@@ -39,91 +69,94 @@
       <div class="right-block">
         <h2>Inicia sessió:</h2>
         <form id="login-form" method="POST">
-            {% csrf_token %}
-            <div class="input-group">
-                <label for="email">Correu electrònic:</label>
-                <input type="email" id="email" name="email" required />
-            </div>
-            <div class="input-group">
-                <label for="password">Contrasenya:</label>
-                <input type="password" id="password" name="password" required />
-            </div>
-            <!-- Mensaje de error, oculto inicialmente -->
-            <div class="error-message" style="display:none; color: red;">
-                Usuari o contrasenya incorrecte.
-            </div>
-            <button type="submit" class="btn">Iniciar sesión</button>
+          {% csrf_token %}
+          <div class="input-group">
+            <label for="email">Correu electrònic:</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="input-group">
+            <label for="password">Contrasenya:</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <!-- Mensaje de error, oculto inicialmente -->
+          <div class="error-message" style="display: none; color: red">
+            Usuari o contrasenya incorrecte.
+          </div>
+          <button type="submit" class="btn">Iniciar sesión</button>
         </form>
       </div>
-    
     </div>
 
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
 
-    
-
-    
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    
     {% load static %}
     <script src="{% static 'js/handleLogCreation.js' %}"></script>
     {% load static %}
     <script src="{% static 'js/landing_page.js' %}"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $("#searchInput").autocomplete({
-                source: "{% url 'autocomplete' %}",  // Asegúrate de que esta URL es correcta
-                minLength: 3,  // Número mínimo de caracteres antes de que el autocompletado se active
-                select: function(event, ui) {
-                    $("#searchInput").val(ui.item.value);  // Actualiza el valor del input
-                    return false;
-                }
-            });
-
-            const testPasswordOk = (password) => {
-              return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/.test(password)
-            }
-
-            loginForm = document.getElementById("login-form");
-          
-            loginForm.addEventListener('submit', (ev) => {
-              ev.preventDefault();
-              const password = document.getElementById("password").value;
-      
-              if (testPasswordOk(password)) loginForm.submit()
-              else {
-                Toastify({
-                  text: 'La contrasenya no és vàlida. Ha de contenir almenys: 1 lletra minúscula, 1 lletra majúscula, 1 número, 1 caràcter especial i tenir una longitud de 8 a 16 caràcters.',
-                  gravity: 'top',
-                  position: 'center',
-                  close: true,
-                  duration: -1,
-                  stopOnFocus: true,
-                  style: {
-                    'background': '#CE1B1B',
-                    'color': 'white',
-                  }
-                }).showToast();
-              }
-            })
-
-            // {% if error %}
-            //   Toastify({
-            //     text: "{{ errorMsg }}",
-            //     offset: {
-            //       x: 20,
-            //       y:10,
-            //     },
-            //     close: true,
-            //     stopOnFocus: true,
-            //     style: {
-            //         'background': '#CE1B1B',
-            //         'color': 'white',
-            //     }
-            //   }).showToast();
-            // {% endif %}
+      $(document).ready(function () {
+        $("#searchInput").autocomplete({
+          source: "{% url 'autocomplete' %}", // Asegúrate de que esta URL es correcta
+          minLength: 3, // Número mínimo de caracteres antes de que el autocompletado se active
+          select: function (event, ui) {
+            $("#searchInput").val(ui.item.value); // Actualiza el valor del input
+            return false;
+          },
         });
+
+        const testPasswordOk = (password) => {
+          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/.test(
+            password
+          );
+        };
+
+        loginForm = document.getElementById("login-form");
+
+        loginForm.addEventListener("submit", (ev) => {
+          ev.preventDefault();
+          const password = document.getElementById("password").value;
+
+          if (testPasswordOk(password)) loginForm.submit();
+          else {
+            Toastify({
+              text: "La contrasenya no és vàlida. Ha de contenir almenys: 1 lletra minúscula, 1 lletra majúscula, 1 número, 1 caràcter especial i tenir una longitud de 8 a 16 caràcters.",
+              gravity: "top",
+              position: "center",
+              close: true,
+              duration: -1,
+              stopOnFocus: true,
+              style: {
+                background: "#CE1B1B",
+                color: "white",
+              },
+            }).showToast();
+          }
+        });
+
+        // {% if error %}
+        //   Toastify({
+        //     text: "{{ errorMsg }}",
+        //     offset: {
+        //       x: 20,
+        //       y:10,
+        //     },
+        //     close: true,
+        //     stopOnFocus: true,
+        //     style: {
+        //         'background': '#CE1B1B',
+        //         'color': 'white',
+        //     }
+        //   }).showToast();
+        // {% endif %}
+      });
     </script>
-        
-</body>
+  </body>
 </html>
