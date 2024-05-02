@@ -120,7 +120,7 @@
       
               if (testPasswordOk(password)) loginForm.submit()
               else {
-                notify("error", 'La contrasenya no és vàlida. Ha de contenir almenys: 1 lletra minúscula, 1 lletra majúscula, 1 número, 1 caràcter especial i tenir una longitud de 8 a 16 caràcters.', $(".right-block h2"))
+                notify("error", 'Usuari o contrasenya incorrecta', $(".right-block h2"))
               }
             })
         });
