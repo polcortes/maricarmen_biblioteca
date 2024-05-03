@@ -5,18 +5,51 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Importaio Usuaris</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 
 <body class="list_users">
     <header class="headerWithUser">
+      <h1 class="h2"><a class="linkheader" href="{% url 'admin_dashboard' %}">Panell Bibliotecari</a></h1>
+      <div class="input-wrapper">
+        <form
+          action="{% url 'search_results' %}"
+          method="get"
+          class="formCatalogo"
+        >
+          <div class="div1-leftblock">
+            <input
+              type="text"
+              id="searchInput"
+              name="query"
+              placeholder="Cerca..."
+            />
+            <button type="submit" class="searchButton">Buscar</button>
+          </div>
+
+          <div class="div2-leftblock">
+            <label for="disponiblesCheckbox" id="disponibleslabel"
+              >Només disponibles</label
+            >
+            <input
+              type="checkbox"
+              id="disponiblesCheckbox"
+              class="checkCatalogo"
+              name="disponibles"
+              value="1"
+            />
+          </div>
+        </form>
+      </div>
         <div class="user-info">
             <div class="dropdown-content">
                 <p>El teu compte</p>
@@ -31,34 +64,40 @@
             <!-- Sidebar -->
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                 <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                <span data-feather="home"></span>
-                                Panell <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"> Importacio Usuaris </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
-                                <i class="fa-solid fa-user"></i>
-                                Usuaris
-                            </a>
-                        </li>
-                    </ul>
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="{% url 'admin_dashboard' %}">
+                        <span data-feather="home"></span>
+                        Panell Bibliotecari<span class="sr-only">(current)</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'importacion' %}">
+                        Importacio Usuaris
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
+                        <i class="fa-solid fa-user"></i>
+                        Usuaris
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'admin_prestecs' %}">
+                        Prestecs
+                      </a>
+                    </li>
+                  </ul>
                 </div>
-            </nav>
-
+              </nav>
             <!-- Main content area -->
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+              <h1 class="h2">Importar CSV</h1>
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Panell</h1>
                 </div>
 
-                <h1 class="tituloCSV">Importar CSV</h1>
+                
                 <div class="añadirCSV">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
@@ -82,6 +121,18 @@
             </main>
         </div>
     </div>
+    <script  type="text/javascript">
+      $(document).ready(function () {
+        $("#searchInput").autocomplete({
+          source: "{% url 'autocomplete' %}", 
+          minLength: 3, 
+          select: function (event, ui) {
+            $("#searchInput").val(ui.item.value); 
+            return false;
+          },
+        });
+      });
+    </script>
 </body>
 
 </html>

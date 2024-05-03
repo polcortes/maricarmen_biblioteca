@@ -98,10 +98,10 @@
     <script type="text/javascript">
       $(document).ready(function () {
         $("#searchInput").autocomplete({
-          source: "{% url 'autocomplete' %}", // Asegúrate de que esta URL es correcta
-          minLength: 3, // Número mínimo de caracteres antes de que el autocompletado se active
+          source: "{% url 'autocomplete' %}", 
+          minLength: 3, 
           select: function (event, ui) {
-            $("#searchInput").val(ui.item.value); // Actualiza el valor del input
+            $("#searchInput").val(ui.item.value); 
             return false;
           },
         });
