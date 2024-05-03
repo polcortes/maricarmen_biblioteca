@@ -61,7 +61,16 @@
           >
             <h1 class="h2">Panell</h1>
           </div>
-
+          <div class="pagination">
+            {% if prestecs.has_previous %}
+              <a href="?page={{ prestecs.previous_page_number }}">&lsaquo; Anterior</a>&nbsp;&nbsp;
+            {% endif %}
+            <span class="current">Página {{ prestecs.number }} de {{ prestecs.paginator.num_pages }}</span>
+            {% if prestecs.has_next %}
+            &nbsp;&nbsp;<a href="?page={{ prestecs.next_page_number }}">Siguiente &rsaquo;</a>
+            {% endif %}
+          </div>
+          <br>
           <div>
             <table class="table">
               <thead>

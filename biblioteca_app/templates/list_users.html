@@ -111,6 +111,19 @@
                 <!--comentario para separar-->
                 {%endfor%}
               </tbody>
+              <div class="pagination">
+                {% if usuarios.has_previous %}
+                    <a href="?page={{ usuarios.previous_page_number }}">&lsaquo; Anterior</a>&nbsp;&nbsp;
+                {% endif %}
+                          
+                <span class="current">Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</span>
+                          
+                {% if usuarios.has_next %}
+                    &nbsp;&nbsp;<a href="?page={{ usuarios.next_page_number }}">Siguiente &rsaquo;</a>
+                {% endif %}
+            </div>
+            
+
             </table>
           </div>
 
