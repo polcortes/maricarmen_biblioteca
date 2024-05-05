@@ -60,6 +60,7 @@
                 if (param.key === 'llengua') document.getElementById('llengua').value = param.value;
                 if (param.key === 'centre') document.getElementById('centre').value = param.value;
                 if (param.key === 'data-edicio') document.getElementById('data-edicio').value = param.value;
+                if (param.key === 'mostrar') document.getElementById('mostrar').value = param.value;
             });
 
             clearFields.forEach(clearField => {
@@ -68,7 +69,6 @@
                     if (clearField.classList.contains('calendar-clear-field')) {
                         // calendar.value = '';
                         [...document.querySelectorAll('.any-filters section button')].forEach(month => month.disabled = false);
-
                     }
                 });
             });
@@ -80,13 +80,6 @@
                     checkbox.checked = false;
                 });
             });
-
-
-            /*calendar.addEventListener('change', () => {
-                const [ start, end ] = calendar.value.split('/');
-                calendarResult.value = `${new Date(start).toLocaleDateString()} - ${new Date(end).toLocaleDateString()}`;
-                //calendarResult.value = calendar.value;
-            });*/
 
             const searchItems = document.getElementById('search-items');
             const form = document.querySelector('.search-section');
@@ -268,9 +261,9 @@
                     <fieldset class="mostrar-filters">
                         <legend>Mostrar: </legend>
                         <select name="mostrar" id="mostrar">
-                            <option value="en_prestec">En prestec</option>
-                            <option value="lliures">Lliure</option>
                             <option selected value="indiferent">Indiferent</option>
+                            <option value="lliures">Lliure</option>
+                            <option value="en_prestec">En prestec</option>
                         </select>
                     </fieldset>
 
