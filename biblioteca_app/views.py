@@ -152,9 +152,8 @@ def search_results(request):
             items = items.filter(prestats__gt=0)
 
     if filters['data-edicio']:
-        # TODO: Filtrar por rango de fechas!!!
-        data_inici = filters['data-edicio'].split(' - ')[0]
-        data_final = filters['data-edicio'].split(' - ')[1]
+        data_inici = filters['data-edicio'].split(' - ')[0].split('/')[0]
+        data_final = filters['data-edicio'].split(' - ')[1].split('/')[0]
         items = items.filter(any__range=[data_inici, data_final])
 
     editorials = Llibre.objects.values('editorial').distinct()
