@@ -441,6 +441,9 @@ def general_dashboard(request):
 def admin_dashboard(request):
     return render(request, 'admin_dashboard.html')
 
+def generate_items(request):
+    return render(request, 'generate_items.html')
+
 def general_profile(request):
     # Obtener los datos del usuario actual desde la base de datos
     user = request.user

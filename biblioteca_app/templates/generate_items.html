@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Usuaris | Biblioteca Mari Carmen Brito</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <script src="{% static 'js/header.js' %}"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J500BVGF02"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-J500BVGF02');
+    </script>
+</head>
+
+<body class="list_users">
+    <header class="headerWithUser">
+        <h1 class="h2"><a class="linkheader" href="{% url 'admin_dashboard' %}">Panell Bibliotecari</a></h1>
+        <div class="input-wrapper">
+            <form action="{% url 'search_results' %}" method="get" class="formCatalogo">
+                <div class="div1-leftblock">
+                    <input type="text" id="searchInput" name="query" placeholder="Cerca..." />
+                    <button type="submit" class="searchButton">Buscar</button>
+                </div>
+
+                <div class="div2-leftblock">
+                    <label for="disponiblesCheckbox" id="disponibleslabel">Només disponibles <input type="checkbox"
+                            id="disponiblesCheckbox" class="checkCatalogo" name="disponibles" value="1" /></label>
+                </div>
+            </form>
+        </div>
+        <div class="user-info">
+            <div class="dropdown-content">
+                <p>El teu compte</p>
+                <a href="{% url 'admin_profile' %}">Editar Perfil</a>
+                <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
+            </div>
+            <img id="user-img" src="{% static 'img/user_header.png' %}" alt="User Picture" />
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'admin_dashboard' %}">
+                                <span data-feather="home"></span>
+                                Panell Bibliotecari<span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'importacio' %}">
+                                Importacio Usuaris
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
+                                <i class="fa-solid fa-user"></i>
+                                Usuaris
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_prestecs' %}">
+                                Prestecs
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content area -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Crear Items</h1>
+                </div>
+
+                <!-- Campo de entrada ISBN -->
+                <label for="isbn-input">ISBN:</label>
+                <input type="text" id="isbn-input" placeholder="ISBN">
+
+                <!-- Campos de entrada para los datos del libro (inicialmente ocultos) -->
+                <label for="titol-input" style="display: none;">Titol:</label>
+                <input type="text" id="titol-input" name="titol" style="display: none;" readonly>
+
+                <label for="autor-input" style="display: none;">Autor:</label>
+                <input type="text" id="autor-input" name="autor" style="display: none;" readonly>
+
+                <label for="descripcio-input" style="display: none;">Descripcio:</label>
+                <textarea id="descripcio-input" name="descripcio" style="display: none;" readonly></textarea>
+
+                <label for="lloc-edicio-input" style="display: none;">Lloc d'edicio:</label>
+                <input type="text" id="lloc-edicio-input" name="lloc_edicio" style="display: none;" readonly>
+
+                <label for="any-input" style="display: none;">Any:</label>
+                <input type="text" id="any-input" name="any" style="display: none;" readonly>
+
+                <label for="pais-input" style="display: none;">Pais:</label>
+                <input type="text" id="pais-input" name="pais" style="display: none;" readonly>
+
+                <label for="signatura-input" style="display: none;">Signatura:</label>
+                <input type="text" id="signatura-input" name="signatura" style="display: none;" readonly>
+
+                <label for="disponibles-input" style="display: none;">Disponibles:</label>
+                <input type="text" id="disponibles-input" name="disponibles" style="display: none;" readonly>
+
+                <label for="reservats-input" style="display: none;">Reservats:</label>
+                <input type="text" id="reservats-input" name="reservats" style="display: none;" readonly>
+
+                <label for="prestats-input" style="display: none;">Prestats:</label>
+                <input type="text" id="prestats-input" name="prestats" style="display: none;" readonly>
+
+                <label for="no-disponibles-input" style="display: none;">No disponibles:</label>
+                <input type="text" id="no-disponibles-input" name="no_disponibles" style="display: none;" readonly>
+
+                <input type="text" id="url-input" name="url" style="display: none;" readonly>
+
+                <input type="text" id="imatge-input" name="imatge" style="display: none;" readonly>
+
+                <label for="mides-input" style="display: none;">Mides:</label>
+                <input type="text" id="mides-input" name="mides" style="display: none;" readonly>
+
+                <label for="procedencia-input" style="display: none;">Procedencia:</label>
+                <input type="text" id="procedencia-input" name="procedencia" style="display: none;" readonly>
+
+                <label for="llengua-input" style="display: none;">Llengua:</label>
+                <input type="text" id="llengua-input" name="llengua" style="display: none;" readonly>
+
+                <label for="centre-input" style="display: none;">Centre:</label>
+                <input type="text" id="centre-input" name="centre" style="display: none;" readonly>
+
+                <label for="caracteristiques-input" style="display: none;">Caracteristiques:</label>
+                <input type="text" id="caracteristiques-input" name="caracteristiques" style="display: none;" readonly>
+
+                <label for="altra-informacio-input" style="display: none;">Altra informacio:</label>
+                <textarea id="altra-informacio-input" name="altra_informacio" style="display: none;"
+                    readonly></textarea>
+
+                <label for="CDU-input" style="display: none;">CDU:</label>
+                <input type="text" id="CDU-input" name="CDU" style="display: none;" readonly>
+
+                <label for="editorial-input" style="display: none;">Editorial:</label>
+                <input type="text" id="editorial-input" name="editorial" style="display: none;" readonly>
+
+                <label for="colleccio-input" style="display: none;">Colleccio:</label>
+                <input type="text" id="colleccio-input" name="colleccio" style="display: none;" readonly>
+
+                <label for="pagines-input" style="display: none;">Pagines:</label>
+                <input type="text" id="pagines-input" name="pagines" style="display: none;" readonly>
+
+                <label for="descriptors-input" style="display: none;">Descriptors:</label>
+                <input type="text" id="descriptors-input" name="descriptors" style="display: none;" readonly>
+
+                <label for="resum-input" style="display: none;">Resum:</label>
+                <textarea id="resum-input" name="resum" style="display: none;" readonly></textarea>
+
+                <label for="volums-input" style="display: none;">Volums:</label>
+                <input type="text" id="volums-input" name="volums" style="display: none;" readonly>
+
+                <label for="tipus-input" style="display: none;">Tipus:</label>
+                <input type="text" id="tipus-input" name="tipus" style="display: none;" readonly>
+
+                <!-- Agrega más campos según sea necesario -->
+
+                <!-- Contenido principal -->
+                <canvas class="my-4 w-100" id="myChart" width="900" height="600"></canvas>
+            </main>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#isbn-input').keypress(function (event) {
+                if (event.keyCode === 13) {
+                    var isbn = $(this).val();
+                    $.ajax({
+                        url: 'https://openlibrary.org/search.json?isbn=' + isbn,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.docs && data.docs.length > 0) {
+                                var llibreData = data.docs[0];
+                                console.log('perfecto', llibreData);
+
+                                // Rellenar los campos de entrada con los datos del libro
+                                $('#titol-input').val(llibreData.title);
+                                $('#autor-input').val(Array.isArray(llibreData.author_name) ? llibreData.author_name[0] : llibreData.author_name);
+                                $('#descripcio-input').val(llibreData.subject[0]);
+                                $('#lloc-edicio-input').val(llibreData.publish_place);
+                                $('#any-input').val(Array.isArray(llibreData.first_publish_year) ? llibreData.first_publish_year[0] : llibreData.first_publish_year);
+                                $('#editorial-input').val(Array.isArray(llibreData.publisher) ? llibreData.publisher[0] : llibreData.publisher);
+                                $('#ISBN-input').val(Array.isArray(llibreData.isbn) ? llibreData.isbn[0] : llibreData.isbn);
+                                $('#colleccio-input').val(llibreData.series);
+                                $('#pagines-input').val(llibreData.number_of_pages_median);
+                                $('#llengua-input').val(llibreData.language[0]);
+                                $('#procedencia-input').val(llibreData.publish_place);
+                                $('#mides-input').val('10x15');
+
+                                
+
+
+                                // Mostrar todos los campos de entrada y los labels asociados
+                                $('label').show(); // Mostrar todos los labels
+                                // Mostrar los inputs excepto los de URL e Imatge
+                                $('input, textarea').not('#url-input, #imatge-input').show(); 
+                            } else {
+                                console.log('No se encontraron resultados para el ISBN proporcionado.');
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log('Error:', errorThrown);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
