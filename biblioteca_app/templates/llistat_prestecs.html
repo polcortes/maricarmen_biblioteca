@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Els teus prestecs | Biblioteca Mari Carmen Brito</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link
@@ -46,7 +46,7 @@
     </header>
 
     <div class="container-fluid">
-      <div class="row">
+      <div id="row_user" class="row">
         <!-- Sidebar -->
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
@@ -69,7 +69,7 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
           >
-            <h1 class="h2">Panell</h1>
+            <h2 class="h2">Els teus prestecs</h2>
           </div>
           <div class="pagination">
             {% if prestecs.has_previous %}

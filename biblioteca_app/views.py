@@ -165,7 +165,7 @@ def search_results(request):
     centres = ItemCataleg.objects.values('centre').distinct()
     
     # Paginación
-    paginator = Paginator(items, 9)  # 9 items por página
+    paginator = Paginator(items, 25)  # 25 items por página
     page_number = request.GET.get('page')
     try:
         items = paginator.page(page_number)
@@ -354,7 +354,7 @@ def mostrar_usuaris(request):
     usuarios = Usuari.objects.filter(centre=centro_usuario).order_by('id')
 
     # Aplicar paginación
-    paginator = Paginator(usuarios, 10)
+    paginator = Paginator(usuarios, 25)
     page_number = request.GET.get('page', 1)
 
     try:
@@ -545,7 +545,7 @@ def admin_prestecs(request):
     prestecs = Prestecs.objects.filter(usuari__centre=request.user.centre)
     
     # Configurar la paginación
-    paginator = Paginator(prestecs, 10)  # 10 préstamos por página
+    paginator = Paginator(prestecs, 25)  # 10 préstamos por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -557,7 +557,7 @@ def llistat_prestecs(request):
     prestecs = Prestecs.objects.filter(usuari=request.user)
 
     # Paginación
-    paginator = Paginator(prestecs, 5)  # 5 préstamos por página
+    paginator = Paginator(prestecs, 25)  # 5 préstamos por página
     page_number = request.GET.get('page')
     try:
         prestecs = paginator.page(page_number)

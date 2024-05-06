@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Importació | Biblioteca Mari Carmen Brito</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
@@ -43,7 +43,7 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">
+                            <a class="nav-link active" href="/dashboard/general">
                                 <span data-feather="home"></span>
                                 Panell <span class="sr-only">(current)</span>
                             </a>
@@ -70,10 +70,11 @@
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Panell</h1>
+                    <!-- <h1 class="h2">Panell</h1> -->
+                    <h2>Importació Usuaris</h2>
                 </div>
 
-                <h1 class="tituloCSV">Importar CSV</h1>
+                <!-- <h1 class="tituloCSV">Importar CSV</h1> -->
                 <div class="añadirCSV">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}

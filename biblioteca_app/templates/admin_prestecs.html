@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Prestecs | Biblioteca Mari Carmen Brito</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link
@@ -52,13 +52,13 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a class="nav-link active" href="/dashboard/general">
                   <span data-feather="home"></span>
                   Panell <span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#"> Importacio Usuaris </a>
+                <a class="nav-link" href="{% url 'importacio' %}"> Importacio Usuaris </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
@@ -80,7 +80,9 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
           >
-            <h1 class="h2">Panell</h1>
+            <!-- <h1 class="h2">Panell</h1> -->
+            <h2>Prestecs</h2>
+
           </div>
 
           <div class="pagination">
@@ -88,7 +90,7 @@
               <a href="?page={{ page_obj.previous_page_number }}">&lsaquo; Anterior</a>&nbsp;&nbsp;
             {% endif %}
             
-            <span class="current">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            <span id="span_pagination_adminprestecs" class="current">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
             
             {% if page_obj.has_next %}
             &nbsp;&nbsp;<a href="?page={{ page_obj.next_page_number }}">Siguiente &rsaquo;</a>

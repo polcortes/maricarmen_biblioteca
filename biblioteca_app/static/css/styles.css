@@ -492,7 +492,7 @@ p {
   border: none;
   width: auto;
   margin-inline: auto;
-  width: 120px;
+  width: 281px;
 }
 
 .user-form .img_gnrl_prof {
@@ -1028,6 +1028,18 @@ fieldset[class$="-filters"]:not(.type-filters):not(.any-filters) {
   overflow-y: auto !important;
 }
 
+#span_pagination_adminprestecs {
+  margin-top: 35px;
+}
+
+.row {
+  padding-top: 120px;
+}
+
+.d-md-block {
+  padding-top: 0px;
+}
+
 #login-form {
   display: flex;
   flex-direction: column;
@@ -1296,6 +1308,10 @@ div:has(> .table) {
 
 .llistat_prestecs > .mobile-menu > div > ul > li > a {
   width: 200px;
+}
+
+#row_user {
+  padding-top: 0px;
 }
 
 .menu-hidden {
