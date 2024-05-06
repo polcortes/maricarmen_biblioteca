@@ -81,7 +81,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'maricarmen_biblioteca.wsgi.application'
-
+CSRF_TRUSTED_ORIGINS = ['https://biblio4.ieti.site']
+CORS_ALLOWED_ORIGINS = [
+    "https://biblio4.ieti.site",
+]
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -94,17 +97,26 @@ WSGI_APPLICATION = 'maricarmen_biblioteca.wsgi.application'
 # }
 
 
+#DATABASES = {
+#    'default': {
+#    	'ENGINE': 'django.db.backends.mysql',
+#    	'NAME': os.getenv('DB_NAME'),
+#	'USER': os.getenv('DB_USER'),
+#	'PASSWORD': os.getenv('DB_PASSWORD'),
+#	'HOST': os.getenv('DB_HOST'),
+#	'PORT': os.getenv('DB_PORT'),
+#    }
+#}
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.mysql',
-    'NAME': os.getenv('DB_NAME'),
-	'USER': os.getenv('DB_USER'),
-	'PASSWORD': os.getenv('DB_PASSWORD'),
-	'HOST': os.getenv('DB_HOST'),
-	'PORT': os.getenv('DB_PORT'),
+    'NAME': 'mcdb',
+	'USER': 'paco',
+	'PASSWORD': 'dffne39fs@m4',
+	'HOST': 'localhost',
+	'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

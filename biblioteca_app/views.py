@@ -120,8 +120,13 @@ def search_results(request):
         items = items.filter(titol__icontains=query)
     if disponibles:
         items = items.filter(exemplars__gt=0)
+    #for item in items:
+    #    print(item.tipus)
+
     for item in items:
-        print(item.tipus)
+        if item.tipus:
+            print(item.tipus)
+
 
     if filters['tipus']:
         for i in range(len(filters['tipus'])):
