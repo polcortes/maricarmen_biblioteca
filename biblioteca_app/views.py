@@ -526,7 +526,7 @@ def import_csv(request):
 
 def admin_prestecs(request):
     # Obtener todos los préstamos de la base de datos filtrados por el centro del usuario actual
-    prestecs = Prestecs.objects.filter(usuari__centre=request.user.customuser.centre)
+    prestecs = Prestecs.objects.filter(usuari__centre=request.user.centre)
     
     # Configurar la paginación
     paginator = Paginator(prestecs, 10)  # 10 préstamos por página
