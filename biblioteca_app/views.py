@@ -113,6 +113,7 @@ def search_results(request):
         'llengua': request.GET.get('llengua', '').strip(),
         'centre': request.GET.get('centre', '').strip(),
         'data-edicio': request.GET.get('data-edicio', '').strip(),
+        'mostrar': request.GET.get('mostrar', '').strip(),
     }
 
     if 'disponibles' in request.GET:  # Verifica si el checkbox 'disponibles' está presente en la solicitud
@@ -124,8 +125,12 @@ def search_results(request):
         items = items.filter(titol__icontains=query)
     if disponibles:
         items = items.filter(exemplars__gt=0)
-    for item in items:
-        print(item.tipus)
+
+    # for item in items:
+    #     if (item.centre in [itemCat for itemCat in filters['centre'].split(',') if itemCat != '']):
+    #         items = items.filter(centre__icontains=item.centre)
+    
+    
 
     if filters['tipus']:
         for i in range(len(filters['tipus'])):
@@ -143,6 +148,17 @@ def search_results(request):
 
     if 'Llibre' in filters['tipus']:
         items = items.filter(llibre__editorial__icontains=filters['editorial'],)
+    
+    if filters['mostrar']:
+        if filters['mostrar'] == 'lliures':
+            items = items.filter(disponibles__gt=0)
+        elif filters['mostrar'] == 'en_prestec':
+            items = items.filter(prestats__gt=0)
+
+    if filters['data-edicio']:
+        data_inici = filters['data-edicio'].split(' - ')[0].split('/')[0]
+        data_final = filters['data-edicio'].split(' - ')[1].split('/')[0]
+        items = items.filter(any__range=[data_inici, data_final])
 
     editorials = Llibre.objects.values('editorial').distinct()
     llengues = ItemCataleg.objects.values('llengua').distinct()
