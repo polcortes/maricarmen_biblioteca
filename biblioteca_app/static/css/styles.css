@@ -86,6 +86,7 @@ input[type="search"]::-webkit-search-results-decoration {
   vertical-align: text-top;
   font-size: 16px;
   gap: 5px;
+  margin-left: 20px;
 }
 
 .left-block .input-group #disponiblesCheckbox {
@@ -136,7 +137,12 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .div2-leftblock {
+  display: ruby-text;
   /* margin-top: 24px; */
+}
+
+#disponibleslabel #disponiblesCheckbox {
+  margin-left: 69px;
 }
 
 .right-block {
@@ -260,7 +266,7 @@ h2 {
   text-align: center;
   padding: 30px;
   border-bottom: 2px solid #45a049;
-  position: fixed; /* Agrega posición relativa al contenedor principal */
+  position: inherit; /* Agrega posición relativa al contenedor principal */
   top: 0;
   left: 0;
   width: 100%;
@@ -334,6 +340,14 @@ p {
 
 /* HEADER NO ADMIN */
 
+#nav_general {
+  margin-top: 86px;
+}
+
+#main_prestecs {
+  margin-top: 0px;
+}
+
 .headerNoAdmin {
   margin: 0;
   padding: 0;
@@ -346,6 +360,11 @@ p {
   padding: 30px;
   border-bottom: 2px solid #45a049;
   position: relative; /* Agrega posición relativa al contenedor principal */
+  z-index: 9999;
+}
+
+.headerNoAdmin .input-wrapper {
+  margin-left: auto;
 }
 
 .headerNoAdmin .user-info {
@@ -1037,7 +1056,8 @@ fieldset[class$="-filters"]:not(.type-filters):not(.any-filters) {
 }
 
 .row {
-  padding-top: 120px;
+  /* padding-top: 20px; */
+  margin-top: -87px;
 }
 
 .d-md-block {
@@ -1108,8 +1128,17 @@ fieldset[class$="-filters"]:not(.type-filters):not(.any-filters) {
 }
 
 .div1-leftblock {
-  display: flex;
+  display: inline;
   flex-direction: column;
+}
+
+.div1-leftblock .searchButton {
+  background-color: white;
+}
+
+.headerWithUser .input-wrapper {
+  display: table-cell;
+  margin-left: auto
 }
 
 [for="searchInput"] {
@@ -1228,6 +1257,7 @@ fieldset[class$="-filters"]:not(.type-filters):not(.any-filters) {
 
 .general_dashboard main {
   margin-left: 0 !important;
+  margin-top: 100px;
 }
 
 .table * {
