@@ -105,10 +105,12 @@ def autocomplete(request):
 ## VIEW RESULTADOS BUSQUEDA
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 def search_results(request):
     query = request.GET.get('query', '').strip().lower()
     filters = {
-        'tipus': request.GET.getlist('tipus'), # los checkboxes
+        'tipus': request.GET.getlist('tipus'),
         'editorial': request.GET.get('editorial', '').strip(),
         'llengua': request.GET.get('llengua', '').strip(),
         'centre': request.GET.get('centre', '').strip(),
@@ -116,7 +118,7 @@ def search_results(request):
         'mostrar': request.GET.get('mostrar', '').strip(),
     }
 
-    if 'disponibles' in request.GET:  # Verifica si el checkbox 'disponibles' está presente en la solicitud
+    if 'disponibles' in request.GET:
         disponibles = request.GET.get('disponibles') == '1'
     else:
         disponibles = False
@@ -125,13 +127,7 @@ def search_results(request):
         items = items.filter(titol__icontains=query)
     if disponibles:
         items = items.filter(exemplars__gt=0)
-
-    # for item in items:
-    #     if (item.centre in [itemCat for itemCat in filters['centre'].split(',') if itemCat != '']):
-    #         items = items.filter(centre__icontains=item.centre)
     
-    
-
     if filters['tipus']:
         for i in range(len(filters['tipus'])):
             filters['tipus'][i] = filters['tipus'][i].lower()
@@ -164,6 +160,9 @@ def search_results(request):
     llengues = ItemCataleg.objects.values('llengua').distinct()
     centres = ItemCataleg.objects.values('centre').distinct()
     
+    # Obtener el total de resultados
+    total_resultados = items.count()
+    
     # Paginación
     paginator = Paginator(items, 25)  # 25 items por página
     page_number = request.GET.get('page')
@@ -182,8 +181,10 @@ def search_results(request):
         'editorials': editorials,
         'llengues': llengues,
         'centres': centres,
+        'total_resultados': total_resultados,  # Pasar el total de resultados al contexto
     }
     return render(request, 'search_results.html', context)
+
 
 
 

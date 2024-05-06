@@ -105,7 +105,11 @@
                 }
             });
 
-            document.getElementById('total-resultats').textContent = document.querySelectorAll('.results > article').length;
+            var totalResultados = "{{ total_resultados }}"; // Obtén el valor del contexto de Django
+    
+            document.getElementById('total-resultats').textContent = totalResultados;
+
+            // document.getElementById('total-resultats').textContent = document.querySelectorAll('.results > article').length;
             
             document.getElementById('year').textContent = new Date().getFullYear();
 
