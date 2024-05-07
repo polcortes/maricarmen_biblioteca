@@ -58,7 +58,7 @@ class Command(BaseCommand):
                     altra_informacio=fake.text(),
                     CDU=fake.ean8(),
                     editorial=fake.company(),
-                    ISBN=int(fake.isbn10().replace('-', '').replace('X', '')),
+                    ISBN = int(fake.isbn10().replace('-', '').replace('X', '')), 
                     colleccio = fake.word(),
                     pagines = randint(50, 1100),
                     descriptors = fake.words(),

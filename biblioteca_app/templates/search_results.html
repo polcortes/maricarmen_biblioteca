@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -104,7 +105,11 @@
                 }
             });
 
-            document.getElementById('total-resultats').textContent = document.querySelectorAll('.results > article').length;
+            var totalResultados = "{{ total_resultados }}"; // Obtén el valor del contexto de Django
+    
+            document.getElementById('total-resultats').textContent = totalResultados;
+
+            // document.getElementById('total-resultats').textContent = document.querySelectorAll('.results > article').length;
             
             document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -161,23 +166,23 @@
       gtag('config', 'G-J500BVGF02');
     </script>
 </head>
+
 <body id="search-results">
     <header class="headerWithUser">
+        <h1 class="h2">Biblioteca Mari Carmen Brito</h1><br>
+        <h1 class="h2"><a class="linkheader" href="{% url 'landing_page' %}">Inici</a></h1><br> 
+        <h1 class="h2"><a class="linkheader" href="{% url 'admin_dashboard' %}">Panell</a></h1>
         <div class="user-info">
             <div class="dropdown-content">
                 <p>El teu compte</p>
                 <a href="{% url 'general_profile' %}">Editar Perfil</a>
                 <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
             </div>
-            <img
-                id="user-img"
-                src="{% static 'img/user_header.png' %}"
-                alt="User Picture"
-            />
+            <img id="user-img" src="{% static 'img/user_header.png' %}" alt="User Picture" />
         </div>
     </header>
     <main style="padding-top: 100px;">
-        <form class="search-section" action="{% url 'search_results' %}" method="get" >
+        <form class="search-section" action="{% url 'search_results' %}" method="get">
             <label class="custom-search">
                 <span>La teva cerca:</span>
                 <input type="search" name="query" id="search-items" placeholder="{{ query }}" />
@@ -211,8 +216,9 @@
                             <input type="checkbox" name="tipus" id="tipus-dispositiu" value="Dispositiu">
                             Dispositius
                         </label>
-                        
-                        <button type="button" style="margin-top: 10px; width: fit-content; margin-inline: auto;" class="clear-checks"><i class="fa-solid fa-trash"></i></button>
+
+                        <button type="button" style="margin-top: 10px; width: fit-content; margin-inline: auto;"
+                            class="clear-checks"><i class="fa-solid fa-trash"></i></button>
                     </fieldset>
 
                     <fieldset class="editorial-filters">
@@ -223,9 +229,9 @@
 
                         <datalist id="editorials">
                             {% for editorial in editorials %}
-                                <option value="{{ editorial.editorial }}">
-                                    {{ editorial.editorial }}
-                                </option>
+                            <option value="{{ editorial.editorial }}">
+                                {{ editorial.editorial }}
+                            </option>
                             {% endfor %}
                         </datalist>
                     </fieldset>
@@ -233,14 +239,14 @@
                     <fieldset class="llengua-filters">
                         <legend>Llengua</legend>
                         <input type="search" name="llengua" id="llengua" list="llengues">
-                        
+
                         <button type="button" class="clear-field"><i class="fa-solid fa-trash"></i></button>
 
                         <datalist id="llengues">
                             {% for llengua in llengues %}
-                                <option value="{{ llengua.llengua }}">
-                                    {{ llengua.llengua }}
-                                </option>
+                            <option value="{{ llengua.llengua }}">
+                                {{ llengua.llengua }}
+                            </option>
                             {% endfor %}
                         </datalist>
                     </fieldset>
@@ -253,9 +259,9 @@
 
                         <datalist id="centres">
                             {% for centre in centres %}
-                                <option value="{{ centre.centre }}">
-                                    {{ centre.centre }}
-                                </option>
+                            <option value="{{ centre.centre }}">
+                                {{ centre.centre }}
+                            </option>
                             {% endfor %}
                         </datalist>
                     </fieldset>
@@ -272,8 +278,10 @@
                     <fieldset class="any-filters">
                         <legend>Data d'edició:</legend>
                         <div>
-                            <input type="text" name="data-edicio" id="data-edicio" style="width: 212px; margin: 5px 0 7px 0;">
-                            <button type="button" class="clear-field calendar-clear-field"><i class="fa-solid fa-trash"></i></button>
+                            <input type="text" name="data-edicio" id="data-edicio"
+                                style="width: 212px; margin: 5px 0 7px 0;">
+                            <button type="button" class="clear-field calendar-clear-field"><i
+                                    class="fa-solid fa-trash"></i></button>
                         </div>
 
                         {% comment %} <calendar-range>
@@ -311,6 +319,20 @@
             </details>
         </form>
         <h1>Resultats de la cerca: <span><span id="total-resultats">Carregant els</span> resultats.</span></h1>
+
+        {% if items.has_other_pages %}
+        <div class="pagination">
+            {% if items.has_previous %}
+            <a href="?query={{ query }}&page={{ items.previous_page_number }}">Anterior</a>&nbsp;&nbsp;
+            {% endif %}
+
+            <span class="current">Página {{ items.number }} de {{ items.paginator.num_pages }}</span>
+
+            {% if items.has_next %}
+            &nbsp;&nbsp;<a href="?query={{ query }}&page={{ items.next_page_number }}">Siguiente</a>
+            {% endif %}
+        </div>
+        {% endif %}
 
         <section class="results">
             {% if items %}
@@ -358,9 +380,11 @@
                 </article>
                 {% endfor %}
             {% else %}
-                <p>No s'ha trobat resultats per: "{{ query }}".</p>
+            <p>No s'ha trobat resultats per: "{{ query }}".</p>
             {% endif %}
-        </section>  
+        </section>
+
+        
     </main>
     {% if user.is_authenticated %}
     <script>
@@ -384,7 +408,7 @@
                             userId: '{{ request.user.id }}'
                         })
                     }).then(data => {
-                        console.log(data)
+                        // console.log(data)
                         if (data.ok) {
                             disponibles.textContent = Number(disponibles.textContent) - 1;
                             // btn.disabled = true;

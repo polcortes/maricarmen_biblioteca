@@ -4,7 +4,7 @@
     {% load socialaccount %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Landing Page</title>    
+    <title>Biblioteca Mari Carmen Brito</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     {% csrf_token %}
@@ -117,10 +117,10 @@
     <script type="text/javascript">
       $(document).ready(function () {
         $("#searchInput").autocomplete({
-          source: "{% url 'autocomplete' %}", // Asegúrate de que esta URL es correcta
-          minLength: 3, // Número mínimo de caracteres antes de que el autocompletado se active
+          source: "{% url 'autocomplete' %}", 
+          minLength: 3, 
           select: function (event, ui) {
-            $("#searchInput").val(ui.item.value); // Actualiza el valor del input
+            $("#searchInput").val(ui.item.value); 
             return false;
           },
         });

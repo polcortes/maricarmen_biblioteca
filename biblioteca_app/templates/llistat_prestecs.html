@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Els teus prestecs | Biblioteca Mari Carmen Brito</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link
@@ -13,6 +13,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -31,6 +33,36 @@
   </head>
   <body class="general_dashboard llistat_prestecs">
     <header class="headerNoAdmin">
+    <h1 class="h2"><a class="linkheader" href="{% url 'landing_page' %}">Biblioteca Mari Carmen Brito</a></h1>
+    <div class="input-wrapper">
+      <form
+        action="{% url 'search_results' %}"
+        method="get"
+        class="formCatalogo"
+      >
+        <div class="div1-leftblock">
+          <input
+            type="text"
+            id="searchInput"
+            name="query"
+            placeholder="Cerca..."
+          />
+          <button type="submit" class="searchButton">Buscar</button>
+        </div>
+
+        <div class="div2-leftblock">
+          <label for="disponiblesCheckbox" id="disponibleslabel"
+              >Només disponibles <input
+              type="checkbox"
+              id="disponiblesCheckbox"
+              class="checkCatalogo"
+              name="disponibles"
+              value="1"
+            /></label
+            >
+        </div>
+      </form>
+    </div>
       <div class="user-info">
         <div class="dropdown-content">
           <p>El teu compte</p>
@@ -45,10 +77,10 @@
       </div>
     </header>
 
-    <div class="container-fluid">
-      <div class="row">
+    <div class="container-fluid1">
+      <div id="row_user" class="row">
         <!-- Sidebar -->
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <nav id="nav_general" class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul id="desktop-menu" class="nav flex-column">
               <li class="nav-item">
@@ -69,9 +101,18 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
           >
-            <h1 class="h2">Panell</h1>
+            <h2 class="h2">Els teus prestecs</h2>
           </div>
-
+          <div class="pagination">
+            {% if prestecs.has_previous %}
+              <a href="?page={{ prestecs.previous_page_number }}">&lsaquo; Anterior</a>&nbsp;&nbsp;
+            {% endif %}
+            <span class="current">Página {{ prestecs.number }} de {{ prestecs.paginator.num_pages }}</span>
+            {% if prestecs.has_next %}
+            &nbsp;&nbsp;<a href="?page={{ prestecs.next_page_number }}">Siguiente &rsaquo;</a>
+            {% endif %}
+          </div>
+          <br>
           <div>
             <div>
               <table class="table">
@@ -156,5 +197,17 @@
     {% load static %}
     <script src="{% static 'js/handleLogCreation.js' %}"></script>
     <script src="{% static 'js/prestecs_checker.js' %}"></script>
+    <script  type="text/javascript">
+      $(document).ready(function () {
+        $("#searchInput").autocomplete({
+          source: "{% url 'autocomplete' %}", 
+          minLength: 3, 
+          select: function (event, ui) {
+            $("#searchInput").val(ui.item.value); 
+            return false;
+          },
+        });
+      });
+    </script>
   </body>
 </html>
