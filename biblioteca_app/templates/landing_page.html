@@ -49,7 +49,7 @@
                 placeholder="Cerca per títol, autor, ISBN..."
               />
               <i class="fa-solid fa-magnifying-glass" style="top: 70%; position: absolute; transform: translateY(-50%); right: 117px; width: 20px;"></i>
-              <button type="submit" class="searchButton">Cercar</button>
+              <button type="submit" class="searchButton" id="searchButton">Cercar</button>
             </span>
           </div>
 
@@ -85,8 +85,8 @@
             Usuari o contrasenya incorrecte.
           </div>
           <span>
-            <button type="submit" class="btn login-btn">Iniciar sesión</button>
-            <a href="{% url 'forgot_password' %}" style="font-size: 16px;">Recupera la teva contrasenya</a>
+            <button type="submit" class="btn login-btn" id="login-btn">Iniciar sesión</button>
+            <a href="{% url 'forgot_password' %}" id="forgotPass" style="font-size: 16px;">Recupera la teva contrasenya</a>
           </span>
         </form>
       </div>
@@ -135,13 +135,79 @@
               }
             })
         });
+        document.addEventListener('keydown', function(event) {
+          // Comprobar si se presionan 'Control', 'Alt' y 'Z' juntos
+          if (event.ctrlKey && event.altKey && event.key === 'z') {
+            // Evitar la acción predeterminada para no activar otros atajos
+            event.preventDefault();
+            // Hacer foco en el campo de entrada
+            document.getElementById('searchInput').focus();
+          }
+        });
+        
+        // Añadir un evento 'keyup' para permitir la escritura después de hacer foco
+        document.addEventListener('keyup', function(event) {
+          if (event.ctrlKey && event.altKey && event.key === 'z') {
+            // Permitir la escritura en el campo de entrada
+            document.getElementById('searchInput').removeAttribute('readonly');
+          }
+        });
+        
+        // Asegurarse de que el campo de entrada no sea de solo lectura al cargar la página
+        window.onload = function() {
+          document.getElementById('searchInput').removeAttribute('readonly');
+        };
+
+
+
+        document.addEventListener('keydown', function(event) {
+          // Comprobar si se presionan 'Control', 'Alt' y 'Z' juntos
+          if (event.ctrlKey && event.altKey && event.key === 'c') {
+            // Evitar la acción predeterminada para no activar otros atajos
+            event.preventDefault();
+            // Hacer foco en el campo de entrada
+            document.getElementById('email').focus();
+          }
+        });
+        
+        // Añadir un evento 'keyup' para permitir la escritura después de hacer foco
+        document.addEventListener('keyup', function(event) {
+          if (event.ctrlKey && event.altKey && event.key === 'c') {
+            // Permitir la escritura en el campo de entrada
+            document.getElementById('email').removeAttribute('readonly');
+          }
+        });
+        
+        // Asegurarse de que el campo de entrada no sea de solo lectura al cargar la página
+        window.onload = function() {
+          document.getElementById('email').removeAttribute('readonly');
+        };
+        document.addEventListener("keydown", function(event) {
+          if (event.ctrlKey && event.altKey && event.key === "a") {
+              var searchButton = document.getElementById("searchButton");
+              searchButton.click();
+          }
+      });
+      document.addEventListener("keydown", function(event) {
+        if (event.ctrlKey && event.altKey && event.key === "s") {
+            var searchButton = document.getElementById("login-btn");
+            searchButton.click();
+        }
+      });
+        document.addEventListener("keydown", function(event) {
+          if (event.ctrlKey && event.altKey && event.key === "d") {
+              var searchButton = document.getElementById("forgotPass");
+              searchButton.click();
+          }
+      });
+        
     </script>
 
     {% if error %}
     <script>
       notify("error", "{{ errorMsg }}", $(".right-block h2"))
     </script>
+
     {% endif %}
-        
 </body>
 </html>
