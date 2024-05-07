@@ -1401,7 +1401,9 @@ div:has(> ul.menu-hidden) {
   margin-left: 380px;
   
 }
-
+.prestec-btn{
+  cursor: pointer;
+}
 .parent {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
