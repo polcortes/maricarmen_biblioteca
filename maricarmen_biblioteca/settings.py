@@ -213,22 +213,29 @@ AUTHENTICATION_BACKENDS = [
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        'SCOPE' : [
+        'SCOPE': [
             'profile',
-            'email'
+            'email',
         ],
         'AUTH_PARAMS': {
-            'access_type':'online',
-        },
-        'APP': {
-            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
-            'secret': os.getenv('GOOGLE_CLIENT_SECRET'),
-            'key': '',
+            'access_type': 'online',
         }
     }
+   
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'https://biblio4.ieti.site',
+]
 
 SITE_ID = 3
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = ''
+LOGOUT_URL = 'logout'
+
+# LOGIN_REDIRECT_URL = '/'
+
+LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'

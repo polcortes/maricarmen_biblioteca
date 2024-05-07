@@ -23,6 +23,7 @@ urlpatterns = [
     path('', views.loginView, name='landing_page'),
     path('login/', views.loginView, name='login'),  # Definir la URL para el inicio de sesión
     path('api/create_log', api.create_log, ),
+    path('dashboard/', views.dashboard, name='dashboard'),  # /dashboard/ que redirige a /dashboard/general/ o /dashboard/admin/ dependiendo del usuario o a '/' si no hay una sesión activa.
     path('dashboard/general/', views.general_dashboard, name='general_dashboard'),
     path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
     path('profile/general/', views.general_profile, name='general_profile'),
