@@ -18,6 +18,8 @@ from re import match
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
+from faker import Faker
+from django.template import loader
 
 # Para mandar mails:
 
@@ -441,8 +443,101 @@ def general_dashboard(request):
 def admin_dashboard(request):
     return render(request, 'admin_dashboard.html')
 
+
 def generate_items(request):
-    return render(request, 'generate_items.html')
+    user = request.user
+
+    # Genera datos falsos con Faker
+    faker = Faker()
+    fake_url = faker.url()
+    fake_img = faker.image_url()
+    fake_cdu = faker.ean8()
+
+    # Crea el diccionario con los datos del usuario y los datos falsos generados
+    user_data = {
+        'nom': user.nom,
+        'centre': user.centre,
+        'fake_url': fake_url,
+        'fake_img': fake_img,
+        'fake_cdu': fake_cdu
+    }
+
+    # Renderiza la plantilla y pasa los datos al contexto
+    return render(request, 'generate_items.html', {'user_data': user_data})
+
+def crear_item(request):
+    if request.method == 'POST':
+        # Obtener los datos del formulario
+        titol = request.POST.get('titol')
+        autor = request.POST.get('autor')
+        descripcio = request.POST.get('descripcio')
+        lloc_edicio = request.POST.get('lloc_edicio')
+        any = request.POST.get('any')
+        pais = request.POST.get('pais')
+        signatura = request.POST.get('signatura')
+        disponibles = request.POST.get('disponibles')
+        reservats = request.POST.get('reservats')
+        prestats = request.POST.get('prestats')
+        no_disponibles = request.POST.get('no_disponibles')
+        url = request.POST.get('url')
+        imatge = request.POST.get('imatge')
+        mides = request.POST.get('mides')
+        procedencia = request.POST.get('procedencia')
+        llengua = request.POST.get('llengua')
+        centre = request.POST.get('centre')
+        caracteristiques = request.POST.get('caracteristiques')
+        altra_informacio = request.POST.get('altra_informacio')
+        CDU = request.POST.get('CDU')
+        editorial = request.POST.get('editorial')
+        ISBN = request.POST.get('ISBN')
+        colleccio = request.POST.get('colleccio')
+        pagines = request.POST.get('pagines')
+        descriptors = request.POST.get('descriptors')
+        resum = request.POST.get('resum')
+        volums = request.POST.get('volums')
+        tipus = request.POST.get('tipus')
+
+        # Crear un objeto Llibre con los datos recibidos
+        llibre = Llibre(
+            titol=titol,
+            autor=autor,
+            descripcio=descripcio,
+            lloc_edicio=lloc_edicio,
+            any=any,
+            pais=pais,
+            signatura=signatura,
+            disponibles=disponibles,
+            reservats=reservats,
+            prestats=prestats,
+            no_disponibles=no_disponibles,
+            url=url,
+            imatge=imatge,
+            mides=mides,
+            procedencia=procedencia,
+            llengua=llengua,
+            centre=centre,
+            caracteristiques=caracteristiques,
+            altra_informacio=altra_informacio,
+            CDU=CDU,
+            editorial=editorial,
+            ISBN=ISBN,
+            colleccio=colleccio,
+            pagines=pagines,
+            descriptors=descriptors,
+            resum=resum,
+            volums=volums,
+            tipus=tipus
+        )
+
+        # Guardar el objeto en la base de datos
+        llibre.save()
+
+        return redirect('crear_item')  # Esto puede variar según cómo esté configurada tu aplicación
+    else:
+        # Si no es una solicitud POST, renderizar el formulario vacío
+        return render(request, 'generate_items.html')
+
+
 
 def general_profile(request):
     # Obtener los datos del usuario actual desde la base de datos
