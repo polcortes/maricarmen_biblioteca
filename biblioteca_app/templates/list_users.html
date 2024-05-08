@@ -141,7 +141,7 @@
                 <th>Email</th>
                 <th>Centre</th>
                 <th>
-                  <a class="btn btn-primary" href="{% url 'mostrar_crear_usuario' %}">
+                  <a class="btn btn-primary" id="crear-usuari" href="{% url 'mostrar_crear_usuario' %}">
                     <i class="fa-solid fa-plus"></i>
                   </a>
                 </th>
@@ -195,6 +195,13 @@
           return false;
         },
       });
+
+      document.addEventListener("keydown", function(event) {
+        if (event.ctrlKey && event.altKey && event.key === "c") {
+            var searchButton = document.getElementById("crear-usuari");
+            searchButton.click();
+        }
+    });
     });
   </script>
 </body>
