@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Prestecs | Biblioteca Mari Carmen Brito</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <script src="{% static 'js/header.js' %}"></script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J500BVGF02"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prestecs | Biblioteca Mari Carmen Brito</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="{% static 'js/header.js' %}"></script>
 
-      gtag('config', 'G-J500BVGF02');
-    </script>
-  </head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J500BVGF02"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-J500BVGF02');
+  </script>
+</head>
 
   <body id="admin_prestecs" class="general_dashboard">
     <header class="headerNoAdmin">
@@ -81,7 +76,7 @@
       <div class="user-info">
         <div class="dropdown-content">
           <p>El teu compte</p>
-          <a href="{% url 'general_profile' %}">Editar Perfil</a>
+          <a href="{% url 'admin_profile' %}">Editar Perfil</a>
           <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
         </div>
         <img
@@ -123,80 +118,111 @@
           </div>
         </nav>
 
-        <!-- Main content area -->
-        <main role="main" id="main_prestecs" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-          <div
-            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-          >
-            <!-- <h1 class="h2">Panell</h1> -->
-            <h1 class="h2">Prestecs</h1>
+      <!-- Main content area -->
+      <main role="main" id="main_prestecs" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <!-- <h1 class="h2">Panell</h1> -->
+          <h1 class="h2">Prestecs</h1>
 
-          </div>
+        </div>
 
-          <div class="pagination">
-            {% if page_obj.has_previous %}
-              <a href="?page={{ page_obj.previous_page_number }}">&lsaquo; Anterior</a>&nbsp;&nbsp;
-            {% endif %}
-            
-            <span id="span_pagination_adminprestecs" class="current">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
-            
-            {% if page_obj.has_next %}
-            &nbsp;&nbsp;<a href="?page={{ page_obj.next_page_number }}">Siguiente &rsaquo;</a>
-            {% endif %}
-          
-          </div>
+        <div class="pagination">
+          {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}">&lsaquo; Anterior</a>&nbsp;&nbsp;
+          {% endif %}
 
-          <div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Usuari</th>
-                  <th>Material</th>
-                  <th>Data de Prestec</th>
-                  <th>Data de Devolucio</th>
-                  <th>Data Limit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for prestec in page_obj %}
-                    <tr>
-                      <td>{{ prestec.usuari.nom }} {{ prestec.usuari.cognoms }}</td>
-                      <td>{{ prestec.item_cataleg.titol }}</td>
-                      <td>{{ prestec.data_prestec }}</td>
-                      <td>{{ prestec.data_retorn }}</td>
-                      <td>{{ prestec.data_limit }}</td>
-                    </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+          <span id="span_pagination_adminprestecs" class="current">Pàgina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
 
-          <!-- <div id="import-users" class="content" style="display: none;">
+          {% if page_obj.has_next %}
+          &nbsp;&nbsp;<a href="?page={{ page_obj.next_page_number }}">Següent &rsaquo;</a>
+          {% endif %}
+
+        </div>
+
+        <div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Usuari</th>
+                <th>Material</th>
+                <th>Data de Prestec</th>
+                <th>Data de Devolucio</th>
+                <th>Data Limit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for prestec in page_obj %}
+              <tr>
+                <td>{{ prestec.usuari.nom }} {{ prestec.usuari.cognoms }}</td>
+                <td>{{ prestec.item_cataleg.titol }}</td>
+                <td>{{ prestec.data_prestec }}</td>
+                <td>{{ prestec.data_retorn }}</td>
+                <td>{{ prestec.data_limit }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- <div id="import-users" class="content" style="display: none;">
                     <h2>Importacio Usuaris</h2>
                 </div> -->
 
-          <!-- Contenido principal -->
-          <canvas
-            class="my-4 w-100"
-            id="myChart"
-            width="900"
-            height="600"
-          ></canvas>
-        </main>
-      </div>
+        <!-- Contenido principal -->
+        <canvas class="my-4 w-100" id="myChart" width="900" height="600"></canvas>
+      </main>
     </div>
-    <script  type="text/javascript">
-      $(document).ready(function () {
-        $("#searchInput").autocomplete({
-          source: "{% url 'autocomplete' %}", 
-          minLength: 3, 
-          select: function (event, ui) {
-            $("#searchInput").val(ui.item.value); 
-            return false;
-          },
-        });
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("#searchInput").autocomplete({
+        source: "{% url 'autocomplete' %}",
+        minLength: 3,
+        select: function (event, ui) {
+          $("#searchInput").val(ui.item.value);
+          return false;
+        },
       });
-    </script>
+    
+      document.addEventListener('keydown', function (event) {
+        // Comprobar si se presionan 'Control', 'Alt' y 'Z' juntos
+        if (event.ctrlKey && event.altKey && event.key === 'z') {
+          // Evitar la acción predeterminada para no activar otros atajos
+          event.preventDefault();
+          // Hacer foco en el campo de entrada
+          document.getElementById('searchInput').focus();
+        }
+      });
+
+      // Añadir un evento 'keyup' para permitir la escritura después de hacer foco
+      document.addEventListener('keyup', function (event) {
+        if (event.ctrlKey && event.altKey && event.key === 'z') {
+          // Permitir la escritura en el campo de entrada
+          document.getElementById('searchInput').removeAttribute('readonly');
+        }
+      });
+
+      // Asegurarse de que el campo de entrada no sea de solo lectura al cargar la página
+      window.onload = function () {
+        document.getElementById('searchInput').removeAttribute('readonly');
+      };
+
+      document.addEventListener("keydown", function (event) {
+        if (event.ctrlKey && event.altKey && event.key === "x") {
+          var dropdownContent = document.getElementById("dropdownContent");
+          dropdownContent.classList.toggle("show");
+        }
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.ctrlKey && event.altKey && event.key === "a") {
+          var searchButton = document.getElementById("searchButton");
+          searchButton.click();
+        }
+      });
+    });
+
+  </script>
     {% load static %}
     <script src="{% static 'js/handleMobileMenus.js' %}"></script>
 
@@ -243,5 +269,6 @@
           </li>
         </ul>
     </section>
-  </body>
+</body>
+
 </html>

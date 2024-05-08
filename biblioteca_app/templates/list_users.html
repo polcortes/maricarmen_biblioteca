@@ -1,195 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Usuaris | Biblioteca Mari Carmen Brito</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <script src="{% static 'js/header.js' %}"></script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J500BVGF02"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usuaris | Biblioteca Mari Carmen Brito</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="{% static 'js/header.js' %}"></script>
 
-      gtag('config', 'G-J500BVGF02');
-    </script>
-  </head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J500BVGF02"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  <body class="list_users">
-    <header class="headerWithUser">
-      <h1 class="h2"><a class="linkheader" href="{% url 'admin_dashboard' %}">Panell Bibliotecari</a></h1>
-      <div class="input-wrapper">
-        <form
-          action="{% url 'search_results' %}"
-          method="get"
-          class="formCatalogo"
-        >
-          <div class="div1-leftblock">
-            <input
-              type="text"
-              id="searchInput"
-              name="query"
-              placeholder="Cerca..."
-            />
-            <button type="submit" class="searchButton">Buscar</button>
-          </div>
+    gtag('config', 'G-J500BVGF02');
+  </script>
+</head>
 
-          <div class="div2-leftblock">
-            <label for="disponiblesCheckbox" id="disponibleslabel"
-              >Només disponibles <input
-              type="checkbox"
-              id="disponiblesCheckbox"
-              class="checkCatalogo"
-              name="disponibles"
-              value="1"
-            /></label
-            >
-          </div>
-        </form>
-      </div>
-      <div class="user-info">
-        <div class="dropdown-content">
-          <p>El teu compte</p>
-          <a href="{% url 'admin_profile' %}">Editar Perfil</a>
-          <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
+<body class="list_users">
+  <header class="headerWithUser">
+    <h1 class="h2"><a class="linkheader" href="{% url 'admin_dashboard' %}">Panell Bibliotecari</a></h1>
+    <div class="input-wrapper">
+      <form action="{% url 'search_results' %}" method="get" class="formCatalogo">
+        <div class="div1-leftblock">
+          <input type="text" id="searchInput" name="query" placeholder="Cerca..." />
+          <button type="submit" class="searchButton">Buscar</button>
         </div>
-        <img
-          id="user-img"
-          src="{% static 'img/user_header.png' %}"
-          alt="User Picture"
-        />
-      </div>
-    </header>
-    <div class="container-fluid">
-      <div class="row">
-        <!-- Sidebar -->
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" href="{% url 'admin_dashboard' %}">
-                  <span data-feather="home"></span>
-                  Panell Bibliotecari<span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'importacio' %}">
-                  Importacio Usuaris
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
-                  <i class="fa-solid fa-user"></i>
-                  Usuaris
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'admin_prestecs' %}">
-                  Prestecs
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
 
-        <!-- Main content area -->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-          <div
-            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-          >
-            <h1 class="h2">Usuaris</h1>
-          </div>
-
-          <div id="usuarios-container" class="content">
-            
-            <table class="table">
-              <thead>
-                  <tr>
-                      <th>Nom</th>
-                      <th>Cognoms</th>
-                      <th>Data de naixement</th>
-                      <th>Email</th>
-                      <th>Centre</th>
-                      <th>
-                          <a class="btn btn-primary" href="{% url 'mostrar_crear_usuario' %}">
-                              <i class="fa-solid fa-plus"></i>
-                          </a>
-                      </th>
-                  </tr>
-              </thead>
-              <tbody>
-                {%for usuario in usuarios%}
-                <!--comentario para separar-->
-                {%if usuario.centre == request.user.centre%}
-                <tr>
-                  <td>
-                    <a href="{%url 'editar_usuari' usuario.id%}"
-                      >{{usuario.nom}}</a
-                    >
-                  </td>
-                  <td>{{usuario.cognoms}}</td>
-                  <td>{{usuario.any_naixement}}</td>
-                  <td>{{usuario.email}}</td>
-                  <td>{{usuario.centre}}</td>
-                </tr>
-                {%endif%}
-                <!--comentario para separar-->
-                {%endfor%}
-              </tbody>
-              <div class="pagination">
-                {% if usuarios.has_previous %}
-                    <a href="?page={{ usuarios.previous_page_number }}">&lsaquo; Anterior</a>&nbsp;&nbsp;
-                {% endif %}
-                          
-                <span class="current">Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</span>
-                          
-                {% if usuarios.has_next %}
-                    &nbsp;&nbsp;<a href="?page={{ usuarios.next_page_number }}">Siguiente &rsaquo;</a>
-                {% endif %}
-            </div>
-            
-
-            </table>
-          </div>
-
-          <!-- Contenido principal -->
-          <canvas
-            class="my-4 w-100"
-            id="myChart"
-            width="900"
-            height="600"
-          ></canvas>
-        </main>
-      </div>
+        <div class="div2-leftblock">
+          <label for="disponiblesCheckbox" id="disponibleslabel">Només disponibles <input type="checkbox"
+              id="disponiblesCheckbox" class="checkCatalogo" name="disponibles" value="1" /></label>
+        </div>
+      </form>
     </div>
-    <script  type="text/javascript">
-      $(document).ready(function () {
-        $("#searchInput").autocomplete({
-          source: "{% url 'autocomplete' %}", 
-          minLength: 3, 
-          select: function (event, ui) {
-            $("#searchInput").val(ui.item.value); 
-            return false;
-          },
-        });
+    <div class="user-info">
+      <div class="dropdown-content">
+        <p>El teu compte</p>
+        <a href="{% url 'admin_profile' %}">Editar Perfil</a>
+        <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
+      </div>
+      <img id="user-img" src="{% static 'img/user_header.png' %}" alt="User Picture" />
+    </div>
+  </header>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'admin_dashboard' %}">
+                <span data-feather="home"></span>
+                Panell Bibliotecari<span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'importacio' %}">
+                Importacio Usuaris
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
+                <i class="fa-solid fa-user"></i>
+                Usuaris
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'admin_prestecs' %}">
+                Prestecs
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'generate_items' %}">
+                Crear Items
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main content area -->
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Usuaris</h1>
+        </div>
+
+        <div id="usuarios-container" class="content">
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Cognoms</th>
+                <th>Data de naixement</th>
+                <th>Email</th>
+                <th>Centre</th>
+                <th>
+                  <a class="btn btn-primary" href="{% url 'mostrar_crear_usuario' %}">
+                    <i class="fa-solid fa-plus"></i>
+                  </a>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for usuario in usuarios%}
+              <!--comentario para separar-->
+              {%if usuario.centre == request.user.centre%}
+              <tr>
+                <td>
+                  <a href="{%url 'editar_usuari' usuario.id%}">{{usuario.nom}}</a>
+                </td>
+                <td>{{usuario.cognoms}}</td>
+                <td>{{usuario.any_naixement}}</td>
+                <td>{{usuario.email}}</td>
+                <td>{{usuario.centre}}</td>
+              </tr>
+              {%endif%}
+              <!--comentario para separar-->
+              {%endfor%}
+            </tbody>
+            <div class="pagination">
+              {% if usuarios.has_previous %}
+              <a href="?page={{ usuarios.previous_page_number }}">&lsaquo; Anterior</a>&nbsp;&nbsp;
+              {% endif %}
+
+              <span class="current">Pàgina {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</span>
+
+              {% if usuarios.has_next %}
+              &nbsp;&nbsp;<a href="?page={{ usuarios.next_page_number }}">Següent &rsaquo;</a>
+              {% endif %}
+            </div>
+
+
+          </table>
+        </div>
+
+        <!-- Contenido principal -->
+        <canvas class="my-4 w-100" id="myChart" width="900" height="600"></canvas>
+      </main>
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("#searchInput").autocomplete({
+        source: "{% url 'autocomplete' %}",
+        minLength: 3,
+        select: function (event, ui) {
+          $("#searchInput").val(ui.item.value);
+          return false;
+        },
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
+
 </html>

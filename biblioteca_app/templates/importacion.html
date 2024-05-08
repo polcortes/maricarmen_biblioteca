@@ -30,28 +30,47 @@
     <header class="headerWithUser">
         <h1 class="h2"><a class="linkheader" href="{% url 'admin_dashboard' %}">Panell Bibliotecari</a></h1>
         <div class="input-wrapper">
-            <form action="{% url 'search_results' %}" method="get" class="formCatalogo">
-                <div class="div1-leftblock">
-                    <input type="text" id="searchInput" name="query" placeholder="Cerca..." />
-                    <button type="submit" class="searchButton">Buscar</button>
-                </div>
-
-                <div class="div2-leftblock">
-                    <label for="disponiblesCheckbox" id="disponibleslabel">Només disponibles <input type="checkbox"
-                            id="disponiblesCheckbox" class="checkCatalogo" name="disponibles" value="1" /></label>
-
-                </div>
-            </form>
+          <form
+            action="{% url 'search_results' %}"
+            method="get"
+            class="formCatalogo"
+          >
+            <div class="div1-leftblock">
+              <input
+                type="text"
+                id="searchInput"
+                name="query"
+                placeholder="Cerca..."
+              />
+              <button type="submit" class="searchButton" id="searchButton">Buscar</button>
+            </div>
+  
+            <div class="div2-leftblock">
+              <label for="disponiblesCheckbox" id="disponibleslabel"
+                >Només disponibles <input
+                type="checkbox"
+                id="disponiblesCheckbox"
+                class="checkCatalogo"
+                name="disponibles"
+                value="1"
+              /></label
+              >
+            </div>
+          </form>
         </div>
         <div class="user-info">
-            <div class="dropdown-content">
-                <p>El teu compte</p>
-                <a href="{% url 'admin_profile' %}">Editar Perfil</a>
-                <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
-            </div>
-            <img id="user-img" src="{% static 'img/user_header.png' %}" alt="User Picture" />
+          <div class="dropdown-content" id="dropdownContent">
+            <p>El teu compte</p>
+            <a href="{% url 'admin_profile' %}">Editar Perfil</a>
+            <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
+          </div>
+          <img
+            id="user-img"
+            src="{% static 'img/user_header.png' %}"
+            alt="User Picture"
+          />
         </div>
-    </header>
+      </header>
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
@@ -78,6 +97,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'admin_prestecs' %}">
                                 Prestecs
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'generate_items' %}">
+                                Crear Items
                             </a>
                         </li>
                     </ul>
@@ -126,8 +150,48 @@
                 },
             });
         });
+        document.addEventListener('keydown', function(event) {
+            // Comprobar si se presionan 'Control', 'Alt' y 'Z' juntos
+            if (event.ctrlKey && event.altKey && event.key === 'z') {
+              // Evitar la acción predeterminada para no activar otros atajos
+              event.preventDefault();
+              // Hacer foco en el campo de entrada
+              document.getElementById('searchInput').focus();
+            }
+          });
+          
+          // Añadir un evento 'keyup' para permitir la escritura después de hacer foco
+          document.addEventListener('keyup', function(event) {
+            if (event.ctrlKey && event.altKey && event.key === 'z') {
+              // Permitir la escritura en el campo de entrada
+              document.getElementById('searchInput').removeAttribute('readonly');
+            }
+          });
+          
+          // Asegurarse de que el campo de entrada no sea de solo lectura al cargar la página
+          window.onload = function() {
+            document.getElementById('searchInput').removeAttribute('readonly');
+          };
+        
+          document.addEventListener("keydown", function(event) {
+            if (event.ctrlKey && event.altKey && event.key === "x") {
+                var dropdownContent = document.getElementById("dropdownContent");
+                dropdownContent.classList.toggle("show");
+            }
+        });
+        document.addEventListener("keydown", function(event) {
+          if (event.ctrlKey && event.altKey && event.key === "a") {
+              var searchButton = document.getElementById("searchButton");
+              searchButton.click();
+          }
+      });
+            document.addEventListener("keydown", function(event) {
+            if (event.ctrlKey && event.altKey && event.key === "c") {
+                var searchButton = document.getElementById("id_file");
+                searchButton.click();
+            }
+            });
     </script>
 </body>
 
 </html>
-```
