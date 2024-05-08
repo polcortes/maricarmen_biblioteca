@@ -1683,6 +1683,7 @@ div:has(> ul.menu-hidden) {
 .linkheader{
   text-decoration: none;
   color: white;
+  font-size: larger;
 }
 .linkheader:hover{
   text-decoration: none;
