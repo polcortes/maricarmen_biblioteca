@@ -46,7 +46,7 @@ def loginView(request):
             user = Usuari.objects.get(email=email)
             print(user)
             if user is not None and check_password(password, user.password):
-                login(request, user)
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 print(request.user)
                 if user.is_superuser:
                     return redirect("/admin") 
@@ -534,7 +534,7 @@ def import_csv(request):
             if duplicate_count:
                 messages.info(request, f'Registres duplicats no inserits: {duplicate_count}')
 
-            return redirect('importacion')
+            return redirect('importacio')
     else:
         form = CSVUploadForm()
     return render(request, 'importacion.html', {'form': form})
