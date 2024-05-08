@@ -169,9 +169,21 @@
 
 <body id="search-results">
     <header class="headerWithUser">
-        <h1 class="h2">Biblioteca Mari Carmen Brito</h1><br>
-        <h1 class="h2"><a class="linkheader" href="{% url 'landing_page' %}">Inici</a></h1><br> 
-        <h1 class="h2"><a class="linkheader" href="{% url 'admin_dashboard' %}">Panell</a></h1>
+        <span>
+            <button id="toggle-general-menu" style="color: white !important;">
+                <svg data-testid="geist-icon" height="16" stroke-linejoin="round" viewBox="0 0 16 16" width="16" style="color: currentcolor !important;"><path fill-rule="evenodd" clip-rule="evenodd" d="M1 2H1.75H14.25H15V3.5H14.25H1.75H1V2ZM1 12.5H1.75H14.25H15V14H14.25H1.75H1V12.5ZM1.75 7.25H1V8.75H1.75H14.25H15V7.25H14.25H1.75Z" fill="currentColor"></path></svg>
+            </button>
+            <a class="header-title" href="/">Biblioteca Mari <br />Carmen Brito</a>
+            <nav>
+                <ul>
+                    <li><a class="linkheader" href="{% url 'landing_page' %}">Inici</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a class="linkheader" href="/dashboard/">Panell</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </span>
+
         <div class="user-info">
             <div class="dropdown-content" id="dropdownContent">
                 <p>El teu compte</p>
@@ -181,12 +193,12 @@
             <img id="user-img" src="{% static 'img/user_header.png' %}" alt="User Picture" />
         </div>
     </header>
-    <main style="padding-top: 100px;">
+    <main>
         <form class="search-section" action="{% url 'search_results' %}" method="get">
             <label class="custom-search">
                 <span>La teva cerca:</span>
                 <input type="search" name="query" id="search-items" placeholder="{{ query }}" />
-                <button class="search-btn">
+                <button class="search-btn" id="searchButton">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </label>
@@ -323,13 +335,13 @@
         {% if items.has_other_pages %}
         <div class="pagination">
             {% if items.has_previous %}
-            <a href="?query={{ query }}&page={{ items.previous_page_number }}">Anterior</a>&nbsp;&nbsp;
+            <a id="btAnterior" href="?query={{ query }}&page={{ items.previous_page_number }}">Anterior</a>&nbsp;&nbsp;
             {% endif %}
 
             <span class="current">Página {{ items.number }} de {{ items.paginator.num_pages }}</span>
 
             {% if items.has_next %}
-            &nbsp;&nbsp;<a href="?query={{ query }}&page={{ items.next_page_number }}">Siguiente</a>
+            &nbsp;&nbsp;<a id="btSiguiente" href="?query={{ query }}&page={{ items.next_page_number }}">Següent</a>
             {% endif %}
         </div>
         {% endif %}
@@ -421,6 +433,19 @@
                 searchButton.click();
             }
         });
+        document.addEventListener("keydown", function(event) {
+            if (event.ctrlKey && event.altKey && event.key === "q") {
+                var searchButton = document.getElementById("btAnterior");
+                searchButton.click();
+            }
+        });
+
+        document.addEventListener("keydown", function(event) {
+            if (event.ctrlKey && event.altKey && event.key === "w") {
+                var searchButton = document.getElementById("btSiguiente");
+                searchButton.click();
+            }
+        });
           
     </script>
     {% if user.is_authenticated %}
@@ -480,6 +505,64 @@
         notify("error", "{{ error }}", null)
     </script>
     {% endif %}
+
+    <section class="hidden">
+        <nav>
+            <ul>
+                <li><a href="{% url 'landing_page' %}">Inici</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="/dashboard/">Panell</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </section>
+
+    {% load static %}
+    <script src="{% static 'js/handleMobileMenus.js' %}"></script>
+
+    <section id="mobile-general-menu" class="hidden">
+      <button id="close-mobile-general-menu">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.8536 2.85355C13.0488 2.65829 13.0488 2.34171 12.8536 2.14645C12.6583 1.95118 12.3417 1.95118 12.1464 2.14645L7.5 6.79289L2.85355 2.14645C2.65829 1.95118 2.34171 1.95118 2.14645 2.14645C1.95118 2.34171 1.95118 2.65829 2.14645 2.85355L6.79289 7.5L2.14645 12.1464C1.95118 12.3417 1.95118 12.6583 2.14645 12.8536C2.34171 13.0488 2.65829 13.0488 2.85355 12.8536L7.5 8.20711L12.1464 12.8536C12.3417 13.0488 12.6583 13.0488 12.8536 12.8536C13.0488 12.6583 13.0488 12.3417 12.8536 12.1464L8.20711 7.5L12.8536 2.85355Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+      </button>
+      <nav>
+        <ul>
+          <li><a href="{% url 'landing_page' %}">Inici</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'dashboard' %}">Panell</a></li>
+          {% endif %}
+          <li>
+            <div class="input-wrapper">
+              <form
+                action="{% url 'search_results' %}"
+                method="get"
+                class="formCatalogo"
+              >
+                <div class="div1-leftblock">
+                  <input
+                    type="text"
+                    id="searchInput"
+                    name="query"
+                    placeholder="Cerca..."
+                  />
+                  <button type="submit" class="searchButton">Buscar</button>
+                </div>
+      
+                <div class="div2-leftblock">
+                  <label for="disponiblesCheckbox" id="disponibleslabel"
+                    >Només disponibles <input
+                    type="checkbox"
+                    id="disponiblesCheckbox"
+                    class="checkCatalogo"
+                    name="disponibles"
+                    value="1"
+                  /></label
+                  >
+                </div>
+              </form>
+            </div>
+          </li>
+        </ul>
+    </section>
 </body>
 
 {% load static %}

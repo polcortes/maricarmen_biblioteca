@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creació Items | Biblioteca Mari Carmen Brito</title>
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <script src="{% static 'js/header.js' %}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="{% static 'js/notify.js' %}"></script>
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J500BVGF02"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-J500BVGF02');
+    </script>
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Verificar si hay un parámetro de indicación de éxito en la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const exito = urlParams.get('exito');
+
+            // Si hay un parámetro de éxito, mostrar la notificación
+            if (exito === 'true') {
+                // Aquí muestra la notificación Toastify
+                notify("success", "Libro creado exitosamente", null);
+            }
+        });
+    </script> -->
+    {% load static %}
+</head>
+
+<body class="list_users">
+    <header class="headerNoAdmin">
+        <span>
+          <button id="toggle-general-menu" style="color: white !important;">
+            <svg data-testid="geist-icon" height="16" stroke-linejoin="round" viewBox="0 0 16 16" width="16" style="color: currentcolor !important;"><path fill-rule="evenodd" clip-rule="evenodd" d="M1 2H1.75H14.25H15V3.5H14.25H1.75H1V2ZM1 12.5H1.75H14.25H15V14H14.25H1.75H1V12.5ZM1.75 7.25H1V8.75H1.75H14.25H15V7.25H14.25H1.75Z" fill="currentColor"></path></svg>
+          </button>
+          <a class="header-title" href="/">Biblioteca Mari <br />Carmen Brito</a>
+          <nav>
+              <ul>
+                  <li><a class="linkheader" href="{% url 'landing_page' %}">Inici</a></li>
+                  {% if user.is_authenticated %}
+                  <li><a class="linkheader" href="/dashboard/">Panell</a></li>
+                  {% endif %}
+              </ul>
+          </nav>
+        </span>
+  
+        <div class="input-wrapper">
+          <form
+            action="{% url 'search_results' %}"
+            method="get"
+            class="formCatalogo"
+          >
+            <div class="div1-leftblock">
+              <input
+                type="text"
+                id="searchInput"
+                name="query"
+                placeholder="Cerca..."
+              />
+              <button type="submit" class="searchButton" id="searchButton">Buscar</button>
+            </div>
+  
+            <div class="div2-leftblock">
+              <label for="disponiblesCheckbox" id="disponibleslabel"
+                >Només disponibles <input
+                type="checkbox"
+                id="disponiblesCheckbox"
+                class="checkCatalogo"
+                name="disponibles"
+                value="1"
+              /></label
+              >
+            </div>
+          </form>
+        </div>
+        <div class="user-info">
+          <div class="dropdown-content" id="dropdownContent">
+            <p>El teu compte</p>
+            <a href="{% url 'general_profile' %}">Editar Perfil</a>
+            <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
+          </div>
+          <img
+            id="user-img"
+            src="{% static 'img/user_header.png' %}"
+            alt="User Picture"
+          />
+        </div>
+      </header>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'admin_dashboard' %}">
+                                <span data-feather="home"></span>
+                                Panell Bibliotecari<span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'importacio' %}">
+                                Importacio Usuaris
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
+                                <i class="fa-solid fa-user"></i>
+                                Usuaris
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_prestecs' %}">
+                                Prestecs
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'generate_items' %}">
+                                Crear Items
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content area -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Crear Items</h1>
+                </div>
+
+                <form id="myForm" action="{% url 'crear_item' %}" method="post">
+                    {% csrf_token %}
+                    <div class="column-container">
+
+                        <div class="column">
+                            <!-- Campo de entrada ISBN -->
+                            <label for="isbn-input">ISBN:</label>
+                            <input type="text" id="isbn-input" name="ISBN" placeholder="ISBN" required>
+                            <br>
+
+                            <!-- Campos de entrada para los datos del libro (inicialmente ocultos) -->
+                            <label for="titol-input" style="display: none;">Titol:</label>
+                            <input type="text" id="titol-input" name="titol" style="display: none;" required>
+                            <br>
+
+                            <label for="autor-input" style="display: none;">Autor:</label>
+                            <input type="text" id="autor-input" name="autor" style="display: none;" required>
+                            <br>
+
+                            <label for="descripcio-input" style="display: none;">Descripcio:</label>
+                            <textarea id="descripcio-input" name="descripcio" style="display: none;"
+                                required></textarea>
+                            <br>
+
+                            <label for="lloc-edicio-input" style="display: none;">Lloc d'edicio:</label>
+                            <input type="text" id="lloc-edicio-input" name="lloc_edicio" style="display: none;"
+                                required>
+                            <br>
+
+                            <label for="any-input" style="display: none;">Any:</label>
+                            <input type="text" id="any-input" name="any" style="display: none;" required>
+                            <br>
+
+                            <label for="pais-input" style="display: none;">Pais:</label>
+                            <input type="text" id="pais-input" name="pais" style="display: none;" required>
+                            <br>
+
+                            <label for="signatura-input" style="display: none;">Signatura:</label>
+                            <input type="text" id="signatura-input" name="signatura" style="display: none;" required>
+                            <br>
+
+                            <label for="disponibles-input" style="display: none;">Disponibles:</label>
+                            <input type="text" id="disponibles-input" name="disponibles" min="0" max="100"
+                                style="display: none;" required>
+                            <br>
+
+                            <label for="reservats-input" style="display: none;">Reservats:</label>
+                            <input type="text" id="reservats-input" name="reservats" min="0" max="100"
+                                style="display: none;" required>
+                            <br>
+
+                            <label for="prestats-input" style="display: none;">Prestats:</label>
+                            <input type="text" id="prestats-input" name="prestats" min="0" max="100"
+                                style="display: none;" required>
+                            <br>
+
+                            <label for="no-disponibles-input" style="display: none;">No disponibles:</label>
+                            <input type="text" id="no-disponibles-input" name="no_disponibles" style="display: none;"
+                                required>
+
+                            <input type="text" id="url-input" name="url" style="display: none;" required>
+
+                            <input type="text" id="imatge-input" name="imatge" style="display: none;" required>
+                            <br>
+                            <label for="mides-input" style="display: none;">Mides:</label>
+                            <input type="text" id="mides-input" name="mides" style="display: none;" required>
+                            <br>
+
+                            <label for="procedencia-input" style="display: none;">Procedencia:</label>
+                            <input type="text" id="procedencia-input" name="procedencia" style="display: none;"
+                                required>
+                            <br>
+
+                        </div>
+
+                        <div class="column">
+
+                            <label for="llengua-input" style="display: none;">Llengua:</label>
+                            <input type="text" id="llengua-input" name="llengua" style="display: none;" required>
+                            <br>
+
+                            <label for="centre-input" style="display: none;">Centre:</label>
+                            <input type="text" id="centre-input" name="centre" style="display: none;" required>
+                            <br>
+
+                            <label for="caracteristiques-input" style="display: none;">Caracteristiques:</label>
+                            <input type="text" id="caracteristiques-input" name="caracteristiques"
+                                style="display: none;" required>
+                            <br>
+
+                            <label for="altra-informacio-input" style="display: none;">Altra informacio:</label>
+                            <textarea id="altra-informacio-input" name="altra_informacio" style="display: none;"
+                                required></textarea>
+                            <br>
+
+                            <label for="CDU-input" style="display: none;">CDU:</label>
+                            <input type="text" id="CDU-input" name="CDU" style="display: none;" required>
+                            <br>
+
+                            <label for="editorial-input" style="display: none;">Editorial:</label>
+                            <input type="text" id="editorial-input" name="editorial" style="display: none;" required>
+                            <br>
+
+                            <label for="colleccio-input" style="display: none;">Colleccio:</label>
+                            <input type="text" id="colleccio-input" name="colleccio" style="display: none;" required>
+                            <br>
+
+                            <label for="pagines-input" style="display: none;">Pagines:</label>
+                            <input type="text" id="pagines-input" name="pagines" style="display: none;" required>
+                            <br>
+
+                            <label for="descriptors-input" style="display: none;">Descriptors:</label>
+                            <input type="text" id="descriptors-input" name="descriptors" style="display: none;"
+                                required>
+                            <br>
+
+                            <label for="resum-input" style="display: none;">Resum:</label>
+                            <textarea id="resum-input" name="resum" style="display: none;"></textarea required>
+                        <br>
+
+                        <label for="volums-input" style="display: none;">Volums:</label>
+                        <input type="text" id="volums-input" name="volums" style="display: none;"  required>
+                        <br>
+
+                        <label for="tipus-input" style="display: none;">Tipus:</label>
+                        <input type="text" id="tipus-input" name="tipus" style="display: none;"  required>
+
+                        <button id="submitBtn" type="submit" style="display: none;">Crear</button>
+                    </div>
+                </div>
+            </form>
+
+                <!-- Contenido principal -->
+                <canvas class="my-4 w-100" id="myChart" width="900" height="600"></canvas>
+            </main>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#isbn-input').keypress(function (event) {
+                if (event.keyCode === 13) {
+                    var isbn = $(this).val();
+                    $.ajax({
+                        url: 'https://openlibrary.org/search.json?isbn=' + isbn,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.docs && data.docs.length > 0) {
+                                var llibreData = data.docs[0];
+
+                                // Rellenar los campos de entrada con los datos del libro
+                                if (llibreData.title !== undefined) {
+                                    $('#titol-input').val(llibreData.title);
+                                } else {
+                                    $('#titol-input').val('');
+                                }
+
+                                // Asignación de valor para el campo 'Autor'
+                                if (llibreData.author_name !== undefined) {
+                                    $('#autor-input').val(Array.isArray(llibreData.author_name) ? llibreData.author_name[0] : llibreData.author_name);
+                                } else {
+                                    $('#autor-input').val('');
+                                }
+
+                                // Asignación de valor para el campo 'Descripcio'
+                                if (llibreData.subject !== undefined) {
+                                    $('#descripcio-input').val(llibreData.subject[0]);
+                                } else {
+                                    $('#descripcio-input').val('');
+                                }
+
+                                // Asignación de valor para el campo 'Lloc d'edicio'
+                                if (llibreData.publish_place !== undefined) {
+                                    $('#lloc-edicio-input').val(llibreData.publish_place[0]);
+                                } else {
+                                    $('#lloc-edicio-input').val('');
+                                }
+                                $('#centre-input').val('{{ user_data.centre }}')
+                                if (llibreData.first_publish_year !== undefined) {
+                                    $('#any-input').val(Array.isArray(llibreData.first_publish_year) ? llibreData.first_publish_year[0] : llibreData.first_publish_year);
+                                } else {
+                                    $('#any-input').val('');
+                                }
+
+                                // Asignación de valor para el campo 'Editorial'
+                                if (llibreData.publisher !== undefined) {
+                                    $('#editorial-input').val(Array.isArray(llibreData.publisher) ? llibreData.publisher[0] : llibreData.publisher);
+                                } else {
+                                    $('#editorial-input').val('');
+                                }
+
+                                // Asignación de valor para el campo 'ISBN'
+                                if (llibreData.isbn !== undefined) {
+                                    $('#ISBN-input').val(Array.isArray(llibreData.isbn) ? llibreData.isbn[0] : llibreData.isbn);
+                                } else {
+                                    $('#ISBN-input').val('');
+                                }
+
+                                // Asignación de valor para el campo 'Colleccio'
+                                $('#colleccio-input').val(llibreData.series !== undefined ? llibreData.series : '');
+
+                                // Asignación de valor para el campo 'Pagines'
+                                $('#pagines-input').val(llibreData.number_of_pages_median !== undefined ? llibreData.number_of_pages_median : '');
+
+                                // Asignación de valor para el campo 'Llengua'
+                                if (llibreData.language !== undefined) {
+                                    $('#llengua-input').val(llibreData.language[0]);
+                                } else {
+                                    $('#llengua-input').val('');
+                                }
+
+                                // Asignación de valor para el campo 'Procedencia'
+                                if (llibreData.publish_place !== undefined) {
+                                    $('#procedencia-input').val(llibreData.publish_place[0]);
+                                } else {
+                                    $('#procedencia-input').val('');
+                                }
+                                $('#mides-input').val('10x15');
+
+
+                                $('#url-input').val('{{ user_data.fake_url}}');
+                                $('#imatge-input').val('{{ user_data.fake_img}}');
+
+
+
+                                // Mostrar todos los campos de entrada y los labels asociados
+                                $('label').show(); // Mostrar todos los labels
+                                $('#submitBtn').show();
+                                // Mostrar los inputs excepto los de URL e Imatge
+                                $('input, textarea').not('#url-input, #imatge-input').show();
+                            } else {
+                                notify("error", 'No s\'han trobat resultats per a l\'ISBN proporcionat.', null)
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            notify("error", 'Error en crear l\'ítem', null)
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -226,8 +226,8 @@ EMAIL_HOST_USER = 'biblioteca2daw@gmail.com'
 EMAIL_HOST_PASSWORD = 'jkzi hqis ysqo cmjo'
 
 AUTHENTICATION_BACKENDS = [
+    'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -240,7 +240,6 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         }
     }
-   
 }
 
 CSRF_TRUSTED_ORIGINS = [

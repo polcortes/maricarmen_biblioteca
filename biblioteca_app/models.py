@@ -35,7 +35,7 @@ class ItemCataleg(models.Model):
 
 class Llibre(ItemCataleg):
     CDU = models.CharField(max_length=100)
-    ISBN = models.IntegerField()
+    ISBN = models.BigIntegerField()
     editorial = models.CharField(max_length=100)
     colleccio = models.CharField(max_length=100)
     pagines = models.IntegerField()
