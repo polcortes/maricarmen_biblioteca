@@ -214,8 +214,8 @@ EMAIL_HOST_USER = 'biblioteca2daw@gmail.com'
 EMAIL_HOST_PASSWORD = 'jkzi hqis ysqo cmjo'
 
 AUTHENTICATION_BACKENDS = [
+    'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -237,7 +237,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://biblio4.ieti.site',
 ]
 
-SITE_ID = 4
+SITE_ID = 3
 
 LOGIN_URL = ''
 LOGOUT_URL = 'logout'

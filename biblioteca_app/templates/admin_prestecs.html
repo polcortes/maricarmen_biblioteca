@@ -27,68 +27,101 @@
   </script>
 </head>
 
-<body id="admin_prestecs" class="general_dashboard">
-  <header class="headerWithUser">
-    <h1 class="h2"><a class="linkheader" href="{% url 'admin_dashboard' %}">Panell Bibliotecari</a></h1>
-    <div class="input-wrapper">
-      <form action="{% url 'search_results' %}" method="get" class="formCatalogo">
-        <div class="div1-leftblock">
-          <input type="text" id="searchInput" name="query" placeholder="Cerca..." />
-          <button type="submit" class="searchButton">Buscar</button>
-        </div>
+  <body id="admin_prestecs" class="general_dashboard">
+    <header class="headerNoAdmin">
+      <span>
+        <button id="toggle-general-menu" style="color: white !important;">
+          <svg data-testid="geist-icon" height="16" stroke-linejoin="round" viewBox="0 0 16 16" width="16" style="color: currentcolor !important;"><path fill-rule="evenodd" clip-rule="evenodd" d="M1 2H1.75H14.25H15V3.5H14.25H1.75H1V2ZM1 12.5H1.75H14.25H15V14H14.25H1.75H1V12.5ZM1.75 7.25H1V8.75H1.75H14.25H15V7.25H14.25H1.75Z" fill="currentColor"></path></svg>
+        </button>
+        <a class="header-title" href="/">Biblioteca Mari <br />Carmen Brito</a>
+        <nav>
+            <ul>
+                <li><a class="linkheader" href="{% url 'landing_page' %}">Inici</a></li>
+                {% if user.is_authenticated %}
+                <li><a class="linkheader" href="/dashboard/">Panell</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+      </span>
 
-        <div class="div2-leftblock">
-          <label for="disponiblesCheckbox" id="disponibleslabel">Només disponibles <input type="checkbox"
-              id="disponiblesCheckbox" class="checkCatalogo" name="disponibles" value="1" /></label>
-        </div>
-      </form>
-    </div>
+      <div class="input-wrapper">
+        <form
+          action="{% url 'search_results' %}"
+          method="get"
+          class="formCatalogo"
+        >
+          <div class="div1-leftblock">
+            <input
+              type="text"
+              id="searchInput"
+              name="query"
+              placeholder="Cerca..."
+            />
+            <button type="submit" class="searchButton" id="searchButton">Buscar</button>
+          </div>
 
-    <div class="user-info">
-      <div class="dropdown-content">
-        <p>El teu compte</p>
-        <a href="{% url 'admin_profile' %}">Editar Perfil</a>
-        <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
+          <div class="div2-leftblock">
+            <label for="disponiblesCheckbox" id="disponibleslabel"
+              >Només disponibles <input
+              type="checkbox"
+              id="disponiblesCheckbox"
+              class="checkCatalogo"
+              name="disponibles"
+              value="1"
+            /></label
+            >
+          </div>
+        </form>
       </div>
-      <img id="user-img" src="{% static 'img/user_header.png' %}" alt="User Picture" />
-    </div>
-  </header>
-  <div class="container-fluid">
-    <div class="row">
-      <!-- Sidebar -->
-      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        <div class="sidebar-sticky">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link active" href="{% url 'admin_dashboard' %}">
-                <span data-feather="home"></span>
-                Panell Bibliotecari<span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'importacio' %}">
-                Importacio Usuaris
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
-                <i class="fa-solid fa-user"></i>
-                Usuaris
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'admin_prestecs' %}">
-                Prestecs
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'generate_items' %}">
-                Crear Items
-              </a>
-            </li>
-          </ul>
+      <div class="user-info">
+        <div class="dropdown-content" id="dropdownContent">
+          <p>El teu compte</p>
+          <a href="{% url 'general_profile' %}">Editar Perfil</a>
+          <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
         </div>
-      </nav>
+        <img
+          id="user-img"
+          src="{% static 'img/user_header.png' %}"
+          alt="User Picture"
+        />
+      </div>
+    </header>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="{% url 'admin_dashboard' %}">
+                  <span data-feather="home"></span>
+                  Panell Bibliotecari<span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'importacio' %}">
+                  Importacio Usuaris
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'mostrar_usuaris' %}">
+                  <i class="fa-solid fa-user"></i>
+                  Usuaris
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin_prestecs' %}">
+                  Prestecs
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'generate_items' %}">
+                  Crear Items
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
 
       <!-- Main content area -->
       <main role="main" id="main_prestecs" class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -104,11 +137,10 @@
           <a href="?page={{ page_obj.previous_page_number }}">&lsaquo; Anterior</a>&nbsp;&nbsp;
           {% endif %}
 
-          <span id="span_pagination_adminprestecs" class="current">Página {{ page_obj.number }} de {{
-            page_obj.paginator.num_pages }}</span>
+          <span id="span_pagination_adminprestecs" class="current">Pàgina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
 
           {% if page_obj.has_next %}
-          &nbsp;&nbsp;<a href="?page={{ page_obj.next_page_number }}">Siguiente &rsaquo;</a>
+          &nbsp;&nbsp;<a href="?page={{ page_obj.next_page_number }}">Següent &rsaquo;</a>
           {% endif %}
 
         </div>
@@ -157,7 +189,8 @@
           return false;
         },
       });
-      document.addEventListener('keydown', function(event) {
+    
+      document.addEventListener('keydown', function (event) {
         // Comprobar si se presionan 'Control', 'Alt' y 'Z' juntos
         if (event.ctrlKey && event.altKey && event.key === 'z') {
           // Evitar la acción predeterminada para no activar otros atajos
@@ -166,28 +199,28 @@
           document.getElementById('searchInput').focus();
         }
       });
-      
+
       // Añadir un evento 'keyup' para permitir la escritura después de hacer foco
-      document.addEventListener('keyup', function(event) {
+      document.addEventListener('keyup', function (event) {
         if (event.ctrlKey && event.altKey && event.key === 'z') {
           // Permitir la escritura en el campo de entrada
           document.getElementById('searchInput').removeAttribute('readonly');
         }
       });
-      
+
       // Asegurarse de que el campo de entrada no sea de solo lectura al cargar la página
-      window.onload = function() {
+      window.onload = function () {
         document.getElementById('searchInput').removeAttribute('readonly');
       };
-    
-      document.addEventListener("keydown", function(event) {
+
+      document.addEventListener("keydown", function (event) {
         if (event.ctrlKey && event.altKey && event.key === "x") {
-            var dropdownContent = document.getElementById("dropdownContent");
-            dropdownContent.classList.toggle("show");
+          var dropdownContent = document.getElementById("dropdownContent");
+          dropdownContent.classList.toggle("show");
         }
-    });
-    document.addEventListener("keydown", function(event) {
-      if (event.ctrlKey && event.altKey && event.key === "a") {
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.ctrlKey && event.altKey && event.key === "a") {
           var searchButton = document.getElementById("searchButton");
           searchButton.click();
       }
@@ -195,4 +228,56 @@
   });
     </script>
   </body>
+</html>
+      
+
+  </script>
+    {% load static %}
+    <script src="{% static 'js/handleMobileMenus.js' %}"></script>
+
+    <section id="mobile-general-menu" class="hidden">
+      <button id="close-mobile-general-menu">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.8536 2.85355C13.0488 2.65829 13.0488 2.34171 12.8536 2.14645C12.6583 1.95118 12.3417 1.95118 12.1464 2.14645L7.5 6.79289L2.85355 2.14645C2.65829 1.95118 2.34171 1.95118 2.14645 2.14645C1.95118 2.34171 1.95118 2.65829 2.14645 2.85355L6.79289 7.5L2.14645 12.1464C1.95118 12.3417 1.95118 12.6583 2.14645 12.8536C2.34171 13.0488 2.65829 13.0488 2.85355 12.8536L7.5 8.20711L12.1464 12.8536C12.3417 13.0488 12.6583 13.0488 12.8536 12.8536C13.0488 12.6583 13.0488 12.3417 12.8536 12.1464L8.20711 7.5L12.8536 2.85355Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+      </button>
+      <nav>
+        <ul>
+          <li><a href="{% url 'landing_page' %}">Inici</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'dashboard' %}">Panell</a></li>
+          {% endif %}
+          <li>
+            <div class="input-wrapper">
+              <form
+                action="{% url 'search_results' %}"
+                method="get"
+                class="formCatalogo"
+              >
+                <div class="div1-leftblock">
+                  <input
+                    type="text"
+                    id="searchInput"
+                    name="query"
+                    placeholder="Cerca..."
+                  />
+                  <button type="submit" class="searchButton">Buscar</button>
+                </div>
+      
+                <div class="div2-leftblock">
+                  <label for="disponiblesCheckbox" id="disponibleslabel"
+                    >Només disponibles <input
+                    type="checkbox"
+                    id="disponiblesCheckbox"
+                    class="checkCatalogo"
+                    name="disponibles"
+                    value="1"
+                  /></label
+                  >
+                </div>
+              </form>
+            </div>
+          </li>
+        </ul>
+    </section>
+</body>
+
 </html>
