@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
+    {% load socialaccount %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Landing Page</title>
+    <title>Biblioteca Mari Carmen Brito</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     {% csrf_token %}
@@ -15,68 +16,86 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="{% static 'js/header.js' %}"></script>
     <script src="{% static 'js/notify.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J500BVGF02"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-J500BVGF02');
+    </script>
   </head>
   <body class="landing_page">
     <div class="container">
       <div class="left-block">
-        <h2>
+        <h1>
           Biblioteca <br />
           Mari Carmen Brito
-        </h2>
-        <div class="input-group">
-          <label for="cerca">Cerca al nostre catàleg:</label>
-          <div class="input-wrapper">
-            <form
-              action="{% url 'search_results' %}"
-              method="get"
-              class="formCatalogo"
-            >
-              <div class="div1-leftblock">
-                <input
-                  type="text"
-                  id="searchInput"
-                  name="query"
-                  placeholder="Cerca..."
-                />
-                <button type="submit" class="searchButton">Buscar</button>
-              </div>
-
-              <div class="div2-leftblock">
-                <label for="disponiblesCheckbox" id="disponibleslabel"
-                  >Només disponibles</label
-                >
-                <input
-                  type="checkbox"
-                  id="disponiblesCheckbox"
-                  class="checkCatalogo"
-                  name="disponibles"
-                  value="1"
-                />
-              </div>
-            </form>
+        </h1>
+        <form
+          action="{% url 'search_results' %}"
+          method="get"
+          class="formCatalogo"
+        >
+          <div class="div1-leftblock" style="position: relative;">
+            <label for="searchInput">Cerca al nostre catàleg:</label>
+            <span>
+              <input
+                type="text"
+                id="searchInput"
+                name="query"
+                placeholder="Cerca per títol, autor, ISBN..."
+              />
+              <i class="fa-solid fa-magnifying-glass" style="top: 70%; position: absolute; transform: translateY(-50%); right: 117px; width: 20px;"></i>
+              <button type="submit" class="searchButton">Cercar</button>
+            </span>
           </div>
-        </div>
-        <!-- <button class="btnCerca">Cerca</button> -->
+
+          <div class="div2-leftblock">
+            <label for="disponiblesCheckbox" id="disponibleslabel">
+              Cercar només disponibles
+              <input
+                type="checkbox"
+                id="disponiblesCheckbox"
+                class="checkCatalogo"
+                name="disponibles"
+                value="1"
+              />
+            </label>
+          </div>
+        </form>
       </div>
 
       <div class="right-block">
         <h2>Inicia sessió:</h2>
         <form id="login-form" method="POST">
           {% csrf_token %}
-          <div class="input-group">
-            <label for="email">Correu electrònic:</label>
-            <input type="email" id="email" name="email" required />
-          </div>
-          <div class="input-group">
-            <label for="password">Contrasenya:</label>
-            <input type="password" id="password" name="password" required />
-          </div>
+          <label for="email">
+            Correu electrònic:
+            <input type="email" id="email" name="email" placeholder="elteucorreu@gmail.com" required />
+          </label>
+          <label for="password">
+            Contrasenya:
+            <input type="password" id="password" name="password" placeholder="··············" required />
+          </label>
           <!-- Mensaje de error, oculto inicialmente -->
           <div class="error-message" style="display: none; color: red">
             Usuari o contrasenya incorrecte.
           </div>
-          <button type="submit" class="btn">Iniciar sesión</button>
-          <a href="{% url 'forgot_password' %}" style="font-size: 16px;">Recupera la teva contrasenya</a>
+          <span>
+            <button type="submit" class="btn login-btn">Iniciar sesión</button>
+            <a href="{% provider_login_url 'google' %}">
+              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path></svg>
+              Google
+            </a>
+            
+            <br />
+            
+            <a href="{% url 'forgot_password' %}" style="font-size: 16px;">Recupera la teva contrasenya</a>
+          </span>
         </form>
       </div>
     </div>

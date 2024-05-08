@@ -1,8 +1,11 @@
 # en biblioteca_app/management/commands/create_users.py
 
 from django.core.management.base import BaseCommand
+from django.contrib.auth.hashers import make_password
+
 from faker import Faker
 from biblioteca_app.models import Usuari
+from datetime import datetime, timedelta
 
 fake = Faker(['es_ES', 'es_MX'])
 
@@ -14,60 +17,55 @@ class Command(BaseCommand):
         for _ in range(35):
             nom = fake.first_name()
             cognoms = fake.last_name()
-            email = f'{nom[0].lower()}{cognoms.lower()}@gmail.com'  # Generar correo electrónico
-            password = fake.password()  # Generar una contraseña
-            print(f'Correo electrónico: {email}, Contraseña sin encriptar: {password}')  # Imprimir correo electrónico y contraseña sin encriptar
-            user = Usuari(
-                nom=nom,
-                cognoms=cognoms,
-                username=f'{nom}_{cognoms}',
-                any_naixement=fake.date(),
-                email=email,
-                tipus='Alumne',
-                is_staff=False,
-                is_superuser=False,
+            
+            usuari = Usuari(
+                nom = nom,
+                cognoms = cognoms,
+                username = f'{nom}_{cognoms}',
+                any_naixement = fake.date_between_dates(date_start=datetime(1969,1,1), date_end=datetime(2011,12,31)),
+                email = f'{nom[0].lower()}{cognoms.lower()}@gmail.com',
+                tipus = 'usuari',
+                centre = f'I.E.S. Esteve Terradas i Illa',
+                password = make_password('12345678aA@'),
+                is_staff = False,
+                is_superuser = False,
             )
-            user.set_password(password)  # Encriptar y establecer la contraseña
-            user.save()
+            usuari.save()
 
-        # Generar usuarios administradores
         for _ in range(5):
             nom = fake.first_name()
             cognoms = fake.last_name()
-            email = f'{nom[0].lower()}{cognoms.lower()}@gmail.com'  # Generar correo electrónico
-            password = fake.password()  # Generar una contraseña
-            print(f'Correo electrónico: {email}, Contraseña sin encriptar: {password}')  # Imprimir correo electrónico y contraseña sin encriptar
-            user = Usuari(
-                nom=nom,
-                cognoms=cognoms,
-                username=f'{nom}_{cognoms}',
-                any_naixement=fake.date(),
-                email=email,
-                tipus='Admin',
-                is_staff=True,
-                is_superuser=False,
-            )
-            user.set_password(password)  # Encriptar y establecer la contraseña
-            user.save()
 
-        # Generar superusuarios
+            usuari = Usuari(
+                nom = nom,
+                cognoms = cognoms,
+                username = f'{nom}_{cognoms}',
+                any_naixement = fake.date_between_dates(date_start=datetime(1969,1,1), date_end=datetime(2011,12,31)),
+                email = f'{nom[0].lower()}{cognoms.lower()}@gmail.com',
+                tipus = 'admin',
+                centre = f'I.E.S. Esteve Terradas i Illa',
+                password = make_password('12345678aA@'),
+                is_staff = True,
+                is_superuser = False,
+            )
+            usuari.save()
+
         for _ in range(2):
             nom = fake.first_name()
             cognoms = fake.last_name()
-            email = f'{nom[0].lower()}{cognoms.lower()}@gmail.com'  # Generar correo electrónico
-            password = fake.password()  # Generar una contraseña
-            print(f'Correo electrónico: {email}, Contraseña sin encriptar: {password}')  # Imprimir correo electrónico y contraseña sin encriptar
-            user = Usuari(
-                nom=nom,
-                cognoms=cognoms,
-                username=f'{nom}_{cognoms}',
-                any_naixement=fake.date(),
-                email=email,
-                tipus='Super Usuari',
-                is_staff=True,
-                is_superuser=True,
+
+            usuari = Usuari(
+                nom = nom,
+                cognoms = cognoms,
+                username = f'{nom}_{cognoms}',
+                any_naixement = fake.date_between_dates(date_start=datetime(1969,1,1), date_end=datetime(2011,12,31)),
+                email = f'{nom[0].lower()}{cognoms.lower()}@gmail.com',
+                tipus = 'super-usuari',
+                centre = f'I.E.S. Esteve Terradas i Illa',
+                password = make_password('12345678aA@'),
+                is_staff = True,
+                is_superuser = True,
             )
-            user.set_password(password)  # Encriptar y establecer la contraseña
-            user.save()
+            usuari.save()
 
         self.stdout.write(self.style.SUCCESS('Usuarios creados exitosamente'))

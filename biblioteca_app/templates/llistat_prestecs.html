@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Els teus prestecs | Biblioteca Mari Carmen Brito</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link
@@ -20,8 +20,18 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <script src="{% static 'js/header.js' %}"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J500BVGF02"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-J500BVGF02');
+    </script>
   </head>
-  <body class="general_dashboard">
+  <body class="general_dashboard llistat_prestecs">
     <header class="headerNoAdmin">
     <h1 class="h2"><a class="linkheader" href="{% url 'landing_page' %}">Biblioteca Mari Carmen Brito</a></h1>
     <div class="input-wrapper">
@@ -42,15 +52,14 @@
 
         <div class="div2-leftblock">
           <label for="disponiblesCheckbox" id="disponibleslabel"
-            >Només disponibles</label
-          >
-          <input
-            type="checkbox"
-            id="disponiblesCheckbox"
-            class="checkCatalogo"
-            name="disponibles"
-            value="1"
-          />
+              >Només disponibles <input
+              type="checkbox"
+              id="disponiblesCheckbox"
+              class="checkCatalogo"
+              name="disponibles"
+              value="1"
+            /></label
+            >
         </div>
       </form>
     </div>
@@ -69,11 +78,11 @@
     </header>
 
     <div class="container-fluid1">
-      <div class="row">
+      <div id="row_user" class="row">
         <!-- Sidebar -->
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <nav id="nav_general" class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
-            <ul class="nav flex-column">
+            <ul id="desktop-menu" class="nav flex-column">
               <li class="nav-item">
                 <a class="nav-link active" href="/dashboard/general">
                   <span data-feather="home"></span>
@@ -92,30 +101,41 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
           >
-            <h1 class="h2">Panell</h1>
+            <h2 class="h2">Els teus prestecs</h2>
           </div>
-
+          <div class="pagination">
+            {% if prestecs.has_previous %}
+              <a href="?page={{ prestecs.previous_page_number }}">&lsaquo; Anterior</a>&nbsp;&nbsp;
+            {% endif %}
+            <span class="current">Página {{ prestecs.number }} de {{ prestecs.paginator.num_pages }}</span>
+            {% if prestecs.has_next %}
+            &nbsp;&nbsp;<a href="?page={{ prestecs.next_page_number }}">Siguiente &rsaquo;</a>
+            {% endif %}
+          </div>
+          <br>
           <div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Material</th>
-                  <th>Data de Prestec</th>
-                  <th>Data de Devolucio</th>
-                  <th>Data Limit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for prestec in prestecs %}
-                <tr>
-                    <td>{{ prestec.item_cataleg.titol }}</td>
-                    <td class="data_prestec">{{ prestec.data_prestec }}</td>
-                    <td class="data_retorn">{{ prestec.data_retorn }}</td>
-                    <td class="data_limit">{{ prestec.data_limit }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+            <div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Material</th>
+                    <th>Data de Prestec</th>
+                    <th>Data de Devolucio</th>
+                    <th>Data Limit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for prestec in prestecs %}
+                  <tr>
+                      <td>{{ prestec.item_cataleg.titol }}</td>
+                      <td class="data-prestec">{{ prestec.data_prestec }}</td>
+                      <td class="data-retorn">{{ prestec.data_retorn }}</td>
+                      <td class="data-limit">{{ prestec.data_limit }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
           <!-- <div id="import-users" class="content" style="display: none;">
                     <h2>Importacio Usuaris</h2>
@@ -131,7 +151,52 @@
         </main>
       </div>
     </div>
+
+    <section id="mobile-menu" class="mobile-menu">
+      <div>
+        <div class="arrow-container">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+  
+        <ul class="mobile-menu-container menu-hidden">
+          <li class="nav-item">
+            <a class="nav-link active" href="/dashboard/general">
+              <span data-feather="home"></span>
+              Panell <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/llistat_prestecs"> Els teus prestecs </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <script>
+      addEventListener('load', () => {
+        const desktopMenu = document.getElementById('desktop-menu');
+        let items = [...desktopMenu.getElementsByTagName('li')];
+        const mobileMenu = document.getElementById('mobile-menu');
+        const arrowMenu = mobileMenu.querySelector('.arrow-container');
+        const menuContainer = mobileMenu.querySelector('.mobile-menu-container')
+
+        {% comment %} items.forEach(item => {
+          const copyItem = item.cloneNode(true);
+          mobileMenu.appendChild(item);
+        }) {% endcomment %}
+
+        console.log(arrowMenu)
+
+        arrowMenu.addEventListener('click', () => {
+          menuContainer.classList.toggle('menu-hidden');
+          // arrowMenu.style.display = 'none';
+        });
+      })
+    </script>
+
+    {% load static %}
     <script src="{% static 'js/handleLogCreation.js' %}"></script>
+    <script src="{% static 'js/prestecs_checker.js' %}"></script>
     <script  type="text/javascript">
       $(document).ready(function () {
         $("#searchInput").autocomplete({

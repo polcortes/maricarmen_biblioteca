@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Prestecs</title>
+    <title>Prestecs | Biblioteca Mari Carmen Brito</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link
@@ -20,6 +20,16 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <script src="{% static 'js/header.js' %}"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J500BVGF02"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-J500BVGF02');
+    </script>
   </head>
 
   <body id="admin_prestecs" class="general_dashboard">
@@ -43,18 +53,18 @@
 
           <div class="div2-leftblock">
             <label for="disponiblesCheckbox" id="disponibleslabel"
-              >Només disponibles</label
-            >
-            <input
+              >Només disponibles <input
               type="checkbox"
               id="disponiblesCheckbox"
               class="checkCatalogo"
               name="disponibles"
               value="1"
-            />
+            /></label
+            >
           </div>
         </form>
       </div>
+      
       <div class="user-info">
         <div class="dropdown-content">
           <p>El teu compte</p>
@@ -81,7 +91,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'importacion' %}">
+                <a class="nav-link" href="{% url 'importacio' %}">
                   Importacio Usuaris
                 </a>
               </li>
@@ -101,11 +111,26 @@
         </nav>
 
         <!-- Main content area -->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" id="main_prestecs" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
           >
-          <h1 class="h2">Prestecs</h1>
+            <!-- <h1 class="h2">Panell</h1> -->
+            <h1 class="h2">Prestecs</h1>
+
+          </div>
+
+          <div class="pagination">
+            {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}">&lsaquo; Anterior</a>&nbsp;&nbsp;
+            {% endif %}
+            
+            <span id="span_pagination_adminprestecs" class="current">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            
+            {% if page_obj.has_next %}
+            &nbsp;&nbsp;<a href="?page={{ page_obj.next_page_number }}">Siguiente &rsaquo;</a>
+            {% endif %}
+          
           </div>
 
           <div>
@@ -120,8 +145,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for prestec in prestecs %}
-                  {% if prestec.usuari.centre == request.user.centre %}
+                {% for prestec in page_obj %}
                     <tr>
                       <td>{{ prestec.usuari.nom }} {{ prestec.usuari.cognoms }}</td>
                       <td>{{ prestec.item_cataleg.titol }}</td>
@@ -129,7 +153,6 @@
                       <td>{{ prestec.data_retorn }}</td>
                       <td>{{ prestec.data_limit }}</td>
                     </tr>
-                  {% endif %}
                 {% endfor %}
               </tbody>
             </table>

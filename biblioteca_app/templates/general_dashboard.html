@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Panell Bibliotecari</title>
+    <title>Panell | Biblioteca Mari Carmen Brito</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link
@@ -20,6 +20,16 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <script src="{% static 'js/header.js' %}"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J500BVGF02"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-J500BVGF02');
+    </script>
   </head>
   <body class="general_dashboard">
     <header class="headerNoAdmin">
@@ -42,15 +52,14 @@
 
           <div class="div2-leftblock">
             <label for="disponiblesCheckbox" id="disponibleslabel"
-              >Només disponibles</label
-            >
-            <input
+              >Només disponibles <input
               type="checkbox"
               id="disponiblesCheckbox"
               class="checkCatalogo"
               name="disponibles"
               value="1"
-            />
+            /></label
+            >
           </div>
         </form>
       </div>
@@ -71,9 +80,9 @@
     <div class="container-fluid1">
       <div class="row">
         <!-- Sidebar -->
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <nav id="nav_general" class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
-            <ul class="nav flex-column">
+            <ul id="desktop-menu" class="nav flex-column">
               <li class="nav-item">
                 <a class="nav-link active" href="/dashboard/general">
                   <span data-feather="home"></span>
@@ -109,6 +118,47 @@
         </main>
       </div>
     </div>
+
+    <section id="mobile-menu" class="mobile-menu">
+      <div>
+        <div class="arrow-container">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+  
+        <ul class="mobile-menu-container menu-hidden">
+          <li class="nav-item">
+            <a class="nav-link active" href="/dashboard/general">
+              <span data-feather="home"></span>
+              Panell <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/llistat_prestecs"> Els teus prestecs </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <script>
+      addEventListener('load', () => {
+        const desktopMenu = document.getElementById('desktop-menu');
+        let items = [...desktopMenu.getElementsByTagName('li')];
+        const mobileMenu = document.getElementById('mobile-menu');
+        const arrowMenu = mobileMenu.querySelector('.arrow-container');
+        const menuContainer = mobileMenu.querySelector('.mobile-menu-container')
+
+        {% comment %} items.forEach(item => {
+          const copyItem = item.cloneNode(true);
+          mobileMenu.appendChild(item);
+        }) {% endcomment %}
+
+        console.log(arrowMenu)
+
+        arrowMenu.addEventListener('click', () => {
+          menuContainer.classList.toggle('menu-hidden');
+          // arrowMenu.style.display = 'none';
+        });
+      })
+    </script>
     <script src="{% static 'js/handleLogCreation.js' %}"></script>
     <script  type="text/javascript">
       $(document).ready(function () {

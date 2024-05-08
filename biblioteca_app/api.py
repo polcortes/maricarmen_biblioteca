@@ -55,7 +55,7 @@ def create_prestec(request):
     # try:
     item = ItemCataleg.objects.get(id_cataleg=itemId)
 
-    if item.exemplars > 0:
+    if item.disponibles > 0:
         prestec = Prestecs.objects.create(
             item_cataleg = item,
             usuari = user,
@@ -66,7 +66,7 @@ def create_prestec(request):
 
         prestec.save()
 
-        ItemCataleg.objects.filter(id_cataleg=itemId).update(exemplars=F('exemplars')-1)
+        ItemCataleg.objects.filter(id_cataleg=itemId).update(disponibles=F('disponibles')-1, prestats=F('prestats')+1)
 
         Logs.objects.create(
             tipus = 'info',

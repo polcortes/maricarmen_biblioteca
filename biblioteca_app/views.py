@@ -16,6 +16,8 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password
 from re import match
 from django.db.models import Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import Http404
 
 # Para mandar mails:
 
@@ -101,17 +103,22 @@ def autocomplete(request):
     return JsonResponse(results, safe=False)
 
 ## VIEW RESULTADOS BUSQUEDA
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 def search_results(request):
     query = request.GET.get('query', '').strip().lower()
     filters = {
-        'tipus': request.GET.getlist('tipus'), # los checkboxes
+        'tipus': request.GET.getlist('tipus'),
         'editorial': request.GET.get('editorial', '').strip(),
         'llengua': request.GET.get('llengua', '').strip(),
         'centre': request.GET.get('centre', '').strip(),
         'data-edicio': request.GET.get('data-edicio', '').strip(),
+        'mostrar': request.GET.get('mostrar', '').strip(),
     }
 
-    if 'disponibles' in request.GET:  # Verifica si el checkbox 'disponibles' está presente en la solicitud
+    if 'disponibles' in request.GET:
         disponibles = request.GET.get('disponibles') == '1'
     else:
         disponibles = False
@@ -120,14 +127,7 @@ def search_results(request):
         items = items.filter(titol__icontains=query)
     if disponibles:
         items = items.filter(exemplars__gt=0)
-    #for item in items:
-    #    print(item.tipus)
-
-    for item in items:
-        if item.tipus:
-            print(item.tipus)
-
-
+    
     if filters['tipus']:
         for i in range(len(filters['tipus'])):
             filters['tipus'][i] = filters['tipus'][i].lower()
@@ -144,18 +144,48 @@ def search_results(request):
 
     if 'Llibre' in filters['tipus']:
         items = items.filter(llibre__editorial__icontains=filters['editorial'],)
+    
+    if filters['mostrar']:
+        if filters['mostrar'] == 'lliures':
+            items = items.filter(disponibles__gt=0)
+        elif filters['mostrar'] == 'en_prestec':
+            items = items.filter(prestats__gt=0)
+
+    if filters['data-edicio']:
+        data_inici = filters['data-edicio'].split(' - ')[0].split('/')[0]
+        data_final = filters['data-edicio'].split(' - ')[1].split('/')[0]
+        items = items.filter(any__range=[data_inici, data_final])
 
     editorials = Llibre.objects.values('editorial').distinct()
     llengues = ItemCataleg.objects.values('llengua').distinct()
     centres = ItemCataleg.objects.values('centre').distinct()
+    
+    # Obtener el total de resultados
+    total_resultados = items.count()
+    
+    # Paginación
+    paginator = Paginator(items, 25)  # 25 items por página
+    page_number = request.GET.get('page')
+    try:
+        items = paginator.page(page_number)
+    except PageNotAnInteger:
+        # Si el número de página no es un entero, mostrar la primera página
+        items = paginator.page(1)
+    except EmptyPage:
+        # Si la página solicitada está fuera de rango, mostrar la última página disponible
+        items = paginator.page(paginator.num_pages)
+    
     context = {
         'items': items,
         'query': query,
         'editorials': editorials,
         'llengues': llengues,
         'centres': centres,
+        'total_resultados': total_resultados,  # Pasar el total de resultados al contexto
     }
     return render(request, 'search_results.html', context)
+
+
 
 
 def cambiar_contrasenya(request):
@@ -318,11 +348,29 @@ def editar_usuari(request, usuario_id):
 
 
 def mostrar_usuaris(request):
-    # Obtener los datos de los usuarios desde la base de datos o cualquier otra fuente
-    usuarios = Usuari.objects.all()
+    # Obtener el centro del usuario que ha iniciado sesión
+    centro_usuario = request.user.centre
 
-    # Renderizar el contenido de usuarios utilizando una plantilla Django
-    return render(request, 'list_users.html', {'usuarios': usuarios})
+    # Obtener los usuarios del mismo centro que el usuario que ha iniciado sesión
+    usuarios = Usuari.objects.filter(centre=centro_usuario).order_by('id')
+
+    # Aplicar paginación
+    paginator = Paginator(usuarios, 25)
+    page_number = request.GET.get('page', 1)
+
+    try:
+        usuarios_paginados = paginator.page(page_number)
+    except EmptyPage:
+        usuarios_paginados = paginator.page(paginator.num_pages)
+    except PageNotAnInteger:
+        usuarios_paginados = paginator.page(1)
+
+    data = {
+        'usuarios': usuarios_paginados
+    }
+
+    return render(request, 'list_users.html', data)
+
 
 
 def mostrar_crear_usuario(request):
@@ -491,18 +539,48 @@ def import_csv(request):
         form = CSVUploadForm()
     return render(request, 'importacion.html', {'form': form})
 
-def admin_prestecs(request):
-    # Obtener todos los préstamos de la base de datos
-    # prestecs = Prestecs.objects.filter(usuari__centre=request.user.centre)
-    prestecs = Prestecs.objects.all()
 
-    return render(request, 'admin_prestecs.html', {'prestecs': prestecs})
+
+def admin_prestecs(request):
+    # Obtener todos los préstamos de la base de datos filtrados por el centro del usuario actual
+    prestecs = Prestecs.objects.filter(usuari__centre=request.user.centre)
+    
+    # Configurar la paginación
+    paginator = Paginator(prestecs, 25)  # 10 préstamos por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'admin_prestecs.html', {'page_obj': page_obj})
+
 
 def llistat_prestecs(request):
     # Obtener todos los préstamos de la base de datos
     prestecs = Prestecs.objects.filter(usuari=request.user)
 
+    # Paginación
+    paginator = Paginator(prestecs, 25)  # 5 préstamos por página
+    page_number = request.GET.get('page')
+    try:
+        prestecs = paginator.page(page_number)
+    except PageNotAnInteger:
+        # Si el número de página no es un entero, mostrar la primera página
+        prestecs = paginator.page(1)
+    except EmptyPage:
+        # Si la página solicitada está fuera de rango, mostrar la última página disponible
+        prestecs = paginator.page(paginator.num_pages)
+
     return render(request, 'llistat_prestecs.html', {'prestecs': prestecs})
+
+def dashboard(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            return redirect('/admin')
+        if request.user.is_staff:
+            return redirect('/dashboard/admin')
+        else:
+            return redirect('/dashboard/general')
+    else:
+        return redirect('/')
 
 # def recuperar_contrasenya(request):
 #     return render(request, 'recuperar_contrasenya.html')

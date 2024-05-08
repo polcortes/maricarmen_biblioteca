@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -17,7 +18,7 @@
     <script src="{% static 'js/notify.js' %}"></script>
     <script>
         addEventListener('load', () => {
-            const calendar = document.querySelector('calendar-range');
+            // const calendar = document.querySelector('calendar-range');
             const calendarResult = document.querySelector('.any-filters input[type="text"]');
             const clearFields = [...document.querySelectorAll('.clear-field')];
             const checkboxes = [...document.querySelectorAll('input[type="checkbox"]')];
@@ -25,11 +26,51 @@
             const clearEditorial = document.querySelector('.editorial-filters .clear-field');
             const prestecBtns = [...document.querySelectorAll('.prestec-btn')];
             const stocks = [...document.querySelectorAll('.stock')];
+            const searchInput = document.getElementById('search-items');
+
+            const getParams = (url) => {
+                const params = [];
+                const searchParams = new URLSearchParams(url);
+
+                for (const [key, value] of searchParams) {
+                    if (key !== 'tipus') params.push({ key, value });
+                    else params.push({ key, value })
+                }
+
+                return params;
+            }
+
+            const urlParams = getParams(window.location.search);
+
+            urlParams.forEach(param => {
+                if (param.key === 'query') searchInput.value = param.value;
+                if (param.key === 'tipus') {
+                    // const checkboxes = [...document.querySelectorAll('input[type="checkbox"]')];
+                    checkboxes.forEach(checkbox => {
+                        if (checkbox.value === param.value) checkbox.checked = true;
+                    });
+                }
+                if (param.key === 'editorial') {
+                    editorial.value = param.value;
+                    editorial.disabled = false;
+                    clearEditorial.disabled = false;
+                    checkboxes.forEach(checkbox => {
+                        if (checkbox.value === 'Llibre') checkbox.checked = true;
+                    });
+                }
+                if (param.key === 'llengua') document.getElementById('llengua').value = param.value;
+                if (param.key === 'centre') document.getElementById('centre').value = param.value;
+                if (param.key === 'data-edicio') document.getElementById('data-edicio').value = param.value;
+                if (param.key === 'mostrar') document.getElementById('mostrar').value = param.value;
+            });
 
             clearFields.forEach(clearField => {
                 clearField.addEventListener('click', () => {
                     clearField.previousElementSibling.value = '';
-                    if (clearField.classList.contains('calendar-clear-field')) calendar.value = '';
+                    if (clearField.classList.contains('calendar-clear-field')) {
+                        // calendar.value = '';
+                        [...document.querySelectorAll('.any-filters section button')].forEach(month => month.disabled = false);
+                    }
                 });
             });
 
@@ -39,13 +80,6 @@
                 checkboxes.forEach(checkbox => {
                     checkbox.checked = false;
                 });
-            });
-
-
-            calendar.addEventListener('change', () => {
-                const [ start, end ] = calendar.value.split('/');
-                calendarResult.value = `${new Date(start).toLocaleDateString()} - ${new Date(end).toLocaleDateString()}`;
-                //calendarResult.value = calendar.value;
             });
 
             const searchItems = document.getElementById('search-items');
@@ -71,37 +105,90 @@
                 }
             });
 
-            document.getElementById('total-resultats').textContent = document.querySelectorAll('.results > article').length;
+            var totalResultados = "{{ total_resultados }}"; // Obtén el valor del contexto de Django
+    
+            document.getElementById('total-resultats').textContent = totalResultados;
+
+            // document.getElementById('total-resultats').textContent = document.querySelectorAll('.results > article').length;
             
-            stocks.forEach(stock => {
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            document.getElementById('yearDecrement').addEventListener('click', () => {
+                document.getElementById('year').textContent = Number(document.getElementById('year').textContent) - 1;
+            });
+
+            document.getElementById('yearIncrement').addEventListener('click', () => {
+                document.getElementById('year').textContent = Number(document.getElementById('year').textContent) + 1;
+            });
+
+            const months = [...document.querySelectorAll('.any-filters section button')];
+
+            months.forEach(month => {
+                month.addEventListener('click', () => {
+                    const dataEdicio = document.getElementById('data-edicio');
+                    if (dataEdicio.value.search(/[-]/) !== -1) {
+                        const startDate = dataEdicio.value.split(' - ')[0];
+                        const endDate = `${document.getElementById('year').textContent}/${months.indexOf(month) + 1}`;
+                        
+                        if (new Date(startDate) > new Date(endDate)) {
+                            dataEdicio.value = `${endDate} - ${startDate}`;
+                        } else {
+                            dataEdicio.value = `${startDate} - ${endDate}`;
+                        }
+                        // dataEdicio.value = `${startDate} - ${endDate}`;
+                        months.forEach(month => month.disabled = true)
+                    } else {
+                        dataEdicio.value = `${document.getElementById('year').textContent}/${months.indexOf(month) + 1} - `;
+                    }
+                });
+            });
+            /*stocks.forEach(stock => {
                 if (Number(stock.textContent) > 0) {
                     stock.parentElement.parentElement.querySelector('.prestec-btn').disabled = false;
                 }
+            })*/
+
+            [...document.querySelectorAll('.results > article')].forEach(article => {
+                const disponibles = article.querySelector('table tbody tr td:first-of-type');
+                const prestecBtn = article.querySelector('.prestec-btn');
+                if (Number(disponibles.textContent) > 0) prestecBtn.disabled = false;
             })
         })
     </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J500BVGF02"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-J500BVGF02');
+    </script>
 </head>
+
 <body id="search-results">
     <header class="headerWithUser">
+        <h1 class="h2">Biblioteca Mari Carmen Brito</h1><br>
+        <h1 class="h2"><a class="linkheader" href="{% url 'landing_page' %}">Inici</a></h1><br> 
+        <h1 class="h2"><a class="linkheader" href="{% url 'admin_dashboard' %}">Panell</a></h1>
         <div class="user-info">
             <div class="dropdown-content">
                 <p>El teu compte</p>
                 <a href="{% url 'general_profile' %}">Editar Perfil</a>
                 <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
             </div>
-            <img
-                id="user-img"
-                src="{% static 'img/user_header.png' %}"
-                alt="User Picture"
-            />
+            <img id="user-img" src="{% static 'img/user_header.png' %}" alt="User Picture" />
         </div>
     </header>
     <main style="padding-top: 100px;">
-        <form class="search-section" action="{% url 'search_results' %}" method="get" >
+        <form class="search-section" action="{% url 'search_results' %}" method="get">
             <label class="custom-search">
                 <span>La teva cerca:</span>
                 <input type="search" name="query" id="search-items" placeholder="{{ query }}" />
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <button class="search-btn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
             </label>
 
             <details>
@@ -129,8 +216,9 @@
                             <input type="checkbox" name="tipus" id="tipus-dispositiu" value="Dispositiu">
                             Dispositius
                         </label>
-                        
-                        <button type="button" style="margin-top: 10px; width: fit-content; margin-inline: auto;" class="clear-checks"><i class="fa-solid fa-trash"></i></button>
+
+                        <button type="button" style="margin-top: 10px; width: fit-content; margin-inline: auto;"
+                            class="clear-checks"><i class="fa-solid fa-trash"></i></button>
                     </fieldset>
 
                     <fieldset class="editorial-filters">
@@ -141,9 +229,9 @@
 
                         <datalist id="editorials">
                             {% for editorial in editorials %}
-                                <option value="{{ editorial.editorial }}">
-                                    {{ editorial.editorial }}
-                                </option>
+                            <option value="{{ editorial.editorial }}">
+                                {{ editorial.editorial }}
+                            </option>
                             {% endfor %}
                         </datalist>
                     </fieldset>
@@ -151,14 +239,14 @@
                     <fieldset class="llengua-filters">
                         <legend>Llengua</legend>
                         <input type="search" name="llengua" id="llengua" list="llengues">
-                        
+
                         <button type="button" class="clear-field"><i class="fa-solid fa-trash"></i></button>
 
                         <datalist id="llengues">
                             {% for llengua in llengues %}
-                                <option value="{{ llengua.llengua }}">
-                                    {{ llengua.llengua }}
-                                </option>
+                            <option value="{{ llengua.llengua }}">
+                                {{ llengua.llengua }}
+                            </option>
                             {% endfor %}
                         </datalist>
                     </fieldset>
@@ -171,57 +259,144 @@
 
                         <datalist id="centres">
                             {% for centre in centres %}
-                                <option value="{{ centre.centre }}">
-                                    {{ centre.centre }}
-                                </option>
+                            <option value="{{ centre.centre }}">
+                                {{ centre.centre }}
+                            </option>
                             {% endfor %}
                         </datalist>
+                    </fieldset>
+
+                    <fieldset class="mostrar-filters">
+                        <legend>Mostrar: </legend>
+                        <select name="mostrar" id="mostrar">
+                            <option selected value="indiferent">Indiferent</option>
+                            <option value="lliures">Lliure</option>
+                            <option value="en_prestec">En prestec</option>
+                        </select>
                     </fieldset>
 
                     <fieldset class="any-filters">
                         <legend>Data d'edició:</legend>
                         <div>
-                            <input type="text" name="data-edicio" id="data-edicio" style="width: 212px; margin: 5px 0 7px 0;">
-                            <button type="button" class="clear-field calendar-clear-field"><i class="fa-solid fa-trash"></i></button>
+                            <input type="text" name="data-edicio" id="data-edicio"
+                                style="width: 212px; margin: 5px 0 7px 0;">
+                            <button type="button" class="clear-field calendar-clear-field"><i
+                                    class="fa-solid fa-trash"></i></button>
                         </div>
 
-                        <calendar-range>
+                        {% comment %} <calendar-range>
                             <div>
                                 <calendar-month></calendar-month>
                             </div>
-                        </calendar-range>
+                        </calendar-range> {% endcomment %}
+
+                        <span>
+                            <button id="yearDecrement" type="button">
+                                &lt;
+                            </button>
+                            <span id="year"></span>
+                            <button id="yearIncrement" type="button">
+                                &gt;
+                            </button>
+                        </span>
+
+                        <section>
+                            <button type="button">Gener</button>
+                            <button type="button">Febrer</button>
+                            <button type="button">Març</button>
+                            <button type="button">Abril</button>
+                            <button type="button">Maig</button>
+                            <button type="button">Juny</button>
+                            <button type="button">Juliol</button>
+                            <button type="button">Agost</button>
+                            <button type="button">Septembre</button>
+                            <button type="button">Octubre</button>
+                            <button type="button">Novembre</button>
+                            <button type="button">Decembre</button>
+                        </section>
                     </fieldset>
                 </div>
             </details>
         </form>
-        <h1>Resultats de la cerca: <span><span id="total-resultats"></span> resultats.</span></h1>
+        <h1>Resultats de la cerca: <span><span id="total-resultats">Carregant els</span> resultats.</span></h1>
+
+        {% if items.has_other_pages %}
+        <div class="pagination">
+            {% if items.has_previous %}
+            <a href="?query={{ query }}&page={{ items.previous_page_number }}">Anterior</a>&nbsp;&nbsp;
+            {% endif %}
+
+            <span class="current">Página {{ items.number }} de {{ items.paginator.num_pages }}</span>
+
+            {% if items.has_next %}
+            &nbsp;&nbsp;<a href="?query={{ query }}&page={{ items.next_page_number }}">Siguiente</a>
+            {% endif %}
+        </div>
+        {% endif %}
 
         <section class="results">
             {% if items %}
                 {% for item in items %}
-                <article style="margin-bottom: 20px; border-bottom: 1px solid #ccc;">
-                    <h3>{{ item.titol }}</h3>
-                    <span><strong>Autor:</strong> {{ item.autor }}</span><br />
-                    <span><strong>Descripció:</strong> {{ item.descripcio }}</span><br />
-                    <span><strong>Stock: <span class="stock">{{ item.exemplars }}</span></strong><button disabled class="prestec-btn" data-item-id="{{ item.id_cataleg }}">Demanar prestec</button></span>
+                <article>
+                    <span>
+                        <h3>{{ item.titol }}</h3>
+                        <span>{{ item.autor }}</span>
+                    </span>
+                    <div>
+                        <span class="description">{{ item.descripcio }}</span>
+                        {% comment %} <span><strong>Stock: <span class="stock">{{ item.exemplars }}</span></strong><button disabled class="prestec-btn" data-item-id="{{ item.id_cataleg }}">Demanar prestec</button></span> {% endcomment %}
+                        {% if item.tipus == 'llibre' %}
+                        <span><strong>CDU:</strong> {{ item.llibre.CDU }}</span>
+                        {% endif %}
+                        <button disabled class="prestec-btn" data-item-id="{{ item.id_cataleg }}">Demanar prestec</button>
+                    </div>
+                    <span><strong>Centre: </strong>{{ item.centre }}</span>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Disponibles</th>
+                                    <th>Reservats</th>
+                                    <th>Prestats</th>
+                                    <th>No disponibles</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ item.disponibles }}</td>
+                                    <td>{{ item.reservats }}</td>
+                                    <td>{{ item.prestats }}</td>
+                                    <td>{{ item.no_disponibles }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% comment %} <span><strong>Disponibles: </strong>{{ item.disponibles }}</span>
+                        <span><strong>Reservats: </strong>{{ item.reservats }}</span>
+                        <span><strong>Prestats: </strong>{{ item.prestats }}</span>
+                        <span><strong>No disponibles: </strong>{{ item.no_disponibles }}</span> {% endcomment %}
+                    </div>
+                    
                     <!-- Añadir más detalles según sea necesario -->
                 </article>
                 {% endfor %}
             {% else %}
-                <p>No s'ha trobat resultats per: "{{ query }}".</p>
+            <p>No s'ha trobat resultats per: "{{ query }}".</p>
             {% endif %}
-        </section>  
+        </section>
+
+        
     </main>
     {% if user.is_authenticated %}
     <script>
         const prestecBtns = [...document.querySelectorAll('.prestec-btn')];
         prestecBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
                 // fetch createPrestec con el id del usuario y el id del producto (btn.dataset.itemId y request.user.id)
                 // que el createPrestec haga el insert en la tabla prestecs y ItemCataleg.exemplars--
                 const itemId = btn.dataset.itemId;
-                const stock = btn.parentElement.querySelector('.stock');
-                if (Number(stock.textContent) > 0) {
+                // const stock = btn.parentElement.querySelector('.stock');
+                const disponibles = btn.parentElement.parentElement.querySelector('table tbody tr td:first-of-type')
+                if (Number(disponibles.textContent) > 0) {
                     fetch('/api/createPrestec/', {
                         method: 'POST',
                         headers: {
@@ -233,9 +408,9 @@
                             userId: '{{ request.user.id }}'
                         })
                     }).then(data => {
-                        console.log(data)
+                        // console.log(data)
                         if (data.ok) {
-                            stock.textContent = Number(stock.textContent) - 1;
+                            disponibles.textContent = Number(disponibles.textContent) - 1;
                             // btn.disabled = true;
                             notify("info", 'Prestec sol·licitat correctament', null)
                         } else {
@@ -245,6 +420,9 @@
                         console.error(err);
                         notify("error", 'Error al sol·licitar el prestec', null)
                     });
+                } else {
+                    const itemText = e.target.parentElement.parentElement.querySelector('span > h3').textContent;
+                    notify("error", `No queden unitats disponibles per "${itemText}".`, null)
                 }
             })
         })
