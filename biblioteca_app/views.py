@@ -46,7 +46,7 @@ def loginView(request):
             user = Usuari.objects.get(email=email)
             print(user)
             if user is not None and check_password(password, user.password):
-                login(request, user)
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 print(request.user)
                 if user.is_superuser:
                     return redirect("/admin") 

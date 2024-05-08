@@ -265,7 +265,7 @@ h2 {
   background-color: #4caf50;
   color: white;
   text-align: center;
-  padding: 30px;
+  padding: 10px 30px;
   border-bottom: 2px solid #45a049;
   position: inherit; /* Agrega posición relativa al contenedor principal */
   top: 0;
@@ -273,6 +273,44 @@ h2 {
   width: 100%;
   z-index: 1001;
   box-sizing: border-box;
+}
+
+.headerWithUser > span:first-of-type,
+.headerNoAdmin > span:first-of-type {
+  display: flex;
+  align-items: center;
+}
+
+.headerWithUser nav > ul,
+.headerNoAdmin nav > ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  margin-left: 25px;
+}
+
+.headerWithUser nav > ul > li > a,
+.headerNoAdmin nav > ul > li > a {
+  padding: 30px 40px;
+}
+
+.headerWithUser nav > ul > li > a:hover,
+.headerNoAdmin nav > ul > li > a:hover {
+  background-color: #45a049;
+}
+
+.headerWithUser .header-title,
+.headerNoAdmin .header-title {
+  font-size: 20px;
+  text-decoration: none;
+  color: white;
+}
+
+.headerWithUser .header-title:hover,
+.headerNoAdmin .header-title:hover {
+  color:rgb(211, 221, 211);
 }
 
 .headerWithUser .user-info {
@@ -358,20 +396,19 @@ p {
   background-color: #4caf50;
   color: white;
   text-align: center;
-  padding: 30px;
+  padding: 10px 30px;
   border-bottom: 2px solid #45a049;
   position: relative; /* Agrega posición relativa al contenedor principal */
   z-index: 9999;
 }
 
 .headerNoAdmin .input-wrapper {
-  margin-left: auto;
+  /* margin-left: auto; */
 }
 
 .headerNoAdmin .user-info {
   display: flex;
   align-items: center;
-  margin-left: auto; /* Mueve el contenedor de usuario (user-info) hacia la derecha */
   position: relative; /* Añade posición relativa al contenedor de usuario */
 }
 
@@ -1177,7 +1214,7 @@ fieldset[class$="-filters"]:not(.type-filters):not(.any-filters) {
   }
 
   #search-results > main {
-    padding: 100px 20px 20px 20px !important;
+    padding: 0 20px 20px 20px !important;
   }
 }
 
@@ -1340,7 +1377,7 @@ fieldset[class$="-filters"]:not(.type-filters):not(.any-filters) {
 
 .general_dashboard main {
   margin-left: 0 !important;
-  margin-top: 100px;
+  /* margin-top: 100px; */
 }
 
 .table * {
@@ -1407,7 +1444,6 @@ div:has(> .table) {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  /* right: 0; */
   left: 0;
 }
 
@@ -1456,7 +1492,7 @@ div:has(> ul.menu-hidden) {
 }
 
 #search-results main {
-  padding: 100px 50px 50px 50px;
+  padding: 0 50px 50px 50px;
 }
 
 #search-results .results article {
@@ -1661,8 +1697,6 @@ div:has(> ul.menu-hidden) {
 }
 
 
-
-
 .button-893:hover,
 .button-893:focus-visible{
   --_p: 0px;
@@ -1686,3 +1720,92 @@ div:has(> ul.menu-hidden) {
   text-decoration: none;
   color: rgb(211, 221, 211);
 }
+
+#toggle-general-menu {
+  display: none;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 10px;
+  margin-right: 20px;
+}
+
+#toggle-general-menu:hover {
+  background-color: #4d843486;
+  border-radius: 50%;
+}
+
+#toggle-general-menu > svg,
+#toggle-general-menu > svg {
+  color: white;
+  width: 30px;
+  height: 30px;
+}
+
+@media (max-width: 1150px) {
+  #toggle-general-menu {
+    display: block;
+  }
+
+  body > header nav {
+    display: none;
+  }
+
+  body > header .input-wrapper {
+    display: none;
+  }
+}
+
+#mobile-general-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #4d8434;
+  z-index: 9000;
+  height: 100vh;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#mobile-general-menu {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  z-index: 9999;
+}
+
+#mobile-general-menu nav ul {
+  list-style: none !important;
+  margin: 0;
+  padding: 0;
+}
+
+#mobile-general-menu nav ul li {
+  text-align: center;
+  padding: 20px;
+}
+
+#mobile-general-menu nav ul li a {
+  padding: 20px;
+}
+
+#mobile-general-menu nav,
+#mobile-general-menu nav ul,
+#mobile-general-menu nav ul li,
+#mobile-general-menu nav ul li a {
+  width: 100% !important;
+  color: white;
+}
+
+#mobile-general-menu nav ul li a:hover {
+  background-color: #32661aaf;
+}
+
+/* body:not(#mobile-general-menu.hidden) > header {
+  display: none;
+} */
