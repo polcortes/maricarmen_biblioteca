@@ -13,7 +13,6 @@ class ItemCataleg(models.Model):
     any = models.IntegerField()
     pais = models.CharField(max_length=100)
     signatura = models.CharField(max_length=100)
-    # exemplars = models.IntegerField()
     disponibles = models.IntegerField()
     reservats = models.IntegerField()
     prestats = models.IntegerField()

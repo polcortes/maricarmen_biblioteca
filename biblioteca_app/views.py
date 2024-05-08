@@ -96,7 +96,7 @@ def autocomplete(request):
     if len(query) >= 3:
         items = ItemCataleg.objects.filter(titol__icontains=query)
         if disponibles:
-            items = items.filter(exemplars__gt=0)  # Filtra solo ítems con ejemplares disponibles
+            items = items.filter(disponibles__gt=0)  # Filtra solo ítems con ejemplares disponibles
         results = [{'label': item.titol, 'value': item.titol} for item in items[:5]]  # Limita a 5 resultados
     else:
         results = []
@@ -126,7 +126,7 @@ def search_results(request):
     if query:
         items = items.filter(titol__icontains=query)
     if disponibles:
-        items = items.filter(exemplars__gt=0)
+        items = items.filter(disponibles__gt=0)
     
     if filters['tipus']:
         for i in range(len(filters['tipus'])):
@@ -534,7 +534,7 @@ def import_csv(request):
             if duplicate_count:
                 messages.info(request, f'Registres duplicats no inserits: {duplicate_count}')
 
-            return redirect('importacion')
+            return redirect('importacio')
     else:
         form = CSVUploadForm()
     return render(request, 'importacion.html', {'form': form})
