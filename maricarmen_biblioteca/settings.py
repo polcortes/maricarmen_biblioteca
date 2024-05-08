@@ -228,7 +228,6 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         }
     }
-   
 }
 
 CSRF_TRUSTED_ORIGINS = [
