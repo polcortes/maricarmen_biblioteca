@@ -634,7 +634,7 @@ def import_csv(request):
             if duplicate_count:
                 messages.info(request, f'Registres duplicats no inserits: {duplicate_count}')
 
-            return redirect('importacion')
+            return redirect('importacio')
     else:
         form = CSVUploadForm()
     return render(request, 'importacion.html', {'form': form})
