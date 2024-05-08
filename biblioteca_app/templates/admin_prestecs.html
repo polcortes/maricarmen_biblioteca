@@ -104,8 +104,7 @@
           <a href="?page={{ page_obj.previous_page_number }}">&lsaquo; Anterior</a>&nbsp;&nbsp;
           {% endif %}
 
-          <span id="span_pagination_adminprestecs" class="current">Página {{ page_obj.number }} de {{
-            page_obj.paginator.num_pages }}</span>
+          <span id="span_pagination_adminprestecs" class="current">Pàgina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
 
           {% if page_obj.has_next %}
           &nbsp;&nbsp;<a href="?page={{ page_obj.next_page_number }}">Siguiente &rsaquo;</a>
@@ -157,7 +156,8 @@
           return false;
         },
       });
-      document.addEventListener('keydown', function(event) {
+    
+      document.addEventListener('keydown', function (event) {
         // Comprobar si se presionan 'Control', 'Alt' y 'Z' juntos
         if (event.ctrlKey && event.altKey && event.key === 'z') {
           // Evitar la acción predeterminada para no activar otros atajos
@@ -166,32 +166,35 @@
           document.getElementById('searchInput').focus();
         }
       });
-      
+
       // Añadir un evento 'keyup' para permitir la escritura después de hacer foco
-      document.addEventListener('keyup', function(event) {
+      document.addEventListener('keyup', function (event) {
         if (event.ctrlKey && event.altKey && event.key === 'z') {
           // Permitir la escritura en el campo de entrada
           document.getElementById('searchInput').removeAttribute('readonly');
         }
       });
-      
+
       // Asegurarse de que el campo de entrada no sea de solo lectura al cargar la página
-      window.onload = function() {
+      window.onload = function () {
         document.getElementById('searchInput').removeAttribute('readonly');
       };
-    
-      document.addEventListener("keydown", function(event) {
+
+      document.addEventListener("keydown", function (event) {
         if (event.ctrlKey && event.altKey && event.key === "x") {
-            var dropdownContent = document.getElementById("dropdownContent");
-            dropdownContent.classList.toggle("show");
+          var dropdownContent = document.getElementById("dropdownContent");
+          dropdownContent.classList.toggle("show");
         }
-    });
-    document.addEventListener("keydown", function(event) {
-      if (event.ctrlKey && event.altKey && event.key === "a") {
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.ctrlKey && event.altKey && event.key === "a") {
           var searchButton = document.getElementById("searchButton");
           searchButton.click();
-      }
-  });
-    </script>
-  </body>
+        }
+      });
+    });
+
+  </script>
+</body>
+
 </html>
