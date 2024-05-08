@@ -57,7 +57,7 @@
               name="query"
               placeholder="Cerca..."
             />
-            <button type="submit" class="searchButton">Buscar</button>
+            <button type="submit" class="searchButton" id="searchButton">Buscar</button>
           </div>
 
           <div class="div2-leftblock">
@@ -74,9 +74,9 @@
         </form>
       </div>
       <div class="user-info">
-        <div class="dropdown-content">
+        <div class="dropdown-content" id="dropdownContent">
           <p>El teu compte</p>
-          <a href="{% url 'admin_profile' %}">Editar Perfil</a>
+          <a href="{% url 'general_profile' %}">Editar Perfil</a>
           <a href="{% url 'logout' %}" class="ALogOut">Tancar sessió</a>
         </div>
         <img
