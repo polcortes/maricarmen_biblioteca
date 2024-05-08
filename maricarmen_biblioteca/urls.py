@@ -20,5 +20,6 @@ from biblioteca_app import views, api
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('biblioteca_app.urls')),
-
+    # Google Login URLs:
+    path('accounts/', include('allauth.urls')),
 ]

@@ -82,7 +82,7 @@
         <!-- Sidebar -->
         <nav id="nav_general" class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
-            <ul class="nav flex-column">
+            <ul id="desktop-menu" class="nav flex-column">
               <li class="nav-item">
                 <a class="nav-link active" href="/dashboard/general">
                   <span data-feather="home"></span>
@@ -118,6 +118,47 @@
         </main>
       </div>
     </div>
+
+    <section id="mobile-menu" class="mobile-menu">
+      <div>
+        <div class="arrow-container">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+  
+        <ul class="mobile-menu-container menu-hidden">
+          <li class="nav-item">
+            <a class="nav-link active" href="/dashboard/general">
+              <span data-feather="home"></span>
+              Panell <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/llistat_prestecs"> Els teus prestecs </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <script>
+      addEventListener('load', () => {
+        const desktopMenu = document.getElementById('desktop-menu');
+        let items = [...desktopMenu.getElementsByTagName('li')];
+        const mobileMenu = document.getElementById('mobile-menu');
+        const arrowMenu = mobileMenu.querySelector('.arrow-container');
+        const menuContainer = mobileMenu.querySelector('.mobile-menu-container')
+
+        {% comment %} items.forEach(item => {
+          const copyItem = item.cloneNode(true);
+          mobileMenu.appendChild(item);
+        }) {% endcomment %}
+
+        console.log(arrowMenu)
+
+        arrowMenu.addEventListener('click', () => {
+          menuContainer.classList.toggle('menu-hidden');
+          // arrowMenu.style.display = 'none';
+        });
+      })
+    </script>
     <script src="{% static 'js/handleLogCreation.js' %}"></script>
     <script  type="text/javascript">
       $(document).ready(function () {

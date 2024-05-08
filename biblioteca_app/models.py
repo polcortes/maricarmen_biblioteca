@@ -106,7 +106,7 @@ class Usuari(AbstractUser):
     is_superuser = models.BooleanField(default=False)
     nom = models.CharField(max_length=100)
     cognoms = models.CharField(max_length=100)
-    any_naixement = models.DateField(blank=False)
+    any_naixement = models.DateField(default="2000-01-01")
     email = models.EmailField(blank=False, unique=True)
     tipus = models.CharField(max_length=20, choices=TYPE_OPTIONS)
     password = models.CharField(max_length=128)

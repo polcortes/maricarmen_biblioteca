@@ -186,7 +186,9 @@
             <label class="custom-search">
                 <span>La teva cerca:</span>
                 <input type="search" name="query" id="search-items" placeholder="{{ query }}" />
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <button class="search-btn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
             </label>
 
             <details>
@@ -316,7 +318,7 @@
                 </div>
             </details>
         </form>
-        <h1>Resultats de la cerca: <span><span id="total-resultats"></span> resultats.</span></h1>
+        <h1>Resultats de la cerca: <span><span id="total-resultats">Carregant els</span> resultats.</span></h1>
 
         {% if items.has_other_pages %}
         <div class="pagination">
@@ -348,8 +350,8 @@
                         {% endif %}
                         <button disabled class="prestec-btn" data-item-id="{{ item.id_cataleg }}">Demanar prestec</button>
                     </div>
+                    <span><strong>Centre: </strong>{{ item.centre }}</span>
                     <div>
-                        <span><strong>Centre: </strong>{{ item.centre }}</span>
                         <table>
                             <thead>
                                 <tr>
@@ -388,7 +390,7 @@
     <script>
         const prestecBtns = [...document.querySelectorAll('.prestec-btn')];
         prestecBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
                 // fetch createPrestec con el id del usuario y el id del producto (btn.dataset.itemId y request.user.id)
                 // que el createPrestec haga el insert en la tabla prestecs y ItemCataleg.exemplars--
                 const itemId = btn.dataset.itemId;
@@ -418,6 +420,9 @@
                         console.error(err);
                         notify("error", 'Error al sol·licitar el prestec', null)
                     });
+                } else {
+                    const itemText = e.target.parentElement.parentElement.querySelector('span > h3').textContent;
+                    notify("error", `No queden unitats disponibles per "${itemText}".`, null)
                 }
             })
         })

@@ -669,6 +669,17 @@ def llistat_prestecs(request):
 
     return render(request, 'llistat_prestecs.html', {'prestecs': prestecs})
 
+def dashboard(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            return redirect('/admin')
+        if request.user.is_staff:
+            return redirect('/dashboard/admin')
+        else:
+            return redirect('/dashboard/general')
+    else:
+        return redirect('/')
+
 # def recuperar_contrasenya(request):
 #     return render(request, 'recuperar_contrasenya.html')
     
