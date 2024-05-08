@@ -58,10 +58,12 @@ def loginView(request):
                     return redirect("/dashboard/general")
             else:
                 data['error'] = True
-                data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
+                data['errorMsg'] = 'L\'usuari o la contrasenya són incorrectes.'
+
         except:
             data['error'] = True
-            data['errorMsg'] = "L'usuari o la contrasenya són incorrectes."
+            data['errorMsg'] = 'L\'usuari o la contrasenya són incorrectes.'
+
         # print(data)
     return render(request, "landing_page.html", data)
 #pcortesgarcia.cf@iesesteveterradas.cat
